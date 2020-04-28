@@ -1,0 +1,4 @@
+
+result:
+begin parse
+get infos from database return false

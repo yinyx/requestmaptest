@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <title>百度离线地图</title>
+        <!--<script src="../../../js/jquery-1.12.3.min.js"></script>-->
+        <!--<script src="js/apiv1.3.min.js"></script>-->
+	    <script type="text/javascript" src="js/apiv2.0.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/bmap.css"/>
+	</head>
+<body>
+<!--<div> <input type="button" style="width: 120px; height: 30px; margin-top: 10px;"  value="定位" onclick="toLaction();"/></div>-->
+<div style="position: absolute; left: 0px; right: 0px; top:0px; bottom: 0px; ; border: 1px solid gray" id="container"></div>
+</body>
+</html>
+
+<script type="text/javascript">
+	 //百度地图API功能
+    var map = new BMap.Map("container", { minZoom: 4, maxZoom: 15 });	//创建Map实例,设置地图允许的最小/大级别
+    map.centerAndZoom(new BMap.Point(118.755405, 32.002146), 14);	//初始化地图,设置中心点坐标和地图级别
+	
+	map.enableScrollWheelZoom(true);						//开启鼠标滚轮缩放
+    map.addControl(new BMap.NavigationControl());			//缩放按钮
+
+   
+    //标注函数
+    function addMarker(point, id) {
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+		    var label = new BMap.Label(id,{offset:new BMap.Size(20,-10)});
+			label.setContent("坐标：<br>" + point.lng + "," + point.lat + "<br>唯一主键："+id);
+			label.setTitle(id)
+    label.setStyle({
+    	display:"none"
+    	});
+    marker.setLabel(label);
+        //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+        //构造信息弹出框内容
+        var opts = {
+            width: 330,     // 信息窗口宽度
+            height: 100,     // 信息窗口高度
+            title: "我是弹出框", // 信息窗口标题
+            enableMessage: true,//设置允许信息窗发送短息
+            message: "XXXXXXXXXXX",
+            ID: id,
+            Name: 'uuuuuuu' + id
+        }
+        var infoWindow = new BMap.InfoWindow("坐标：" + point.lng + "," + point.lat + "唯一主键：" + opts.Name + "", opts);  // 创建信息窗口对象 
+        marker.openInfoWindow(infoWindow);
+		marker.addEventListener("click", function () {
+		    alert("坐标：" + point.lng + "," + point.lat  + "");
+            map.openInfoWindow(infoWindow, point); //开启信息窗口
+        });
+
+    }
+
+    // 随机向地图添加25个标注
+       var bounds = map.getBounds();
+    var sw = bounds.getSouthWest();
+    var ne = bounds.getNorthEast();
+    var lngSpan = Math.abs(sw.lng - ne.lng);
+    var latSpan = Math.abs(ne.lat - sw.lat);
+    for (var i = 0; i < 25; i++) {
+        var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+        addMarker(point,i);
+    } 
+	
+	var allOverlay = map.getOverlays();
+    var length = allOverlay.length;
+   for (var i = 0; i < allOverlay.length -1; i++){
+   if(allOverlay[i].getLabel().getTitle() == 2)
+   {
+   allOverlay[i].getLabel(). setStyle({ color : "red", fontSize : "12px" ,display:"true"})}}
+
+	</script>
