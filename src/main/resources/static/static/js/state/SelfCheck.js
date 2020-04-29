@@ -232,7 +232,7 @@ function initRegulatorTable() {
 			 "class" : "text-center"  
 		 }   
 		,	 {	
-			 "title" : "电池容量",  
+			 "title" : "电池容量(%)",  
 			 "defaultContent" : "", 
 			 "data" :"battery_soc",
 			 "width": "10%",

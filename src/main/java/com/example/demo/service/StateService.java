@@ -48,8 +48,12 @@ public interface StateService {
     
     String getPasswordByDevice(String DeviceId);
     
+    String getFactoryByDevice(String DeviceId);
+    
+    int getProtocalByDevice(String DeviceId);
+    
     //addSetOrderByDeviceIdanduserId
-    int addSetOrderByDeviceIdanduserId(String recordId, String userId, String content, int[] ValueLst);
+    int addSetOrderByDeviceIdanduserId(String recordId, String userId, String content ,int []IndexLst,int []TypeLst,String[]ValueLst);
     
     Map<String, Object> getParamAttrById(String regulatorId);
     
@@ -67,4 +71,6 @@ public interface StateService {
     void setDealAlarmById(String userId);
     
     Map<String, Object> queryWavePwd(Map<String, Object> paramMap);
+    
+    List<Map<String, Object>> getParamInfoListByfactoryId(String factoryId,int protocal);
 }

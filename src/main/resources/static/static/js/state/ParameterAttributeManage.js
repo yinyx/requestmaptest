@@ -2,6 +2,7 @@ var regulatorTable = null;
 //var userMap = {};
 //var userId = 0;
 var factoryId = 0;
+var protocalId = 0;
 
 function cancelModifyWavePassword()
 {
@@ -23,6 +24,7 @@ function initRegulatorTable() {
 		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
 		{
 			aoData.push({ "name": "factory", "value": factoryId}); 
+			aoData.push({ "name": "protocal", "value": protocalId}); 
 			$.ajax({
 				type: "POST",
 				url: sSource,
@@ -214,6 +216,7 @@ function addRegulator()
 function queryLog()
 {	
 	factoryId = $("#cronFactory").val();
+	protocalId = $("#cronProtocal").val();
     initRegulatorTable();	
 }
 
@@ -343,7 +346,8 @@ $(document).ready(function(){
 				"name" : $("#parmattrname_m").val(),
 				"type" : type,
                 "isPrivate" : isPrivate,
-				"factoryId" : factoryId	
+				"factoryId" : factoryId,
+				"protocalId": protocalId
 			};
 		var dataObj = {
 				"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")

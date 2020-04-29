@@ -67,34 +67,43 @@ public class MsgSender {
 	}
 	
 	//设置装置参数 版本号 0为旧版本，1为新版本
-	public void setDevParameter(String uuid,String User,String strDevID,int[]ValueLst,int protocolVersion) {
-		/*if(!m_bInit)
-		{
-			init();
-			m_bInit = true;
-		}*/
-		JSONObject obj = new JSONObject();
-		//String uuid = UUID.randomUUID().toString().replaceAll("-","");
-		obj.put(ConstStr.ID,uuid);
-		obj.put(ConstStr.DEVID,strDevID);
-		obj.put(ConstStr.TYPE,7);
-		obj.put(ConstStr.USER,User);
-		obj.put(ConstStr.PROCOLVERSION, protocolVersion);//新增协议版本号
-		
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss.SSS");
-		String strSDate =df.format(System.currentTimeMillis());   
-		obj.put(ConstStr.SENDTIME, strSDate);
-		
-		JSONObject para = new JSONObject();
-		for(int nIndex=0;nIndex<ValueLst.length;nIndex++)
-		{
-			String strParaName = "Para"+String.valueOf(nIndex+1);
-			para.put(strParaName, ValueLst[nIndex]);
-		}
-		obj.put(ConstStr.PARAMETERS,para);
-		
-		sender.sendToMqtt(obj.toString());	
-	}
+	 public void setDevParameter(String uuid,String User,String strDevID,int []IndexLst,int []TypeLst,String[]ValueLst,int protocolVersion) {
+	  /*if(!m_bInit)
+	  {
+	   init();
+	   m_bInit = true;
+	  }*/
+	  JSONObject obj = new JSONObject();
+	  //String uuid = UUID.randomUUID().toString().replaceAll("-","");
+	  obj.put(ConstStr.ID,uuid);
+	  obj.put(ConstStr.DEVID,strDevID);
+	  obj.put(ConstStr.TYPE,7);
+	  obj.put(ConstStr.USER,User);
+	  obj.put(ConstStr.PROCOLVERSION, protocolVersion);//新增协议版本号
+	  
+	  SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss.SSS");
+	  String strSDate =df.format(System.currentTimeMillis());   
+	  obj.put(ConstStr.SENDTIME, strSDate);
+	  
+	  StringBuilder strIndexs = new StringBuilder();
+	  JSONObject para = new JSONObject();
+	  for(int nIndex=0;nIndex<ValueLst.length;nIndex++)
+	  {
+	   String strParaName = "Para"+String.valueOf(IndexLst[nIndex]);
+	   para.put(strParaName, ValueLst[nIndex]);
+	   String strType = "Type"+String.valueOf(IndexLst[nIndex]);
+	   para.put(strType,TypeLst[nIndex]);
+	   strIndexs.append(String.valueOf(IndexLst[nIndex]));
+	   if(nIndex!=ValueLst.length-1) {
+	    strIndexs.append(";");
+	   }
+	  }
+
+	  obj.put(ConstStr.PARAMETERS,para);
+	  obj.put("indexs", strIndexs.toString());
+	  
+	  sender.sendToMqtt(obj.toString()); 
+	 }
 
 	//读取装置参数 版本号 0为旧版本，1为新版本
 	public void readDevParameter(String uuid,String strUser,String strDevID,int protocolVersion) {

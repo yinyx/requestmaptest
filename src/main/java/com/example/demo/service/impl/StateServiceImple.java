@@ -123,6 +123,79 @@ public class StateServiceImple  implements StateService{
         return int1|int2|int3|int4;
     }
     
+    public static float byte2float(byte[] b, int index) 
+    {  
+     int l;  
+     l = b[index];  
+     l &= 0xff;  
+     l |= ((long) b[index + 1] << 8);  
+     l &= 0xffff;  
+     l |= ((long) b[index + 2] << 16);  
+     l &= 0xffffff;  
+     l |= ((long) b[index + 3] << 24);  
+     
+     Float fl = Float.valueOf(Float.intBitsToFloat(l));
+     if(fl.isInfinite()||fl.isNaN()) {
+      return 0;
+     }else {
+      return fl;
+     }
+     
+     //return Float.intBitsToFloat(l);  
+    } 
+    
+    public static float byte2floatAnti(byte[] b, int index) 
+    {  
+     int l;  
+     l = b[index+3];  
+     l &= 0xff;  
+     l |= ((long) b[index + 2] << 8);  
+     l &= 0xffff;  
+     l |= ((long) b[index + 1] << 16);  
+     l &= 0xffffff;  
+     l |= ((long) b[index] << 24);  
+     //return Float.intBitsToFloat(l); 
+     Float fl = Float.valueOf(Float.intBitsToFloat(l));
+     if(fl.isInfinite()||fl.isNaN()) {
+      return 0;
+     }else {
+      return fl;
+     }
+    } 
+    
+    //byte תint
+    public static int getInt(byte[] b, int index) 
+    {  
+        int l;  
+        l = b[index + 3];  
+        l &= 0xff;  
+        l |= ((long) b[index + 2] << 8);  
+        l &= 0xffff;  
+        l |= ((long) b[index + 1] << 16);  
+        l &= 0xffffff;  
+        l |= ((long) b[index] << 24);  
+        return l;//Float.intBitsToFloat(l);  
+    }
+
+    //byte תfloat
+    public static float getFloat(byte[] b, int index) 
+    {  
+        int l;  
+        l = b[index + 0];  
+        l &= 0xff;  
+        l |= ((long) b[index + 1] << 8);  
+        l &= 0xffff;  
+        l |= ((long) b[index + 2] << 16);  
+        l &= 0xffffff;  
+        l |= ((long) b[index + 3] << 24);  
+        Float fl = Float.valueOf(Float.intBitsToFloat(l));
+        if(fl.isInfinite()) {
+            return 0;
+        }else {
+            return fl;
+        }
+    } 
+    
     public static String FormatTime(String sDateTime)
     {
         String sAnOther = sDateTime.substring(0, 4)+"."+sDateTime.substring(5, 7)+"."+sDateTime.substring(8, 10)+" "
@@ -499,6 +572,8 @@ public class StateServiceImple  implements StateService{
         Integer count;
         String sEcho = dataTableMap.get("sEcho");
         String QueryType = dataTableMap.get("factory");
+        String protocal = dataTableMap.get("protocal");
+        int iProtocal = Integer.parseInt(protocal);
         String userID = dataTableMap.get("userID");  
         System.out.println("QueryType");
         System.out.println(QueryType);
@@ -512,8 +587,8 @@ public class StateServiceImple  implements StateService{
         }
         else
         {
-            resList = stateMapper.queryParameterAttrListByFactory(start,length,QueryType);
-            count = stateMapper.queryParameterAttrListCountByFactory(QueryType);
+            resList = stateMapper.queryParameterAttrListByFactory(start,length,QueryType,iProtocal);
+            count = stateMapper.queryParameterAttrListCountByFactory(QueryType,iProtocal);
         }
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
@@ -1070,12 +1145,22 @@ public class StateServiceImple  implements StateService{
         return stateMapper.getPasswordByDevice(DeviceId);
     }
     
+    public String getFactoryByDevice(String DeviceId)
+    {
+        return stateMapper.getFactoryByDevice(DeviceId);
+    }
+    
+    public int getProtocalByDevice(String DeviceId)
+    {
+        return stateMapper.getProtocolVerByDeviceId(DeviceId);
+    }
+    
     //addSetOrderByDeviceIdanduserId
-    public int addSetOrderByDeviceIdanduserId(String recordId, String userId, String content,int[] ValueLst)
+    public int addSetOrderByDeviceIdanduserId(String recordId, String userId, String content,int []IndexLst,int []TypeLst,String[]ValueLst)
     {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         int protocol_version = stateMapper.getProtocolVerByDeviceId(recordId);
-        sender.setDevParameter(uuid, userId,recordId, ValueLst,protocol_version);
+        sender.setDevParameter(uuid, userId,recordId, IndexLst,TypeLst,ValueLst,protocol_version);
         int loopCount = 0; 
         while(loopCount<10)
         {
@@ -1109,41 +1194,60 @@ public class StateServiceImple  implements StateService{
     public Map<String, Object> getParamById(String userId) {
         Map<String, Object> ParamMap = stateMapper.getParamById(userId);//此处可能为空，需处理
         Map<String, Object> privateparaMap = new HashMap<String, Object>();
-        if ((ParamMap != null)&&(ParamMap.get("private_data")!=null)&&((((byte[])ParamMap.get("private_data")).length/4)==((int)(ParamMap.get("number"))-10)))
+        if ((ParamMap != null)&&(ParamMap.get("private_data")!=null)&&((((byte[])ParamMap.get("private_data")).length/6)==((int)(ParamMap.get("number"))-10)))
         {
-            byte[] privateData = (byte[])ParamMap.get("private_data"); 
-            int paramNum = (int)(ParamMap.get("number"));
-            String deviceID = (String)ParamMap.get("device");       
-            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID); 
-            String factoryId = (String)deviceMap.get("manufacture");
-
-            
-            for (int j = 0;j<paramNum; j++)
+            //先赋值默认值
+            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(userId);
+            String factoryId1 = (String)deviceMap.get("manufacture");
+            int protocal1 = (int)deviceMap.get("protocol_version");
+            List<Map<String, Object>> ParamMapList = stateMapper.getParamInfoListByfactoryId(factoryId1,protocal1);
+            for (int k = 0; k<ParamMapList.size();k++)
             {
-                //ParamAttr paramAttr = paramAttrManage.getParamAttr(factoryId, j+11);
-                Map<String, Object> paramAttrMap = stateMapper.getParamAttr(factoryId, j+11); 
-                if ((int)(paramAttrMap.get("type"))==1)//此处先假设参数类型为int型
+                Map<String, Object> defaultParamMap = ParamMapList.get(k);
+                if ((boolean)defaultParamMap.get("type"))
                 {
-                    byte[] ParamUnit = {privateData[4*j],privateData[4*j+1],privateData[4*j+2],privateData[4*j+3]};
-                    int intpara = bytes2Int(ParamUnit);
-                    String paraName = (String)paramAttrMap.get("name");
+                    String paraName = (String)(defaultParamMap.get("name"));
+                    int intpara = 0;
                     privateparaMap.put(paraName, intpara);
                 }
-                else if ((int)(paramAttrMap.get("type"))==0)
+                else
                 {
+                    String paraName = (String)(defaultParamMap.get("name"));
                     float floatpara = 0.1F;
-                    String paraName = (String)paramAttrMap.get("name");
                     privateparaMap.put(paraName, floatpara);
                 }
             }
             
+          //再解析私有数据
+            byte[] privateData = (byte[])ParamMap.get("private_data");
+            int paramsize = privateData.length/6;
+            for(int n=0;n<paramsize;n++)
+            {
+
+                int pos1 = n*6;
+                int nParaNum = privateData[pos1]*256+privateData[pos1+1];//index
+                
+                int pos2 = n*6+2;
+                Map<String, Object> paramAttrMap = stateMapper.getParamAttr(factoryId1,protocal1, nParaNum); 
+                String paramName = (String)paramAttrMap.get("name");
+                
+                //intэ
+                if((boolean)(paramAttrMap.get("type"))){
+                int nValue = getInt(privateData,pos2);//getFloat(tmpData,pos2);
+                privateparaMap.put(paramName, nValue);
+                }else{
+                float fValue = getFloat(privateData,pos2);//getFloat(tmpData,pos2);
+                privateparaMap.put(paramName, fValue);                
+                }   
+            }
             return privateparaMap;
         }
         else
         {
             Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(userId);
             String factoryId1 = (String)deviceMap.get("manufacture");
-            List<Map<String, Object>> ParamMapList = stateMapper.getParamInfoListByfactoryId(factoryId1);
+            int protocal1 = (int)deviceMap.get("protocol_version");
+            List<Map<String, Object>> ParamMapList = stateMapper.getParamInfoListByfactoryId(factoryId1,protocal1);
             for (int k = 0; k<ParamMapList.size();k++)
             {
                 Map<String, Object> defaultParamMap = ParamMapList.get(k);
@@ -1212,7 +1316,8 @@ public class StateServiceImple  implements StateService{
     {
         Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(regulatorId);
         String factoryId = (String)deviceMap.get("manufacture");
-        List<String> ParamNameList = stateMapper.getParamNameListByfactoryId(factoryId);
+        int protocol_version = (int)deviceMap.get("protocol_version");
+        List<String> ParamNameList = stateMapper.getParamNameListByfactoryId(factoryId, protocol_version);
         return ParamNameList;
     }
     
@@ -1251,5 +1356,10 @@ public class StateServiceImple  implements StateService{
                 rstMap.put("msg", "查询录波文件密码错误");
             }
         return rstMap;
+    }
+    
+    public List<Map<String, Object>> getParamInfoListByfactoryId(String factoryId,int protocal)
+    {
+        return stateMapper.getParamInfoListByfactoryId(factoryId, protocal);
     }
 }

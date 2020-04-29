@@ -117,7 +117,9 @@ public interface StateMapper {
     //@Select("select info_device.* from info_device left join line_user on line_user.user = #{userID} where line_name = line and  (comm_state=#{iCommState})  and (manufacture = #{QueryType} or #{QueryType} = '') and (line_name = #{CommLine}or  #{CommLine} = '') and (name= #{device_name}or #{device_name}='') and (device = #{device_id}or #{device_id}='')limit #{start},#{length}")
     //@Select("select * from info_device where line_name in (select line from line_user where user= #{userID}) and  (comm_state=#{iCommState})  and (manufacture = #{QueryType} or #{QueryType} = '') and (line_name = #{CommLine}or  #{CommLine} = '') and (name= #{device_name}or #{device_name}='') and (device = #{device_id}or #{device_id}='')limit #{start},#{length}")
     //@Select("select info_device.* from info_device left join line_user on line_user.user = #{userID} where line_name = line and  (comm_state=#{iCommState} or #{iCommState}='') limit #{start},#{length}")
-    @Select("select * from info_device where (line_name = #{CommLine}) limit #{start},#{length}")
+    
+   //@Select("select * from info_device where (line_name = #{CommLine}) limit #{start},#{length}")
+    @Select("select info_device.* from info_device left join line_user on line_user.user = #{userID} where line_name = line and  (comm_state=#{iCommState})  and (manufacture = #{QueryType} or #{QueryType} = '') and (line_name = #{CommLine}or  #{CommLine} = '') and (name= #{device_name}or #{device_name}='') and (device = #{device_id}or #{device_id}='')limit #{start},#{length}")
     List<Map<String, Object>> querydeviceList(@Param("start") Integer start, @Param("length") Integer length, @Param("QueryType") String QueryType,@Param("device_name") String device_name, @Param("device_id") String device_id,@Param("CommLine") String CommLine,@Param("iCommState") int iCommState,@Param("userID") String userID);
     
     @Select("select info_device.* from info_device left join line_user on line_user.user = #{userID} where line_name = line and  comm_state=1 and (manufacture = #{QueryType} or #{QueryType} = '') and  (line_name = #{CommLine} or #{CommLine} ='') and (name=#{device_name} or #{device_name} ='') and (device = #{device_id} or #{device_id}='')limit #{start},#{length}")
@@ -126,7 +128,7 @@ public interface StateMapper {
     @Select("select info_device.* from info_device left join line_user on line_user.user = #{userID} where line_name = line  and  (manufacture = #{QueryType} or #{QueryType} = '') and  (line_name = #{CommLine} or #{CommLine} = '') and (name=#{device_name} or #{device_name}='') and (device = #{device_id} or #{device_id}='')limit #{start},#{length}")
     List<Map<String, Object>> querydeviceList2(@Param("start") Integer start, @Param("length") Integer length, @Param("QueryType") String QueryType,@Param("device_name") String device_name,  @Param("device_id") String device_id,@Param("CommLine") String CommLine, @Param("userID") String userID);
     
-    @Select("select count(1) from info_device left join line_user on line_user.user = #{userID}  where line_name = line and  (comm_state=#{iCommState} or #{iCommState}='') and  (manufacture = #{QueryType} or #{QueryType} = '') and (line_name = #{CommLine} or #{CommLine} = '') and (name=#{device_name} or #{device_name}='') and (device = #{device_id} or #{device_id}='')")
+    @Select("select count(1) from info_device left join line_user on line_user.user = #{userID}  where line_name = line and  (comm_state=#{iCommState}) and  (manufacture = #{QueryType} or #{QueryType} = '') and (line_name = #{CommLine} or #{CommLine} = '') and (name=#{device_name} or #{device_name}='') and (device = #{device_id} or #{device_id}='')")
     int querdeviceListCount(@Param("QueryType") String QueryType,@Param("device_name") String device_name, @Param("device_id") String device_id,@Param("CommLine") String CommLine,@Param("iCommState") int iCommState,@Param("userID") String userID);
  
     @Select("select	count(1) from info_device left join line_user on line_user.user = #{userID}  where line_name = line and  comm_state=1 and (manufacture = #{QueryType} or #{QueryType} = '') and  (line_name = #{CommLine} or #{CommLine} = '') and (name=#{device_name} or #{device_name}='') and (device = #{device_id} or #{device_id}='')")
@@ -206,27 +208,30 @@ public interface StateMapper {
     int queryParameterListCountByUser(@Param("userID") String userID);
     
     //ParamAttr
-    @Select("select t1.*, GROUP_CONCAT(t2.`name`) AS \"factory\" from parameter_attr t1, info_factory t2 where t1.manufactureId = #{factoryID} and t1.manufactureId =t2.id GROUP BY t1.id limit #{start},#{length}")
-    List<Map<String, Object>> queryParameterAttrListByFactory(@Param("start") Integer start, @Param("length") Integer length, @Param("factoryID") String factoryID);
+    @Select("select t1.*, GROUP_CONCAT(t2.`name`) AS \"factory\" from parameter_attr t1, info_factory t2 where t1.manufactureId = #{factoryID} and t1.protocol_version = #{iProtocal} and t1.manufactureId =t2.id GROUP BY t1.id limit #{start},#{length}")
+    List<Map<String, Object>> queryParameterAttrListByFactory(@Param("start") Integer start, @Param("length") Integer length, @Param("factoryID") String factoryID, @Param("iProtocal") Integer iProtocal);
   
-    @Select("select COUNT(1) from parameter_attr where manufactureId = #{factoryID}")    
-    int queryParameterAttrListCountByFactory(@Param("factoryID") String factoryID);
+    @Select("select COUNT(1) from parameter_attr where manufactureId = #{factoryID} and protocol_version = #{iProtocal}")    
+    int queryParameterAttrListCountByFactory(@Param("factoryID") String factoryID, @Param("iProtocal") Integer iProtocal);
     
-    @Select("select name,manufacture from info_device where id = #{id}")
+    @Select("select name,manufacture,protocol_version from info_device where id = #{id}")
     Map<String, Object> getDeviceInfoById(String id);
     
-    @Select("select * from parameter_attr where manufactureId = #{factoryID} and indexno = #{indexno}")
-    Map<String, Object> getParamAttr(@Param("factoryID") String factoryID,@Param("indexno") Integer indexno);
+    @Select("select * from parameter_attr where manufactureId = #{factoryID} and protocol_version = #{protocal} and indexno = #{indexno}")
+    Map<String, Object> getParamAttr(@Param("factoryID") String factoryID,@Param("protocal") Integer protocal,@Param("indexno") Integer indexno);
+    
+    @Select("select * from parameter_attr where manufactureId = #{factoryID}")
+    List<Map<String, Object>> getParamAttrList(@Param("factoryID") String factoryID);
     
     @Select("select * from report_fault where left_tower = #{towerID}and isRead=0 and occurr_time=(select max(occurr_time) from report_fault where left_tower = #{towerID} and isRead=0)")
     Map<String, Object> getFaultByLefttowerId(String towerID);
     
     //getParamNameListByfactoryId
-    @Select("select name from parameter_attr where manufactureId = #{id} order by indexno")
-    List<String> getParamNameListByfactoryId(String id);
+    @Select("select name from parameter_attr where manufactureId = #{factoryID} and protocol_version = #{protocal} order by indexno asc")
+    List<String> getParamNameListByfactoryId(@Param("factoryID") String factoryID,@Param("protocal") Integer protocal);
     
-    @Select("select name,type from parameter_attr where manufactureId = #{id}")
-    List<Map<String, Object>> getParamInfoListByfactoryId(String id);
+    @Select("select * from parameter_attr where manufactureId = #{factoryID} and protocol_version = #{protocal} order by indexno asc")
+    List<Map<String, Object>> getParamInfoListByfactoryId(@Param("factoryID") String factoryID,@Param("protocal") Integer protocal);
     
     @Select("select * from dev_parameter where device = #{id}")
     Map<String, Object> getParamByDeviceId(String id);
@@ -251,7 +256,7 @@ public interface StateMapper {
     Map<String, Object> getFactoryById(String id);
     
     //ParamAttr
-    @Insert("INSERT parameter_attr (id,manufactureId,indexno,name,type,isPrivate) VALUES (#{recordId},#{factoryId},#{indexno},#{name},#{type},#{isPrivate})")
+    @Insert("INSERT parameter_attr (id,manufactureId,indexno,name,type,isPrivate,protocol_version) VALUES (#{recordId},#{factoryId},#{indexno},#{name},#{type},#{isPrivate},#{protocalId})")
     void addParamAttr(Map<String, Object> paramMap);
     
     @Update("UPDATE parameter_attr SET manufactureId=#{factoryId},indexno=#{indexno},name=#{name},type=#{type},isPrivate=#{isPrivate} WHERE id = #{recordId}")
@@ -298,6 +303,9 @@ public interface StateMapper {
     
     @Select("Select protocol_version from info_device where id =#{id}")
     int getProtocolVerByDeviceId(String id);
+    
+    @Select("Select manufacture from info_device where id =#{id}")
+    String getFactoryByDevice(String id);
       
     @Update("commit")
     void Commit();

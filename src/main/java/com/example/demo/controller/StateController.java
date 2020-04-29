@@ -259,6 +259,7 @@ public class StateController {
         paramMap.put("type", (Integer) paramObj.get("type"));
         paramMap.put("isPrivate", (Integer) paramObj.get("isPrivate"));
         paramMap.put("factoryId", (String) paramObj.get("factoryId"));
+        paramMap.put("protocalId", (String) paramObj.get("protocalId"));
 
         try {
             stateService.saveParamAttr(paramMap);
@@ -705,7 +706,50 @@ public class StateController {
             resultMap.put("result", result);
             return resultMap;
         }
-                
+        
+        String factoryString = stateService.getFactoryByDevice(recordId);
+        int Protocal = stateService.getProtocalByDevice(recordId);
+        List<Map<String, Object>> ParamMapList =stateService.getParamInfoListByfactoryId(factoryString,Protocal);
+        
+        int privateLength = ParamMapList.size();
+        
+        int nSize = 10+privateLength;
+        String[] ValueLst = new String[nSize];
+        int[] IndexLst = new int[nSize];
+        int[] TypeLst = new int[nSize];
+        for(int ii =0;ii<10;ii++)
+        {
+            IndexLst[ii] = ii+1;
+            TypeLst[ii] = 1;
+        }
+        
+        for (int k = 0; k<privateLength;k++)
+        {
+            Map<String, Object> defaultParamMap = ParamMapList.get(k);
+            boolean bParaType = (boolean)defaultParamMap.get("type");
+            int paraType =0;
+            if (bParaType)
+            {
+                paraType = 1;
+            }
+            else {
+                paraType = 0;
+            }
+            int indexno = (int)defaultParamMap.get("indexno");
+            String paraName = (String)(defaultParamMap.get("name"));
+            String paraVal = request.getParameter(paraName);
+            if (paraVal == null)
+            {
+                paraVal = "";
+            }
+            
+            ValueLst[10+k] = paraVal;
+            TypeLst[10+k] = paraType;
+            IndexLst[10+k] = indexno;
+            
+        }
+        
+        
         String userId = request.getParameter("userId");
         String wave_current_time = request.getParameter("wave_current_time");
         String wave_current_threshold = request.getParameter("wave_current_threshold");
@@ -717,6 +761,19 @@ public class StateController {
         String pf_current_freq_collection = request.getParameter("pf_current_freq_collection");
         String work_status_time = request.getParameter("work_status_time");
         String work_data_collection_interval = request.getParameter("work_data_collection_interval");
+        
+        ValueLst[0] = wave_current_time;
+        ValueLst[1] = wave_current_threshold;
+        ValueLst[2] = wave_current_time_collection;
+        ValueLst[3] = wave_current_freq_collection;
+        ValueLst[4] = pf_current_time;
+        ValueLst[5] = pf_current_threshold;
+        ValueLst[6] = pf_current_time_collection;
+        ValueLst[7] = pf_current_freq_collection;
+        ValueLst[8] = work_status_time;
+        ValueLst[9] = work_data_collection_interval;
+        
+        
         String content = "";
         
         String[] wave_current_time_lst = wave_current_time.split(":",0);
@@ -755,9 +812,9 @@ public class StateController {
         content+=" work_data_collection_interval: ";
         content+=work_data_collection_interval;
         
-        int nSize = 10;
-        int[] ValueLst = new int[nSize];
-     
+       
+        
+        /*
         int Iwave_current_time =mix_wave_current_time;
         ValueLst[0] = Iwave_current_time;
         int Iwave_current_threshold = Integer.valueOf(wave_current_threshold).intValue();
@@ -778,6 +835,7 @@ public class StateController {
         ValueLst[6] = Ipf_current_time_collection;
         int Iwork_data_collection_interval = Integer.valueOf(work_data_collection_interval).intValue();
         ValueLst[9] = Iwork_data_collection_interval;
+        */
         
         /*获取私有参数
         String paraName = "南瑞私有参数7";
@@ -786,7 +844,7 @@ public class StateController {
         */
 
         try {
-            int result = stateService.addSetOrderByDeviceIdanduserId(recordId, userId, content,ValueLst);
+            int result = stateService.addSetOrderByDeviceIdanduserId(recordId, userId, content,IndexLst,TypeLst,ValueLst);
             resultMap.put("status", "success");
             //resultMap.put("msg", "增加设置参数记录成功!");
             resultMap.put("result", result);
