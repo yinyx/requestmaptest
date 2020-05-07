@@ -76,6 +76,19 @@ function initRegulatorTable() {
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }
+		 ,	 {
+                "title" : "上线时间",
+                "defaultContent" : "",
+                "data" :"online_time",
+                "width": "10%",
+                "class" : "text-center"
+            },	 {
+                "title" : "下线时间",
+                "defaultContent" : "",
+                "data" :"offline_time",
+                "width": "10%",
+                "class" : "text-center"
+            }
 		/*
 		,	 {	
 			 "title" : "通信时间",  
