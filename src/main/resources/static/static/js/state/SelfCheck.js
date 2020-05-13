@@ -211,40 +211,83 @@ function initRegulatorTable() {
 		      }     
 		 }   
 		,	 {	
-			 "title" : "电池电压",  
+			 "title" : "电池包1电压",  
 			 "defaultContent" : "", 
 			 "data" :"battery_vol",
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }   
 		,	 {	
-			 "title" : "电池电流",  
+			 "title" : "电池包1电流",  
 			 "defaultContent" : "", 
 			 "data" :"battery_current",
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }   
 		,	 {	
-			 "title" : "电池温度",  
+			 "title" : "电池包1温度",  
 			 "defaultContent" : "", 
 			 "data" :"battery_temperature",
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }   
 		,	 {	
-			 "title" : "电池容量(%)",  
+			 "title" : "电池包1容量(%)",  
 			 "defaultContent" : "", 
 			 "data" :"battery_soc",
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }   
 		,	 {	
-			 "title" : "电池告警",  
+			 "title" : "电池包1告警",  
 			 "defaultContent" : "", 
 			 "data" :"battery_bj",
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }
+            ,	 {
+                "title" : "电池包2电压",
+                "defaultContent" : "",
+                "data" :"battery2_vol",
+                "width": "10%",
+                "class" : "text-center"
+            }
+            ,	 {
+                "title" : "电池包2电流",
+                "defaultContent" : "",
+                "data" :"battery2_current",
+                "width": "10%",
+                "class" : "text-center"
+            }
+            ,	 {
+                "title" : "电池包2温度",
+                "defaultContent" : "",
+                "data" :"battery2_temperature",
+                "width": "10%",
+                "class" : "text-center"
+            }
+            ,	 {
+                "title" : "电池包2容量(%)",
+                "defaultContent" : "",
+                "data" :"battery2_soc",
+                "width": "10%",
+                "class" : "text-center"
+            }
+            ,	 {
+                "title" : "电池包2告警",
+                "defaultContent" : "",
+                "data" :"battery2_bj",
+                "width": "10%",
+                "class" : "text-center"
+            }
+            ,	 {
+                "title" : "放电逻辑",
+                "defaultContent" : "",
+                "data" :"pwr_stat_val",
+                "width": "10%",
+                "class" : "text-center"
+            }
+		 /*
 		,	 {	
 			 "title" : "取能线圈电压",  
 			 "defaultContent" : "", 
@@ -257,7 +300,9 @@ function initRegulatorTable() {
 			 "data" :"ad_dcdcbus_v",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 		,	 {	
+		 }
+		 	*/
+		 	,	 {
 			 "title" : "电池1电压",  
 			 "defaultContent" : "", 
 			 "data" :"AD_BAT1_V",
