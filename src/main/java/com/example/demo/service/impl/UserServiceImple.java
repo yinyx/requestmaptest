@@ -160,8 +160,8 @@ public class UserServiceImple implements UserService{
         List<Map<String, Object>> resList ;
         Integer count;
         //如果是超级用户
-        String SUPERUSER_ID ="fad73020ab6b415585475821f8ce0592";
-        if (SUPERUSER_ID.equals(userID))
+        int userrole = userMapper.queryRoleByUserId(userID);
+        if (2==userrole)
         {
             resList = userMapper.queryUserList(start,length);
 

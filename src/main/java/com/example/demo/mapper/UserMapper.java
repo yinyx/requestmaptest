@@ -15,6 +15,9 @@ import java.util.Map;
 
 @Mapper
 public interface UserMapper {
+    @Select("select role from sys_user WHERE id =#{userId}")
+    int queryRoleByUserId(String userId);
+
     //根据id查询用户
     @Select("select * from sys_user WHERE phone =#{name}")
     Map<String, Object> findUserByName(String name);
