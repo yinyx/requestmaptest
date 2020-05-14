@@ -13,6 +13,8 @@ public interface UserService {
     Map<String, Object> findUserByName(String username, String password);
     
     List<Line> queryLine();
+
+    List<Line> queryLineByUser(String userId);
     
     List<Log> queryLog();
     

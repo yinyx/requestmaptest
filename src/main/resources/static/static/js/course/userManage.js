@@ -25,7 +25,7 @@ function initSchoolUserTable() {
 		// 服务器回调函数 
 		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
 		{
-			
+            aoData.push({ "name": "userID",  "value": userId});
 			$.ajax({
 				type: "POST",
 				url: sSource,
@@ -203,6 +203,14 @@ function addSchoolUser(){
 	$("input[type='checkbox']").each(function(){
 		$(this).attr("checked",'checked')
 	});
+	if (userMap.role == 1)
+	{
+        $("#r_app").prop("checked",true);
+    }
+    else if  (userMap.role == 2)
+	{
+        $("#r_admin").prop("checked",true);
+    }
 }
 //删除用户
 function deleteSchoolUser(userId){
@@ -260,29 +268,60 @@ function resetPassword(userId){
 }
 
 function initLine(){
-		$.ajax({
-			url:"sys/queryLine",
-			type:"post",
-			data:{},
-			dataType:"text",
-			success:function(data) {
-				data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
-			    if(data.status=="success") {
-			    	var lineList = data.dataList;
-			    	var str = "";
-			        for (var int = 0; int < lineList.length; int++) {
-						str+='<label class="control-label"><input  type="checkbox"  value="'+lineList[int].id+'" />'+lineList[int].name+'</label> ';
-					}
-			        $("#lineDiv").html(str);
-			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
-			},
-			error:function(e) {
-			    showSuccessOrErrorModal("请求出错了2","error"); 
-			}
-		});
-	
+    if (userMap.role == 1)
+    {
+        var data = {"userId":userMap.id};
+        var dataObj = {
+            "paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
+        }
+        $.ajax({
+            url:"sys/queryLineByUser",
+            type:"post",
+            data:dataObj,
+            dataType:"text",
+            success:function(data) {
+                data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
+                if(data.status=="success") {
+                    var lineList = data.dataList;
+                    var str = "";
+                    for (var int = 0; int < lineList.length; int++) {
+                        str+='<label class="control-label"><input  type="checkbox"  value="'+lineList[int].id+'" />'+lineList[int].name+'</label> ';
+                    }
+                    $("#lineDiv").html(str);
+                } else {
+                    showSuccessOrErrorModal(data.msg,"error");
+                }
+            },
+            error:function(e) {
+                showSuccessOrErrorModal("请求出错了2","error");
+            }
+        });
+    }
+    else if  (userMap.role == 2)
+    {
+        $.ajax({
+            url:"sys/queryLine",
+            type:"post",
+            data:{},
+            dataType:"text",
+            success:function(data) {
+                data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
+                if(data.status=="success") {
+                    var lineList = data.dataList;
+                    var str = "";
+                    for (var int = 0; int < lineList.length; int++) {
+                        str+='<label class="control-label"><input  type="checkbox"  value="'+lineList[int].id+'" />'+lineList[int].name+'</label> ';
+                    }
+                    $("#lineDiv").html(str);
+                } else {
+                    showSuccessOrErrorModal(data.msg,"error");
+                }
+            },
+            error:function(e) {
+                showSuccessOrErrorModal("请求出错了2","error");
+            }
+        });
+    }
 }
 
 function showTime(){
@@ -348,6 +387,8 @@ $(document).ready(function(){
 	}else{
 		//parent.location.href = jQuery.getBasePath() + "/login.html";
 	}
+    $("#r_app").attr("disabled", true);
+    $("#r_admin").attr("disabled", true);
 	clearInterval(timer);
 	showTime();
 	timer = setInterval("showTime()",10000);
@@ -367,6 +408,15 @@ $(document).ready(function(){
 			 return;
 		}
 		data+="&line="+lineStr.join(",");
+		data+="&loginUser="+userId;
+            if (userMap.role == 1)
+            {
+                data+="&role=0";
+            }
+            else if  (userMap.role == 2)
+            {
+                data+="&role=1";
+            }
 		console.log(data);
 		$.ajax({
 			url:"sys/saveSchoolUser",

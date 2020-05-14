@@ -24,9 +24,18 @@ public interface UserMapper {
     
     @Select("SELECT COUNT(1) FROM sys_user")
     int queryUsersCount();
+
+    @Select("SELECT t1.*,GROUP_CONCAT(t3.`name`) AS \"lineName\" FROM sys_user t1,line_user t2,info_line t3 WHERE t1.id = t2.user AND t3.id = t2.line AND (t1.create_by =#{userId}) GROUP BY t1.id limit #{start},#{length}")
+    List<Map<String, Object>> queryUserListByUser(@Param("start") Integer start, @Param("length") Integer length, @Param("userId") String userId);
+
+    @Select("SELECT COUNT(1) FROM sys_user where create_by =#{userId}")
+    int queryUsersCountByUser(@Param("userId") String userId);
     
     @Select("select * from info_line")
     List<Line> queryLine();
+
+    @Select("select * from info_line where id in (select line from line_user where user=#{userId})")
+    List<Line> queryLineByUser(@Param("userId") String userId);
     
     @Select("SELECT* FROM log_syn ORDER BY syn_time DESC")
     List<Log> queryLog();
@@ -46,7 +55,7 @@ public interface UserMapper {
     @Select("SELECT COUNT(1) FROM sys_user WHERE phone = #{name}")
     int queryUserNameIsRepeat(String name);
     
-    @Insert("INSERT sys_user (id,user_name,phone,has_del,role,create_by,create_time,update_by,update_time,operate_authority) VALUES (#{userId},#{userName},#{phone},#{status},#{role},'admin',NOW(),'admin',NOW(),#{authority})")
+    @Insert("INSERT sys_user (id,user_name,phone,has_del,role,create_by,create_time,update_by,update_time,operate_authority) VALUES (#{userId},#{userName},#{phone},#{status},#{role},#{loginUser},NOW(),'admin',NOW(),#{authority})")
     void addSchoolUser(Map<String, Object> paramMap);
     
     @Insert("INSERT line_user (id,user,line,author) VALUES (#{RecordId},#{userId},#{LineId},1)")
@@ -58,7 +67,7 @@ public interface UserMapper {
     @Select("SELECT * FROM info_regulator WHERE id = #{regulatorId}")
     Map<String, Object> getRegulatorById(String regulatorId);
     
-    @Update("UPDATE sys_user SET user_name=#{userName},phone=#{phone},has_del=#{status},role=#{role},update_by='admin',update_time=NOW(),operate_authority=#{authority} WHERE id = #{userId}")
+    @Update("UPDATE sys_user SET user_name=#{userName},phone=#{phone},has_del=#{status},role=#{role},update_by=#{loginUser},update_time=NOW(),operate_authority=#{authority} WHERE id = #{userId}")
     void updateSchoolUser(Map<String, Object> paramMap);
     
     @Delete("DELETE FROM line_user WHERE user = #{userId} ")

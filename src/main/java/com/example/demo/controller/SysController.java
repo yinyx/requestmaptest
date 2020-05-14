@@ -216,6 +216,28 @@ public class SysController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
+
+    //setDealAlarmById
+    @ApiOperation("根据用户ID获取线路列表信息")
+    @RequestMapping(value="/queryLineByUser",method=RequestMethod.POST)
+    @ResponseBody
+    public Object queryLineByUser(@RequestParam Map<String, Object> map){
+        JSONObject paramObj=AesUtil.GetParam(map);
+        String userId = (String) paramObj.get("userId");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            List<Line> LineList= this.userService.queryLineByUser(userId);
+            resultMap.put("status", "success");
+            resultMap.put("dataList",LineList);
+        } catch (Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "获取线路信息异常!");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
+    }
+
     
     @ApiOperation("获取用户列表信息")
     @RequestMapping(value="/UserList",method=RequestMethod.POST)
@@ -460,6 +482,7 @@ public class SysController {
         paramMap.put("status", request.getParameter("states")); 
         paramMap.put("authority", request.getParameter("authority")); 
         paramMap.put("lineslist",lineslist);
+        paramMap.put("loginUser",request.getParameter("loginUser"));
         try {
             userService.saveSchoolUser(paramMap);
             resultMap.put("status", "success");

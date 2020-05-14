@@ -85,7 +85,7 @@ $(document).ready(function(){
 
 //加载菜单
 function loadMenu(){
-	if (userMap.role == 1)
+	if ((userMap.role == 1)||(userMap.role == 2))
 	{
 	var topMenuHtml = "<li class=\"classic-menu-dropdown\" data-url=\"#\" data-id=\"200\" onclick=\"onLoadLeftMenu('200')\"><a href=\"javascript:;\"><img alt=\"\" class=\"img-circle\" src=\"static/images/common/configs.png\"/>&nbsp;&nbsp;基本配置</a></li>"+
 	"<li class=\"classic-menu-dropdown\" data-url=\"#\" data-id=\"300\" onclick=\"onLoadLeftMenu('300')\"><a href=\"javascript:;\"><img alt=\"\" class=\"img-circle\" src=\"static/images/common/point.png\"/>&nbsp;&nbsp;波形诊断</a></li>"+

@@ -57,6 +57,11 @@ public class UserServiceImple implements UserService{
         List<Line> LineList = userMapper.queryLine();
         return LineList;
     }
+
+    public List<Line> queryLineByUser(String userId) {
+        List<Line> LineList = userMapper.queryLineByUser(userId);
+        return LineList;
+    }
     
     public DataTableModel queryUserList(Map<String, String> dataTableMap){
         DataTableModel dataTableModel = new DataTableModel();
@@ -143,8 +148,8 @@ public class UserServiceImple implements UserService{
         DataTableModel dataTableModel = new DataTableModel();
         Map<String,Object> paramMap = new HashMap<String,Object>();
         String sEcho = dataTableMap.get("sEcho");
-        
 
+        String userID = dataTableMap.get("userID");
         
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
@@ -152,9 +157,23 @@ public class UserServiceImple implements UserService{
         paramMap.put("stuName_s", dataTableMap.get("stuName_s"));
         paramMap.put("stuStates_s", dataTableMap.get("stuStates_s"));
 
-        List<Map<String, Object>> resList = userMapper.queryUserList(start,length);
+        List<Map<String, Object>> resList ;
+        Integer count;
+        //如果是超级用户
+        String SUPERUSER_ID ="fad73020ab6b415585475821f8ce0592";
+        if (SUPERUSER_ID.equals(userID))
+        {
+            resList = userMapper.queryUserList(start,length);
 
-        Integer count = userMapper.queryUsersCount();
+            count = userMapper.queryUsersCount();
+        }
+        else
+        {
+            resList = userMapper.queryUserListByUser(start,length, userID);
+
+            count = userMapper.queryUsersCountByUser(userID);
+        }
+
 
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
