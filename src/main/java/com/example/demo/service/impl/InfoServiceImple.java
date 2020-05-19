@@ -549,6 +549,14 @@ public class InfoServiceImple implements InfoService{
     public int queryonlineDeviceNum() {
         return infoMapper.queryonlineDeviceNum();
     }
+
+    public int queryallDeviceNumByUser(String userId) {
+        return infoMapper.queryallDeviceNumByUser(userId);
+    }
+
+    public int queryonlineDeviceNumByUser(String userId) {
+        return infoMapper.queryonlineDeviceNumByUser(userId);
+    }
     
     public int queryofflineDeviceNum() {
         return infoMapper.queryofflineDeviceNum();

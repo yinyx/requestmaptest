@@ -131,8 +131,8 @@ public class InfoController {
         Map<String, Object> resultMap=new HashMap<String,Object>();
         //Map<String, Object> paramMap = new HashMap<String, Object>();
         try {
-            int allDeviceNum = infoService.queryallDeviceNum();
-            int onlineDeviceNum = infoService.queryonlineDeviceNum();
+            int allDeviceNum = infoService.queryallDeviceNumByUser(userId);
+            int onlineDeviceNum = infoService.queryonlineDeviceNumByUser(userId);
             int offlineDeviceNum = allDeviceNum - onlineDeviceNum;
                     //infoService.queryofflineDeviceNum();
             int noReadFaultNum = infoService.querynoReadFaultNumByUser(userId);

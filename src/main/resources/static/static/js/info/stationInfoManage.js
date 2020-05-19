@@ -200,7 +200,7 @@ function showTime(){
 	            showFault = '<font color=green size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+showFault+'</font>';
 	            var showAlarm = "    未读告警信息："+noReadAlarmNum+"条";
 	            showAlarm = '<font color=red size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+showAlarm+'</font>';
-	            var str=/*showTime + */showDevice + showFault + showAlarm;
+	            var str=/*showTime + */showDevice ;
 	            $("#marqueeTitle").html(str);
 		    } else {
 		        showSuccessOrErrorModal(data.msg,"error");	

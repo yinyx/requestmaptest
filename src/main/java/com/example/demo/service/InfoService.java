@@ -81,6 +81,10 @@ public interface InfoService {
     int queryallDeviceNum();
     
     int queryonlineDeviceNum();
+
+    int queryallDeviceNumByUser(String userId);
+
+    int queryonlineDeviceNumByUser(String userId);
     
     int queryofflineDeviceNum();
     

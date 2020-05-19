@@ -186,10 +186,16 @@ public interface InfoMapper {
     
     @Select("SELECT * FROM info_factory WHERE id = #{regulatorId}")
     Map<String, Object> getFactoryById(String regulatorId);
-    
+
+    @Select("SELECT COUNT(1) FROM info_device where line_name in (select line from line_user where user=#{userId})")
+    int queryallDeviceNumByUser(String userId);
+
+    @Select("SELECT COUNT(1) FROM info_device where (comm_state = 0) and (line_name in (select line from line_user where user=#{userId}))")
+    int queryonlineDeviceNumByUser(String userId);
+
     @Select("SELECT COUNT(1) FROM info_device")
     int queryallDeviceNum();
-    
+
     @Select("SELECT COUNT(1) FROM info_device where comm_state = 0")
     int queryonlineDeviceNum();
     
