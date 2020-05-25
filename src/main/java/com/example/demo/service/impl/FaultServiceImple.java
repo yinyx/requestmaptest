@@ -86,12 +86,15 @@ public class FaultServiceImple implements FaultService{
         
         int wave_type = (int)resList.get(i).get("wave_type");
         int sample_rate = 0;
-        if(wave_type == 0){
-            sample_rate = faultMapper.queryWaveFreqByDev(device1);
-        }
-        else 
+        if (1 == faultMapper.queryParameterCount(device1))
         {
-            sample_rate = faultMapper.queryPfFreqByDev(device1);
+            if(wave_type == 0){
+                sample_rate = faultMapper.queryWaveFreqByDev(device1);
+            }
+            else
+            {
+                sample_rate = faultMapper.queryPfFreqByDev(device1);
+            }
         }
         
         resList.get(i).put("device",deviceName);

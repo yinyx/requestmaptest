@@ -162,4 +162,7 @@ public interface FaultMapper {
     
     @Select("select pf_current_freq_collection from dev_parameter where device = #{devId}")
     int queryPfFreqByDev(String devId);
+
+    @Select("select count(1) from dev_parameter where device = #{devId}")
+    int queryParameterCount(String devId);
 }
