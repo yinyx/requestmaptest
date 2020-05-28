@@ -10,8 +10,14 @@
 			<label class="control-label">&nbsp;所属厂家：</label> 
             <select id="cronFactory" class="form-control input-inline">
             </select>
-            <!-- label class="control-label">&nbsp;装置标识：</label> 
-            <input type="text" id="device_id" class="form-control input-inline"  placeholder="装置标识" value=""/ -->
+               <label class="control-label">&nbsp;波形类型：</label>
+               <select id="cronType" class="form-control input-inline">
+                   <option value="">全部</option>
+                   <option value="0">行波</option>
+                   <option value="1">工频</option>
+               </select>
+               <!-- label class="control-label">&nbsp;装置标识：</label>
+               <input type="text" id="device_id" class="form-control input-inline"  placeholder="装置标识" value=""/ -->
             <button class='btn green' type="button" style='margin-right:15px;' onclick="queryLog()">查询</button>
             </div>
         </div>

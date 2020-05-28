@@ -11,8 +11,9 @@ function initRegulatorTable() {
 		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
 		{
 			aoData.push({ "name": "factory", "value": $("#cronFactory").val()}); 
-			aoData.push({ "name": "line",    "value": $("#cronLine").val()});  
-			aoData.push({ "name": "userID",  "value": userId});
+			aoData.push({ "name": "line",    "value": $("#cronLine").val()});
+            aoData.push({ "name": "WaveType",    "value": $("#cronType").val()});
+            aoData.push({ "name": "userID",  "value": userId});
 			$.ajax({
 				type: "POST",
 				url: sSource,

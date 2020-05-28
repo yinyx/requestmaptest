@@ -48,7 +48,8 @@ public class FaultServiceImple implements FaultService{
         Integer count;
         String sEcho = dataTableMap.get("sEcho");
         String factory = dataTableMap.get("factory"); 
-        String line = dataTableMap.get("line"); 
+        String line = dataTableMap.get("line");
+        String WaveType = dataTableMap.get("WaveType");
         String userID = dataTableMap.get("userID");  
 
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
@@ -60,13 +61,13 @@ public class FaultServiceImple implements FaultService{
         }
         if (StringUtils.isEmpty(line))
         {
-            resList = faultMapper.queryWaveListByUser(start,length,factory,userID);
-            count = faultMapper.queryWaveListCountByUser(factory,userID);
+            resList = faultMapper.queryWaveListByUser(start,length,factory,userID, WaveType);
+            count = faultMapper.queryWaveListCountByUser(factory,userID, WaveType);
         }
         else
         {
-            resList = faultMapper.queryWaveList(start,length,factory,line);
-            count = faultMapper.queryWaveListCount(factory,line);
+            resList = faultMapper.queryWaveList(start,length,factory,line, WaveType);
+            count = faultMapper.queryWaveListCount(factory,line, WaveType);
         }      
        
         for (int i = 0; i<resList.size(); i++)
@@ -84,11 +85,11 @@ public class FaultServiceImple implements FaultService{
         //String sample_rate = faultMapper.getFactorySRById(factoryID);
         String lineName = faultMapper.getLineById(lineID);
         
-        int wave_type = (int)resList.get(i).get("wave_type");
+        String wave_type = (String)resList.get(i).get("wave_type");
         int sample_rate = 0;
         if (1 == faultMapper.queryParameterCount(device1))
         {
-            if(wave_type == 0){
+            if(wave_type.equals("0")){
                 sample_rate = faultMapper.queryWaveFreqByDev(device1);
             }
             else
