@@ -14,6 +14,8 @@ function initRegulatorTable() {
 			aoData.push({ "name": "line",    "value": $("#cronLine").val()});
             aoData.push({ "name": "WaveType",    "value": $("#cronType").val()});
             aoData.push({ "name": "userID",  "value": userId});
+            aoData.push({ "name": "StartTime", "value": $("#StartTime").val()});
+            aoData.push({ "name": "EndTime", "value": $("#EndTime").val()});
 			$.ajax({
 				type: "POST",
 				url: sSource,
@@ -416,6 +418,23 @@ function showTime(){
 	});		
 }
 
+function initTimeSelect(){
+    $("#StartTime").datetimepicker({
+        language: "zh-CN",
+        autoclose: true,//选中之后自动隐藏日期选择框
+        clearBtn: true,//清除按钮
+        todayBtn: true,//今日按钮
+        format: "yyyy-mm-dd hh:ii"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+    });
+    $("#EndTime").datetimepicker({
+        language: "zh-CN",
+        autoclose: true,//选中之后自动隐藏日期选择框
+        clearBtn: true,//清除按钮
+        todayBtn: true,//今日按钮
+        format: "yyyy-mm-dd hh:ii"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+    });
+}
+
 $(document).ready(function(){
 			//判断是否登录
 	userMap = isLogined();
@@ -428,6 +447,7 @@ $(document).ready(function(){
 	showTime();
 	timer = setInterval("showTime()",10000);
 	initParent();
+    initTimeSelect();
 	initFactory();
 	initRegulatorTable();
 	$("#main").attr("style","display:none;");

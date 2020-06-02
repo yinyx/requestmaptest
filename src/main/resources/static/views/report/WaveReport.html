@@ -3,7 +3,7 @@
            <marquee onMouseOut=start(); onMouseOver=stop(); scrolldelay=500 scrollamount=5 direction="right" behavior="scroll" id="marqueeTitle"></marquee>
         </div>
 		<div class="row">
-           <div class="col-md-8">
+           <div class="col-md-12">
             <label class="control-label">&nbsp;所属线路：</label> 
             <select id="cronLine" class="form-control input-inline">
             </select>
@@ -16,6 +16,10 @@
                    <option value="0">行波</option>
                    <option value="1">工频</option>
                </select>
+               <label class="control-label">&nbsp;创建时间范围：</label>
+               <input type="text" id="StartTime" class="form-control input-inline">
+               <label class="control-label">&nbsp;&nbsp;到：&nbsp;&nbsp;</label>
+               <input type="text" id="EndTime" class="form-control input-inline">
                <!-- label class="control-label">&nbsp;装置标识：</label>
                <input type="text" id="device_id" class="form-control input-inline"  placeholder="装置标识" value=""/ -->
             <button class='btn green' type="button" style='margin-right:15px;' onclick="queryLog()">查询</button>

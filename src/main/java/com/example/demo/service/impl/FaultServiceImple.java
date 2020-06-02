@@ -39,6 +39,13 @@ public class FaultServiceImple implements FaultService{
                          +sDateTime.substring(11, 13)+sDateTime.substring(14, 16)+"00";
         return sAnOther;
     }
+
+    public static String FormatWaveCreateTime(String sDateTime)
+    {
+        String sAnOther = sDateTime.substring(0, 4)+"."+sDateTime.substring(5, 7)+"."+sDateTime.substring(8, 10)
+                +" "+sDateTime.substring(11, 13)+sDateTime.substring(14, 16)+":00";
+        return sAnOther;
+    }
     
     public DataTableModel queryWaveInfoList(Map<String, String> dataTableMap)
     {       
@@ -50,7 +57,21 @@ public class FaultServiceImple implements FaultService{
         String factory = dataTableMap.get("factory"); 
         String line = dataTableMap.get("line");
         String WaveType = dataTableMap.get("WaveType");
-        String userID = dataTableMap.get("userID");  
+        String userID = dataTableMap.get("userID");
+        String StartTime = dataTableMap.get("StartTime");
+        String EndTime = dataTableMap.get("EndTime");
+
+
+        if ((StringUtils.isEmpty(StartTime))||(StringUtils.isEmpty(EndTime)))
+        {
+            StartTime = "0000.00.00 00:00:00";
+            EndTime = "9999.99.99 99:99:99";
+        }
+        else
+        {
+            StartTime = FormatWaveCreateTime(StartTime);
+            EndTime = FormatWaveCreateTime(EndTime);
+        }
 
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
@@ -61,13 +82,13 @@ public class FaultServiceImple implements FaultService{
         }
         if (StringUtils.isEmpty(line))
         {
-            resList = faultMapper.queryWaveListByUser(start,length,factory,userID, WaveType);
-            count = faultMapper.queryWaveListCountByUser(factory,userID, WaveType);
+            resList = faultMapper.queryWaveListByUser(start,length,factory,userID, WaveType, StartTime, EndTime);
+            count = faultMapper.queryWaveListCountByUser(factory,userID, WaveType, StartTime, EndTime);
         }
         else
         {
-            resList = faultMapper.queryWaveList(start,length,factory,line, WaveType);
-            count = faultMapper.queryWaveListCount(factory,line, WaveType);
+            resList = faultMapper.queryWaveList(start,length,factory,line, WaveType, StartTime, EndTime);
+            count = faultMapper.queryWaveListCount(factory,line, WaveType, StartTime, EndTime);
         }      
        
         for (int i = 0; i<resList.size(); i++)

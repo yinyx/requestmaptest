@@ -14,12 +14,12 @@ public interface FaultMapper {
     //@Select("select * from report_wave where device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name=#{line} or #{line}='') ) and (device=#{device} or #{devcie}='') and (wave_num=#{wavenum} or #{wavenum}='') limit #{start},#{length}")
     //@Select("select * from report_wave where device in(select id from info_device where manufacture =#{factory} and line_name=#{line} ) and device=#{device} and wave_num=#{wavenum} limit #{start},#{length}")
     //@Select("select * from report_wave")
-    @Select("select * from report_wave where device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name=#{line} or #{line}='')) and (wave_type=#{waveType} or #{waveType}='') order by create_time desc limit #{start},#{length}")
+    @Select("select * from report_wave where (create_time between #{StartTime} and #{EndTime}) and device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name=#{line} or #{line}='')) and (wave_type=#{waveType} or #{waveType}='') order by create_time desc limit #{start},#{length}")
     //@Select("select t1.*, GROUP_CONCAT(t2.`name`) AS \"device\", GROUP_CONCAT(t2.`line_name`) AS \"line\", GROUP_CONCAT(t2.`manufacture`) AS \"factory\" from report_wave t1, info_device t2 where t1.device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name=#{line} or #{line}='') and (t1.name=#{device} or #{device}='')) and (t1.wave_num=#{wavenum} or #{wavenum}='')  and (t1.wave_type=#{waveType} or #{waveType}='') limit #{start},#{length}")
-    List<Map<String, Object>> queryWaveList(@Param("start") Integer start, @Param("length") Integer length, @Param("factory") String factory, @Param("line") String line, @Param("waveType") String waveType);
+    List<Map<String, Object>> queryWaveList(@Param("start") Integer start, @Param("length") Integer length, @Param("factory") String factory, @Param("line") String line, @Param("waveType") String waveType, @Param("StartTime") String StartTime, @Param("EndTime") String EndTime);
     
-    @Select("select COUNT(1) from report_wave where device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name=#{line} or #{line}='')) and (wave_type=#{waveType} or #{waveType}='') ")
-    int queryWaveListCount(@Param("factory") String factory, @Param("line") String line, @Param("waveType") String waveType);
+    @Select("select COUNT(1) from report_wave where (create_time between #{StartTime} and #{EndTime}) and device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name=#{line} or #{line}='')) and (wave_type=#{waveType} or #{waveType}='') ")
+    int queryWaveListCount(@Param("factory") String factory, @Param("line") String line, @Param("waveType") String waveType, @Param("StartTime") String StartTime, @Param("EndTime") String EndTime);
     
     @Select("select * from report_fault where (occurr_time between #{StartTime} and #{EndTime}) and (line = #{line}) and (isRead=#{deal}) order by occurr_time desc limit #{start},#{length}")
     List<Map<String, Object>> queryFaultList(@Param("start") Integer start, @Param("length") Integer length, @Param("line") String line, @Param("deal") Integer deal, @Param("StartTime") String StartTime, @Param("EndTime") String EndTime);
@@ -54,11 +54,11 @@ public interface FaultMapper {
     @Select("SELECT name FROM info_tower WHERE id = #{regulatorId}")
     String getFaultNameById(String regulatorId);
     
-    @Select("select * from report_wave where device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name in (select line from line_user where user = #{userID}))) and (wave_type=#{waveType} or #{waveType}='') order by create_time desc limit #{start},#{length}")
-    List<Map<String, Object>> queryWaveListByUser(@Param("start") Integer start, @Param("length") Integer length, @Param("factory") String factory, @Param("userID") String userID, @Param("waveType") String waveType);
+    @Select("select * from report_wave where (create_time between #{StartTime} and #{EndTime}) and device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name in (select line from line_user where user = #{userID}))) and (wave_type=#{waveType} or #{waveType}='') order by create_time desc limit #{start},#{length}")
+    List<Map<String, Object>> queryWaveListByUser(@Param("start") Integer start, @Param("length") Integer length, @Param("factory") String factory, @Param("userID") String userID, @Param("waveType") String waveType, @Param("StartTime") String StartTime, @Param("EndTime") String EndTime);
     
-    @Select("select COUNT(1) from report_wave where (wave_type=#{waveType} or #{waveType}='') and device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name in (select line from line_user where user = #{userID})))")
-    int queryWaveListCountByUser(@Param("factory") String factory, @Param("userID") String userID, @Param("waveType") String waveType);
+    @Select("select COUNT(1) from report_wave where (create_time between #{StartTime} and #{EndTime}) and (wave_type=#{waveType} or #{waveType}='') and device in(select id from info_device where (manufacture =#{factory} or #{factory}='') and (line_name in (select line from line_user where user = #{userID})))")
+    int queryWaveListCountByUser(@Param("factory") String factory, @Param("userID") String userID, @Param("waveType") String waveType, @Param("StartTime") String StartTime, @Param("EndTime") String EndTime);
 
     /*
     @Select("select * from report_fault where (occurr_time between #{StartTime} and #{EndTime}) and (isRead=#{deal}) and line in (select line from line_user where user = #{userID}) order by occurr_time desc limit #{start},#{length}")
