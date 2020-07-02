@@ -7,16 +7,16 @@ function initRegulatorTable() {
 		"sAjaxSource" : "info/queryLineList", 
 		"bLengthChange":false,//取消显示每页条数
 		// 服务器回调函数 
-		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
+		"fnServerData": function retrieveData(sSource, aoData, fnCallback)
 		{
-			aoData.push({ "name": "QueryType", "value": $("#regulator_name").val()}); 
+			aoData.push({ "name": "QueryType", "value": $("#regulator_name").val()});
 			$.ajax({
 				type: "POST",
 				url: sSource,
 				contentType: "application/json; charset=utf-8",
 			    data: JSON.stringify(aoData),
-				success: function(data) 
-				{	
+				success: function(data)
+				{
 					if(data.status == "success")
 					{
 						fnCallback(data.infoData);
@@ -31,35 +31,35 @@ function initRegulatorTable() {
 			});
 		},
 		// 列属性
-		"columns" : [	 {	
+		"columns" : [	 {
 			 "title" : "名称",  
 			 "defaultContent" : "", 
 			 "data" :"name",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "监管单位",  
 			 "defaultContent" : "", 
 			 "data" :"regulatorName",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "线路长度",  
 			 "defaultContent" : "", 
 			 "data" :"length",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "电压等级",  
 			 "defaultContent" : "", 
 			 "data" :"voltage_level",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }  
-		,	 {	
+		 }
+		,	 {
 			 "title" : "电流类型",  
 			 "defaultContent" : "", 
 			 "data" :"ac_dc",
@@ -72,22 +72,22 @@ function initRegulatorTable() {
 		            }
 		            return content;
 		      }     
-		 } 	
-/* 		,	 {	
+		 }
+/* 		,	 {
 			 "title" : "左变电站",  
 			 "defaultContent" : "", 
 			 "data" :"leftStationName",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "右变电站",  
 			 "defaultContent" : "", 
 			 "data" :"rightStationName",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 	 */	 
-		,{	
+		 } 	 */
+		,{
 			 "title" : "操作",  
 			 "defaultContent" : "", 
 			 "data" :null,
@@ -133,7 +133,7 @@ function showEditModal(recordId){
 				       ops[i].selected = true;
 				       break;
 				    }
-				} 
+				}
 				var s1 = document.getElementById("cronLeftStation");
 				var ops1 = s1.options;
 				for(var i=0;i<ops1.length; i++){
@@ -143,7 +143,7 @@ function showEditModal(recordId){
 				       ops1[i].selected = true;
 				       break;
 				    }
-				} 
+				}
 				var s2 = document.getElementById("cronRightStation");
 				var ops2 = s2.options;
 				for(var i=0;i<ops2.length; i++){
@@ -153,31 +153,31 @@ function showEditModal(recordId){
 				       ops2[i].selected = true;
 				       break;
 				    }
-				} 
+				}
                $("#length_m").val(usersData.length);
-			   $("#voltage_level_m").val(usersData.voltage_level);	
+			   $("#voltage_level_m").val(usersData.voltage_level);
 			   if(usersData.ac_dc == '0') {
-       			   $("#r_zhi").prop("checked",true); 
+       			   $("#r_zhi").prop("checked",true);
        		   } else {
-       			   $("#r_jiao").prop("checked",true); 
-       		   }			   
+       			   $("#r_jiao").prop("checked",true);
+       		   }
                $('#regulatorModal_add').modal('show');
                stopPageLoading()
 		   } else {
 			   stopPageLoading()
 			   showSuccessOrErrorModal("获取监管单位信息失败","error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 }
 
 function queryLog() {//条件查询同步日志
-	regulatorTable.ajax.reload();  
+	regulatorTable.ajax.reload();
 }
 
 //新增监管单位按钮
@@ -202,13 +202,13 @@ function initParent(){
 				}
 		        $("#cronID").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询监管单位请求出错了","error"); 
+		    showSuccessOrErrorModal("查询监管单位请求出错了","error");
 		}
-	});	
+	});
 }
 
 function initStation(){
@@ -228,17 +228,23 @@ function initStation(){
 		        $("#cronLeftStation").html(str);
 				$("#cronRightStation").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询变电站请求出错了","error"); 
+		    showSuccessOrErrorModal("查询变电站请求出错了","error");
 		}
-	});	
+	});
 }
 
 //删除用户
 function deleteSchoolUser(userId){
+
+	if (userMap.role !=2)
+	{
+        showSuccessOrErrorModal("当前用户没有删除线路的权限，请联系超级管理员！","warning");
+	    return;
+	}
 	showConfirmModal("是否确定删除！",function(){
 		$.ajax({
 			url:"info/deleteLine",
@@ -248,19 +254,19 @@ function deleteSchoolUser(userId){
 			success:function(data) {
 				data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 			    if(data.status=="success") {
-			        showSuccessOrErrorModal(data.msg,"success"); 
+			        showSuccessOrErrorModal(data.msg,"success");
 			        regulatorTable.draw(); //刷新表格
 			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
+			        showSuccessOrErrorModal(data.msg,"error");
+			    }
 			},
 			error:function(e) {
 				console.error(e)
-			    showSuccessOrErrorModal("请求出错了2","error"); 
+			    showSuccessOrErrorModal("请求出错了2","error");
 			}
 		});
 	});
-	
+
 }
 
 function sync()
@@ -273,19 +279,19 @@ function sync()
 		success:function(data) {
 			data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 		    if(data.status=="success") {
-		    	showSuccessOrErrorModal(data.msg,"success"); 
+		    	showSuccessOrErrorModal(data.msg,"success");
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal("同步线路数据成功","success");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求出错了","error"); 
+		    showSuccessOrErrorModal("请求出错了","error");
 		}
-	});		
+	});
 }
 
 function showTime(){
-	var newDateObj = new Date(); 
+	var newDateObj = new Date();
 	var year = newDateObj.getFullYear();
 	var month = newDateObj.getMonth()+1;
 	if(month==13)
@@ -301,12 +307,12 @@ function showTime(){
 	var showTime = year+"/"+month+"/"+day+" "+arr[week]+" "+hour+((minute<10)?":0":":")
 	               +minute+((second<10)?":0":":")+second+((hour>12)?" 下午":" 上午");
 	showTime = '<font color=red size=4>'+showTime+'</font>';
-	
+
 	var data = {"userId":userId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	}
-	
+
 	$.ajax({
 		url:"info/queryMarqueeInfo",
 		type:"post",
@@ -330,19 +336,20 @@ function showTime(){
 	            var str=/*showTime + */showDevice;
 	            $("#marqueeTitle").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    //showSuccessOrErrorModal("滚动栏请求出错了","error"); 
+		    //showSuccessOrErrorModal("滚动栏请求出错了","error");
 		}
-	});		
+	});
 }
 
 $(document).ready(function(){
 
 	//判断是否登录
 	userMap = isLogined();
+	console.log(userMap)
 	if(userMap){//成功登录
 		userId = userMap.id;
 	}else{
@@ -367,16 +374,16 @@ $(document).ready(function(){
 			dataType:"json",
 			success:function(data) {
 			    if(data.status=="success") {
-			    	showSuccessOrErrorModal(data.msg,"success"); 
+			    	showSuccessOrErrorModal(data.msg,"success");
 			    	initParent();
 			    	regulatorTable.draw();
 			    	$("#regulatorModal_add").modal("hide");
 			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
+			        showSuccessOrErrorModal(data.msg,"error");
+			    }
 			},
 			error:function(e) {
-			    showSuccessOrErrorModal("请求出错了3","error"); 
+			    showSuccessOrErrorModal("请求出错了3","error");
 			}
 		});
 	}, {
@@ -389,13 +396,13 @@ $(document).ready(function(){
 			return true;
 		}
 	});
-	
+
 	$("#length_m").on('change blur',function(e){
 				var length = this.value;
 				var self = this;
 				if(isNaN(length)||(parseInt(length)<=0))
 	            {
-					     $(self).testRemind("线路长度应填写正数!"); 
+					     $(self).testRemind("线路长度应填写正数!");
 		 		         $(self).focus();
 				}
 	});
