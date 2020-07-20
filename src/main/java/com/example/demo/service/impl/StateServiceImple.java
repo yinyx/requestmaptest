@@ -41,20 +41,20 @@ import util.aes.StringUtils;
 @Service
 @Transactional
 public class StateServiceImple  implements StateService{
-    
+
     // 注入用户Mapper
     @Autowired
     private StateMapper stateMapper;
-    
+
     @Autowired
     private ParamAttrManage paramAttrManage;
-    
+
     @Autowired
     private UserMapper userMapper;
-    
+
     @Autowired
     MsgSender sender;
-    
+
     //文件下载相关代码
     public static String downloadFile(HttpServletRequest request, HttpServletResponse response) {
       String fileName = "aim_test.txt";// 设置文件名，根据业务需要替换成要下载的文件名
@@ -100,7 +100,7 @@ public class StateServiceImple  implements StateService{
       }
       return null;
     }
-    
+
     public static byte[] int2Bytes(int integer)
     {
             byte[] bytes=new byte[4];
@@ -112,7 +112,7 @@ public class StateServiceImple  implements StateService{
 
             return bytes;
     }
-    
+
     public static int bytes2Int(byte[] bytes )
     {
         int int1=bytes[0]&0xff;
@@ -122,90 +122,90 @@ public class StateServiceImple  implements StateService{
 
         return int1|int2|int3|int4;
     }
-    
-    public static float byte2float(byte[] b, int index) 
-    {  
-     int l;  
-     l = b[index];  
-     l &= 0xff;  
-     l |= ((long) b[index + 1] << 8);  
-     l &= 0xffff;  
-     l |= ((long) b[index + 2] << 16);  
-     l &= 0xffffff;  
-     l |= ((long) b[index + 3] << 24);  
-     
+
+    public static float byte2float(byte[] b, int index)
+    {
+     int l;
+     l = b[index];
+     l &= 0xff;
+     l |= ((long) b[index + 1] << 8);
+     l &= 0xffff;
+     l |= ((long) b[index + 2] << 16);
+     l &= 0xffffff;
+     l |= ((long) b[index + 3] << 24);
+
      Float fl = Float.valueOf(Float.intBitsToFloat(l));
      if(fl.isInfinite()||fl.isNaN()) {
       return 0;
      }else {
       return fl;
      }
-     
-     //return Float.intBitsToFloat(l);  
-    } 
-    
-    public static float byte2floatAnti(byte[] b, int index) 
-    {  
-     int l;  
-     l = b[index+3];  
-     l &= 0xff;  
-     l |= ((long) b[index + 2] << 8);  
-     l &= 0xffff;  
-     l |= ((long) b[index + 1] << 16);  
-     l &= 0xffffff;  
-     l |= ((long) b[index] << 24);  
-     //return Float.intBitsToFloat(l); 
+
+     //return Float.intBitsToFloat(l);
+    }
+
+    public static float byte2floatAnti(byte[] b, int index)
+    {
+     int l;
+     l = b[index+3];
+     l &= 0xff;
+     l |= ((long) b[index + 2] << 8);
+     l &= 0xffff;
+     l |= ((long) b[index + 1] << 16);
+     l &= 0xffffff;
+     l |= ((long) b[index] << 24);
+     //return Float.intBitsToFloat(l);
      Float fl = Float.valueOf(Float.intBitsToFloat(l));
      if(fl.isInfinite()||fl.isNaN()) {
       return 0;
      }else {
       return fl;
      }
-    } 
-    
+    }
+
     //byte תint
-    public static int getInt(byte[] b, int index) 
-    {  
-        int l;  
-        l = b[index + 3];  
-        l &= 0xff;  
-        l |= ((long) b[index + 2] << 8);  
-        l &= 0xffff;  
-        l |= ((long) b[index + 1] << 16);  
-        l &= 0xffffff;  
-        l |= ((long) b[index] << 24);  
-        return l;//Float.intBitsToFloat(l);  
+    public static int getInt(byte[] b, int index)
+    {
+        int l;
+        l = b[index + 3];
+        l &= 0xff;
+        l |= ((long) b[index + 2] << 8);
+        l &= 0xffff;
+        l |= ((long) b[index + 1] << 16);
+        l &= 0xffffff;
+        l |= ((long) b[index] << 24);
+        return l;//Float.intBitsToFloat(l);
     }
 
     //byte תfloat
-    public static float getFloat(byte[] b, int index) 
-    {  
-        int l;  
-        l = b[index + 0];  
-        l &= 0xff;  
-        l |= ((long) b[index + 1] << 8);  
-        l &= 0xffff;  
-        l |= ((long) b[index + 2] << 16);  
-        l &= 0xffffff;  
-        l |= ((long) b[index + 3] << 24);  
+    public static float getFloat(byte[] b, int index)
+    {
+        int l;
+        l = b[index + 0];
+        l &= 0xff;
+        l |= ((long) b[index + 1] << 8);
+        l &= 0xffff;
+        l |= ((long) b[index + 2] << 16);
+        l &= 0xffffff;
+        l |= ((long) b[index + 3] << 24);
         Float fl = Float.valueOf(Float.intBitsToFloat(l));
         if(fl.isInfinite()) {
             return 0;
         }else {
             return fl;
         }
-    } 
-    
+    }
+
     public static String FormatTime(String sDateTime)
     {
         String sAnOther = sDateTime.substring(0, 4)+"."+sDateTime.substring(5, 7)+"."+sDateTime.substring(8, 10)+" "
                          +sDateTime.substring(11, 16)+"00.000000000";
         return sAnOther;
     }
-    
-    
+
+
     public DataTableModel queryHeartBeatList(Map<String, String> dataTableMap)
-    {       
+    {
         DataTableModel dataTableModel = new DataTableModel();
 
         List<Map<String, Object>> resList;
@@ -222,7 +222,7 @@ public class StateServiceImple  implements StateService{
         	device_name = deviceIdTmp;
         }
         String CommLine = dataTableMap.get("CommLine");
-        String userID = dataTableMap.get("userID");  
+        String userID = dataTableMap.get("userID");
         String StartTime = dataTableMap.get("StartTime");
         String EndTime = dataTableMap.get("EndTime");
 
@@ -238,14 +238,14 @@ public class StateServiceImple  implements StateService{
             StartTime = FormatTime(StartTime);
             EndTime = FormatTime(EndTime);
         }
-        
+
         Long iStartTime = Long.parseLong(StartTime);
         Long iEndTime   = Long.parseLong(EndTime);
         */
-        
+
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
-    
+
         if ((StringUtils.isEmpty(QueryType))&&(StringUtils.isEmpty(deviceIdTmp))&&(StringUtils.isEmpty(CommLine)))
         {
             resList = stateMapper.queryHeartBeatListByUser(start,length,userID,StartTime,EndTime);
@@ -255,19 +255,19 @@ public class StateServiceImple  implements StateService{
         {
             resList = stateMapper.queryHeartBeatList(start,length,QueryType,device_name,device_id,userID,CommLine,StartTime,EndTime);
             count = stateMapper.queryHeartBeatListCount(QueryType,device_name,device_id,userID,CommLine,StartTime,EndTime);
-        }      
-       
+        }
+
         for (int i = 0; i<resList.size(); i++)
         {
-            String deviceID = (String)resList.get(i).get("device");       
-            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID); 
+            String deviceID = (String)resList.get(i).get("device");
+            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID);
             String deviceName = (String)deviceMap.get("name");
             String factoryId = (String)deviceMap.get("manufacture");
-            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);  
+            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);
             resList.get(i).put("deviceName",deviceName);
             resList.get(i).put("factory",factoyName);
         }
-               
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
@@ -275,10 +275,10 @@ public class StateServiceImple  implements StateService{
 
         //paramAttrManage.print();
         return dataTableModel;
-    } 
-    
+    }
+
     public DataTableModel queryWorkConditionList(Map<String, String> dataTableMap)
-    {       
+    {
         DataTableModel dataTableModel = new DataTableModel();
 
         List<Map<String, Object>> resList;
@@ -304,20 +304,20 @@ public class StateServiceImple  implements StateService{
         {
             StartTime = "0000.00.00 00:00:00.000000000";
             EndTime =   "9999.11.30 23:59:59.999999999";
-        }      
+        }
         else
         {
             StartTime = FormatTime(StartTime);
             EndTime = FormatTime(EndTime);
         }
-        
-        
+
+
         //Long iStartTime = Long.parseLong(StartTime);
         //Long iEndTime   = Long.parseLong(EndTime);
-        
+
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
-    
+
         if ((StringUtils.isEmpty(QueryType))&&(StringUtils.isEmpty(deviceIdTmp))&&(StringUtils.isEmpty(CommLine)))
         {
             resList = stateMapper.queryWorkConditionListByTime(start,length,userID);
@@ -327,29 +327,29 @@ public class StateServiceImple  implements StateService{
         {
             resList = stateMapper.queryWorkConditionList(start,length,QueryType,device_name,device_id,userID,CommLine,StartTime,EndTime);
             count = stateMapper.queryWorkConditionListCount(QueryType,device_name,device_id,userID,CommLine,StartTime,EndTime);
-        }      
-       
+        }
+
         for (int i = 0; i<resList.size(); i++)
         {
-            String deviceID = (String)resList.get(i).get("device");       
-            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID); 
+            String deviceID = (String)resList.get(i).get("device");
+            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID);
             String deviceName = (String)deviceMap.get("name");
             String factoryId = (String)deviceMap.get("manufacture");
-            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);  
+            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);
             resList.get(i).put("deviceName",deviceName);
             resList.get(i).put("factory",factoyName);
         }
-               
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(resList);
 
         return dataTableModel;
-    } 
-    
+    }
+
 //    public DataTableModel queryWorkConditionListOrder(Map<String, String> dataTableMap)
-//    {       
+//    {
 //        DataTableModel dataTableModel = new DataTableModel();
 //        List<Map<String, Object>> resList;
 //        Integer count;
@@ -366,20 +366,20 @@ public class StateServiceImple  implements StateService{
 //        {
 //            StartTime = "0000.00.00 00:00:00.000000000";
 //            EndTime =   "9999.11.30 23:59:59.999999999";
-//        }      
+//        }
 //        else
 //        {
 //            StartTime = FormatTime(StartTime);
 //            EndTime = FormatTime(EndTime);
 //        }
-//        
-//        
+//
+//
 //        //Long iStartTime = Long.parseLong(StartTime);
 //        //Long iEndTime   = Long.parseLong(EndTime);
-//        
+//
 //        int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
 //        int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
-//    
+//
 //        if ((StringUtils.isEmpty(QueryType))&&(StringUtils.isEmpty(device_id))&&(StringUtils.isEmpty(CommLine)))
 //        {
 //            resList = stateMapper.queryWorkConditionListByTime(start,length,userID);
@@ -389,30 +389,30 @@ public class StateServiceImple  implements StateService{
 //        {
 //            resList = stateMapper.queryWorkConditionListOrderById(start,length,QueryType,device_id,userID,CommLine,StartTime,EndTime);
 //            count = stateMapper.queryWorkConditionListCountOrderById(QueryType,device_id,userID,CommLine,StartTime,EndTime);
-//        }      
-//        
+//        }
+//
 //        for (int i = 0; i<resList.size(); i++)
 //        {
-//            String deviceID = (String)resList.get(i).get("device");       
-//            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID); 
+//            String deviceID = (String)resList.get(i).get("device");
+//            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID);
 //            String deviceName = (String)deviceMap.get("name");
 //            String factoryId = (String)deviceMap.get("manufacture");
-//            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);  
+//            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);
 //            resList.get(i).put("deviceName",deviceName);
 //            resList.get(i).put("factory",factoyName);
 //        }
-//               
+//
 //        dataTableModel.setiTotalDisplayRecords(count);
 //        dataTableModel.setiTotalRecords(count);
 //        dataTableModel.setsEcho(Integer.valueOf(sEcho));
 //        dataTableModel.setAaData(resList);
 //
 //        return dataTableModel;
-//    } 
-    
-    
+//    }
+
+
     public DataTableModel queryOrderStatusList(Map<String, String> dataTableMap)
-    {       
+    {
         DataTableModel dataTableModel = new DataTableModel();
 
         List<Map<String, Object>> resList;
@@ -428,9 +428,9 @@ public class StateServiceImple  implements StateService{
         if(stateMapper.isQueryRightByName(deviceIdTmp)){
         	device_name = deviceIdTmp;
         }
-        
+
         String CommLine = dataTableMap.get("CommLine");
-        String userID = dataTableMap.get("userID"); 
+        String userID = dataTableMap.get("userID");
         String StartTime = dataTableMap.get("StartTime");
         String EndTime = dataTableMap.get("EndTime");
 
@@ -445,14 +445,14 @@ public class StateServiceImple  implements StateService{
             StartTime = FormatTime(StartTime);
             EndTime = FormatTime(EndTime);
         }
-        
+
         Long iStartTime = Long.parseLong(StartTime);
         Long iEndTime   = Long.parseLong(EndTime);
         */
 
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
-    
+
         if ((StringUtils.isEmpty(QueryType))&&(StringUtils.isEmpty(deviceIdTmp))&&(StringUtils.isEmpty(CommLine)))
         {
             resList = stateMapper.queryOrderStatusListByUser(start,length,userID,StartTime,EndTime);
@@ -462,14 +462,14 @@ public class StateServiceImple  implements StateService{
         {
             resList = stateMapper.queryOrderStatusList(start,length,QueryType,device_name,device_id,userID,CommLine,StartTime,EndTime);
             count = stateMapper.queryOrderStatusListCount(QueryType,device_name,device_id,userID,CommLine,StartTime,EndTime);
-        }      
-       
+        }
+
         for (int i = 0; i<resList.size(); i++)
         {
-            String deviceID = (String)resList.get(i).get("device");       
-            String userIDofRecord = (String)resList.get(i).get("user");  
+            String deviceID = (String)resList.get(i).get("device");
+            String userIDofRecord = (String)resList.get(i).get("user");
             /*
-            Date  timeofRecord = (Date )resList.get(i).get("time"); 
+            Date  timeofRecord = (Date )resList.get(i).get("time");
             System.out.println("time");
             System.out.println(timeofRecord);
             String value = null;
@@ -477,28 +477,28 @@ public class StateServiceImple  implements StateService{
             value = dateFormat.format(timeofRecord);
             System.out.println(value);
             */
-            
-            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID); 
+
+            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID);
             String deviceName = (String)deviceMap.get("name");
             String factoryId = (String)deviceMap.get("manufacture");
-            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);  
-            String userName = stateMapper.getUserNameByUserId(userIDofRecord);  
+            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);
+            String userName = stateMapper.getUserNameByUserId(userIDofRecord);
             resList.get(i).put("deviceName",deviceName);
             resList.get(i).put("factory",factoyName);
             resList.get(i).put("user_name",userName);
             //resList.get(i).put("time_sring",value);
         }
-               
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(resList);
 
         return dataTableModel;
-    }     
-    
+    }
+
     public DataTableModel queryAlarmList(Map<String, String> dataTableMap)
-    {       
+    {
         DataTableModel dataTableModel = new DataTableModel();
 
         List<Map<String, Object>> resList;
@@ -513,9 +513,9 @@ public class StateServiceImple  implements StateService{
         }
         if(stateMapper.isQueryRightByName(deviceIdTmp)){
         	device_name = deviceIdTmp;
-        }        
+        }
         String CommLine = dataTableMap.get("CommLine");
-        String userID = dataTableMap.get("userID");  
+        String userID = dataTableMap.get("userID");
         String StartTime = dataTableMap.get("StartTime");
         String EndTime = dataTableMap.get("EndTime");
         String deal = dataTableMap.get("deal");
@@ -524,16 +524,16 @@ public class StateServiceImple  implements StateService{
         {
             StartTime = "0000.00.00 00:00:00.000000000";
             EndTime =   "9999.11.30 23:59:59.999999999";
-        }      
+        }
         else
         {
             StartTime = FormatTime(StartTime);
             EndTime = FormatTime(EndTime);
         }
-        
+
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
-    
+
         if ((StringUtils.isEmpty(QueryType))&&(StringUtils.isEmpty(deviceIdTmp))&&(StringUtils.isEmpty(CommLine)))
         {
             resList = stateMapper.queryAlarmListByUser(start,length,userID,StartTime,EndTime,deal);
@@ -543,29 +543,29 @@ public class StateServiceImple  implements StateService{
         {
             resList = stateMapper.queryAlarmList(start,length,QueryType,device_name,device_id,userID,CommLine,StartTime,EndTime,deal);
             count = stateMapper.queryAlarmListCount(QueryType,device_name,device_id,userID,CommLine,StartTime,EndTime,deal);
-        }      
-       
+        }
+
         for (int i = 0; i<resList.size(); i++)
         {
-            String deviceID = (String)resList.get(i).get("device");       
-            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID); 
+            String deviceID = (String)resList.get(i).get("device");
+            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID);
             String deviceName = (String)deviceMap.get("name");
             String factoryId = (String)deviceMap.get("manufacture");
-            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);  
+            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);
             resList.get(i).put("deviceName",deviceName);
             resList.get(i).put("factory",factoyName);
         }
-               
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(resList);
 
         return dataTableModel;
-    }  
+    }
 
     public DataTableModel queryParameterAttrList(Map<String, String> dataTableMap)
-    {       
+    {
         DataTableModel dataTableModel = new DataTableModel();
 
         List<Map<String, Object>> resList;
@@ -574,7 +574,7 @@ public class StateServiceImple  implements StateService{
         String QueryType = dataTableMap.get("factory");
         String protocal = dataTableMap.get("protocal");
         int iProtocal = Integer.parseInt(protocal);
-        String userID = dataTableMap.get("userID");  
+        String userID = dataTableMap.get("userID");
         System.out.println("QueryType");
         System.out.println(QueryType);
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
@@ -596,10 +596,10 @@ public class StateServiceImple  implements StateService{
         dataTableModel.setAaData(resList);
 
         return dataTableModel;
-        
-        
-    }  
-    
+
+
+    }
+
     public DataTableModel queryCommunicateState(Map<String, String> dataTableMap)
     {
         DataTableModel dataTableModel = new DataTableModel();
@@ -611,7 +611,7 @@ public class StateServiceImple  implements StateService{
         Integer count;
         String sEcho = dataTableMap.get("sEcho");
         String QueryType = dataTableMap.get("factory");
-        
+
         String deviceIdTmp = dataTableMap.get("device_id");
         String device_name = "";
     	String device_id = "";
@@ -624,7 +624,7 @@ public class StateServiceImple  implements StateService{
         String CommState = dataTableMap.get("CommState");
         String CommLine = dataTableMap.get("CommLine");
         Integer iCommState = Integer.parseInt(CommState);
-        String userID = dataTableMap.get("userID");  
+        String userID = dataTableMap.get("userID");
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
         //首先获取设备列表
@@ -649,8 +649,8 @@ public class StateServiceImple  implements StateService{
                 deviceList = stateMapper.querydeviceList2(start,length,QueryType,device_name,device_id,CommLine,userID);
                 count = stateMapper.querdeviceListCount2(QueryType,device_name,device_id,CommLine,userID);
             }
-        } 
-        
+        }
+
         for (int i=0; i<deviceList.size();i++)
         {
             deviceMap = deviceList.get(i);
@@ -662,14 +662,14 @@ public class StateServiceImple  implements StateService{
             //String commTime = stateMapper.getCommTimeByDeviceId(deviceid);
             //deviceMap.put("commTime", commTime);
         }
-        
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(deviceList);
 
         return dataTableModel;
-    }  
+    }
 //    /**
 //     *	通信状态界面DataTable
 //     * @author yinyx
@@ -690,7 +690,7 @@ public class StateServiceImple  implements StateService{
 //        String CommState = dataTableMap.get("CommState");
 //        String commLine = dataTableMap.get("CommLine");
 //        Integer iCommState = Integer.parseInt(CommState);
-//        String userID = dataTableMap.get("userID");  
+//        String userID = dataTableMap.get("userID");
 //        int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
 //        int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
 //        //首先获取设备列表
@@ -703,8 +703,8 @@ public class StateServiceImple  implements StateService{
 //        {
 //                deviceList = stateMapper.querydeviceListNew(start,length,QueryType,device_id,commLine,iCommState,userID);
 //                count = stateMapper.querdeviceListCountNew(QueryType,device_id,commLine,iCommState,userID);
-//        } 
-//        
+//        }
+//
 //        for (int i=0; i<deviceList.size();i++)
 //        {
 //            deviceMap = deviceList.get(i);
@@ -715,7 +715,7 @@ public class StateServiceImple  implements StateService{
 //            String commTime = stateMapper.getCommTimeByDeviceId(deviceid);
 //            deviceMap.put("commTime", commTime);
 //        }
-//        
+//
 //        dataTableModel.setiTotalDisplayRecords(count);
 //        dataTableModel.setiTotalRecords(count);
 //        dataTableModel.setsEcho(Integer.valueOf(sEcho));
@@ -723,12 +723,12 @@ public class StateServiceImple  implements StateService{
 //
 //        return dataTableModel;
 //    }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     public DataTableModel querySelfCheckList(Map<String, String> dataTableMap)
     {
         DataTableModel dataTableModel = new DataTableModel();
@@ -753,10 +753,10 @@ public class StateServiceImple  implements StateService{
         String CommState = dataTableMap.get("CommState");
         String CommLine = dataTableMap.get("CommLine");
         Integer iCommState = Integer.parseInt(CommState);
-        String userID = dataTableMap.get("userID");  
+        String userID = dataTableMap.get("userID");
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
-        
+
         //首先获取设备列表
         if ((StringUtils.isEmpty(QueryType))&&(StringUtils.isEmpty(deviceIdTmp))&&(StringUtils.isEmpty(CommLine)))
         {
@@ -779,8 +779,8 @@ public class StateServiceImple  implements StateService{
                 deviceList = stateMapper.querydeviceList2(start,length,QueryType,device_name,device_id,CommLine,userID);
                 count = stateMapper.querdeviceListCount2(QueryType,device_name,device_id,CommLine,userID);
             }
-        } 
-        
+        }
+
         for (int i=0; i<deviceList.size();i++)
         {
             deviceMap = deviceList.get(i);
@@ -788,7 +788,7 @@ public class StateServiceImple  implements StateService{
             String factoryName = stateMapper.getFactoryNameByFactoryId(factoryid);
             deviceMap.put("factory", factoryName);
         }
-        
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
@@ -796,11 +796,11 @@ public class StateServiceImple  implements StateService{
 
         return dataTableModel;
     }
-    
+
     //queryParameterList
     //此处以设备为标准，不以参数为标准，因为第一次有可能参数还未获取
     public DataTableModel queryParameterList(Map<String, String> dataTableMap)
-    {       
+    {
         DataTableModel dataTableModel = new DataTableModel();
 
         List<Map<String, Object>> resList;
@@ -822,10 +822,10 @@ public class StateServiceImple  implements StateService{
         String CommState = dataTableMap.get("CommState");
         String CommLine = dataTableMap.get("CommLine");
         Integer iCommState = Integer.parseInt(CommState);
-        String userID = dataTableMap.get("userID");  
+        String userID = dataTableMap.get("userID");
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
-        
+
         //首先获取设备列表
         if ((StringUtils.isEmpty(QueryType))&&(StringUtils.isEmpty(deviceIdTmp))&&(StringUtils.isEmpty(CommLine)))
         {
@@ -848,8 +848,8 @@ public class StateServiceImple  implements StateService{
                 deviceList = stateMapper.querydeviceList2(start,length,QueryType,device_name,device_id,CommLine,userID);
                 count = stateMapper.querdeviceListCount2(QueryType,device_name,device_id,CommLine,userID);
             }
-        } 
-        
+        }
+
         resList = new LinkedList<>();
         //遍历设备列表，获取对应的参数
         for (int i=0; i<deviceList.size();i++)
@@ -908,26 +908,26 @@ public class StateServiceImple  implements StateService{
         {
             resList = stateMapper.queryParameterList(start,length,QueryType,userID);
             count = stateMapper.queryParameterListCount(QueryType,userID);
-        }      
-       
+        }
+
         for (int i = 0; i<resList.size(); i++)
-        {            
-            String deviceID = (String)resList.get(i).get("device");       
-            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID); 
+        {
+            String deviceID = (String)resList.get(i).get("device");
+            Map<String, Object> deviceMap = stateMapper.getDeviceInfoById(deviceID);
             String deviceName = (String)deviceMap.get("name");
             String factoryId = (String)deviceMap.get("manufacture");
-            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);  
+            String factoyName = stateMapper.getFactoryNameByFactoryId(factoryId);
             resList.get(i).put("device",deviceName);
             resList.get(i).put("factory",factoyName);
-            
-            
+
+
             //以下是要迁移到更多参数里面单独处理
             //---------------------------------------------------------------
             //blob
-            byte[] privateData = (byte[])resList.get(i).get("private_data"); 
+            byte[] privateData = (byte[])resList.get(i).get("private_data");
             int paramNum = (int)(resList.get(i).get("number"));
             Map<String, Object> privateparaMap = new HashMap<String, Object>();
-            
+
             for (int j = 0;j<paramNum; j++)
             {
                 ParamAttr paramAttr = paramAttrManage.getParamAttr(factoryId, j+11);
@@ -939,19 +939,19 @@ public class StateServiceImple  implements StateService{
                     privateparaMap.put(paraName, intpara);
                 }
             }
-            
+
             System.out.println(privateparaMap);
         }
            */
-               
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(resList);
 
         return dataTableModel;
-    }  
-    
+    }
+
     public Map<String, Object> checkFactoryLogin(String username, String password ,String factoryId)
     {
         Map<String, Object> rstMap = new HashMap<String, Object>();
@@ -969,9 +969,9 @@ public class StateServiceImple  implements StateService{
             rstMap.put("status", "fail");
             rstMap.put("msg", "厂家不存在");
         }
-        return rstMap;       
+        return rstMap;
     }
-    
+
     public void saveParamAttr(Map<String, Object> paramMap) {
         String towerId = (String) paramMap.get("recordId");
         if (StringUtils.isEmpty(towerId)) {
@@ -998,12 +998,12 @@ public class StateServiceImple  implements StateService{
             */
         }
     }
-    
+
     public String getDeviceLogNameById(String recordId)
     {
         return stateMapper.getDeviceLogNameById(recordId);
     }
-    
+
     //sendDownloadLogById
     public int sendDownloadLogById(String recordId, String userId)
     {
@@ -1011,7 +1011,7 @@ public class StateServiceImple  implements StateService{
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         int protocol_version = stateMapper.getProtocolVerByDeviceId(recordId);
         sender.downloadLog(uuid,userId,recordId,protocol_version);
-        int loopCount = 0; 
+        int loopCount = 0;
         while(loopCount<200)
         {
             try {
@@ -1021,7 +1021,7 @@ public class StateServiceImple  implements StateService{
                }catch(InterruptedException e){
                 e.printStackTrace();
                }
-            
+
             String tempuuid = UUID.randomUUID().toString().replaceAll("-", "");
             stateMapper.addReadParamOrder(tempuuid,1,"2","2");
             stateMapper.Commit();
@@ -1031,19 +1031,19 @@ public class StateServiceImple  implements StateService{
             Map<String, Object> stateMap = stateMapper.getStateByOrderid(uuid);
             if (stateMap != null)
             {
-                return (int)stateMap.get("state");   
+                return (int)stateMap.get("state");
             }
             loopCount++;
-        }    
+        }
         return -1;
     }
-    
+
     public int readSelfCheckById(String recordId, String userId)
     {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         int protocol_version = stateMapper.getProtocolVerByDeviceId(recordId);
         sender.readSelfCheckInfo(uuid,userId,recordId,protocol_version);
-        int loopCount = 0; 
+        int loopCount = 0;
         while(loopCount<10)
         {
             try {
@@ -1053,7 +1053,7 @@ public class StateServiceImple  implements StateService{
                }catch(InterruptedException e){
                 e.printStackTrace();
                }
-            
+
             String tempuuid = UUID.randomUUID().toString().replaceAll("-", "");
             stateMapper.addReadParamOrder(tempuuid,1,"2","2");
             stateMapper.Commit();
@@ -1063,20 +1063,20 @@ public class StateServiceImple  implements StateService{
             Map<String, Object> stateMap = stateMapper.getStateByOrderid(uuid);
             if (stateMap != null)
             {
-                return (int)stateMap.get("state");   
+                return (int)stateMap.get("state");
             }
             loopCount++;
-        }    
+        }
         return -1;
     }
-        
+
     public int addReadOrderByDeviceIdanduserId(String recordId, String userId)
     {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         //System.out.println(uuid);
         int protocol_version = stateMapper.getProtocolVerByDeviceId(recordId);
         sender.readDevParameter(uuid,userId,recordId,protocol_version);
-        int loopCount = 0; 
+        int loopCount = 0;
         while(loopCount<10)
         {
             try {
@@ -1086,7 +1086,7 @@ public class StateServiceImple  implements StateService{
                }catch(InterruptedException e){
                 e.printStackTrace();
                }
-            
+
             String tempuuid = UUID.randomUUID().toString().replaceAll("-", "");
             stateMapper.addReadParamOrder(tempuuid,1,"2","2");
             stateMapper.Commit();
@@ -1097,20 +1097,20 @@ public class StateServiceImple  implements StateService{
             Map<String, Object> stateMap = stateMapper.getStateByOrderid(uuid);
             if (stateMap != null)
             {
-                return (int)stateMap.get("state");   
+                return (int)stateMap.get("state");
             }
             loopCount++;
-        }    
+        }
         return -1;
     }
-    
+
     //addResetOrderByDeviceIdanduserId
     public int addResetOrderByDeviceIdanduserId(String recordId, String userId)
     {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         int protocol_version = stateMapper.getProtocolVerByDeviceId(recordId);
         sender.resetDevice(uuid,userId,recordId,protocol_version);
-        int loopCount = 0; 
+        int loopCount = 0;
         while(loopCount<20)
         {
             try {
@@ -1128,40 +1128,40 @@ public class StateServiceImple  implements StateService{
             Map<String, Object> stateMap = stateMapper.getStateByOrderid(uuid);
             if (stateMap != null)
             {
-                return (int)stateMap.get("state");   
+                return (int)stateMap.get("state");
             }
             loopCount++;
-        }    
+        }
         return -1;
     }
-    
+
     public int getAuhorityByUser(String userId)
     {
         return stateMapper.getAuhorityByUser(userId);
     }
-    
+
     public String getPasswordByDevice(String DeviceId)
     {
         return stateMapper.getPasswordByDevice(DeviceId);
     }
-    
+
     public String getFactoryByDevice(String DeviceId)
     {
         return stateMapper.getFactoryByDevice(DeviceId);
     }
-    
+
     public int getProtocalByDevice(String DeviceId)
     {
         return stateMapper.getProtocolVerByDeviceId(DeviceId);
     }
-    
+
     //addSetOrderByDeviceIdanduserId
     public int addSetOrderByDeviceIdanduserId(String recordId, String userId, String content,int []IndexLst,int []TypeLst,String[]ValueLst)
     {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         int protocol_version = stateMapper.getProtocolVerByDeviceId(recordId);
         sender.setDevParameter(uuid, userId,recordId, IndexLst,TypeLst,ValueLst,protocol_version);
-        int loopCount = 0; 
+        int loopCount = 0;
         while(loopCount<10)
         {
             try {
@@ -1179,17 +1179,17 @@ public class StateServiceImple  implements StateService{
             Map<String, Object> stateMap = stateMapper.getStateByOrderid(uuid);
             if (stateMap != null)
             {
-                return (int)stateMap.get("state");   
+                return (int)stateMap.get("state");
             }
             loopCount++;
-        }    
+        }
         return -1;
     }
-    
+
     public Map<String, Object> getParamAttrById(String userId) {
         return stateMapper.getParamAttrById(userId);
     }
-    
+
     //getParamById
     public Map<String, Object> getParamById(String userId) {
         Map<String, Object> ParamMap = stateMapper.getParamById(userId);//此处可能为空，需处理
@@ -1217,7 +1217,7 @@ public class StateServiceImple  implements StateService{
                     privateparaMap.put(paraName, floatpara);
                 }
             }
-            
+
           //再解析私有数据
             byte[] privateData = (byte[])ParamMap.get("private_data");
             int paramsize = privateData.length/6;
@@ -1226,19 +1226,19 @@ public class StateServiceImple  implements StateService{
 
                 int pos1 = n*6;
                 int nParaNum = privateData[pos1]*256+privateData[pos1+1];//index
-                
+
                 int pos2 = n*6+2;
-                Map<String, Object> paramAttrMap = stateMapper.getParamAttr(factoryId1,protocal1, nParaNum); 
+                Map<String, Object> paramAttrMap = stateMapper.getParamAttr(factoryId1,protocal1, nParaNum);
                 String paramName = (String)paramAttrMap.get("name");
-                
+
                 //intэ
                 if((boolean)(paramAttrMap.get("type"))){
                 int nValue = getInt(privateData,pos2);//getFloat(tmpData,pos2);
                 privateparaMap.put(paramName, nValue);
                 }else{
                 float fValue = getFloat(privateData,pos2);//getFloat(tmpData,pos2);
-                privateparaMap.put(paramName, fValue);                
-                }   
+                privateparaMap.put(paramName, fValue);
+                }
             }
             return privateparaMap;
         }
@@ -1267,32 +1267,32 @@ public class StateServiceImple  implements StateService{
             return privateparaMap;
         }
     }
-    
+
     //getcommonParamById
     public Map<String, Object> getcommonParamById(String userId) {
         Map<String, Object> ParamMap = stateMapper.getParamById(userId);//此处可能为空，需处理
         	int re_work_status_time = (int) ParamMap.get("work_status_time");
-        	
+
         	int s_hour =re_work_status_time/(256*256);
         	int s_minute = (re_work_status_time - s_hour*(256*256))/256;
         	int s_second = (re_work_status_time - s_hour*(256*256) - s_minute*256);
     	String mix_work_status_time = String.format("%02d",s_hour)+":"+String.format("%02d",s_minute)+":"+String.format("%02d",s_second);
     	ParamMap.put("work_status_time", mix_work_status_time);
-        
+
 	        int re_wave_current_time = (int) ParamMap.get("wave_current_time");
 	      	int c_hour = re_wave_current_time/(256*256);
 	      	int c_minute = (re_wave_current_time - c_hour*(256*256))/256;
 	      	int c_second = (re_wave_current_time - c_hour*(256*256) - c_minute*256);
       	String mix_wave_current_time = String.format("%02d",c_hour)+":"+String.format("%02d",c_minute)+":"+String.format("%02d",c_second);
       	ParamMap.put("wave_current_time", mix_wave_current_time);
-        
+
 	        int re_pf_current_time = (int) ParamMap.get("pf_current_time");
-	      	int p_hour =re_pf_current_time/(256*256);	
+	      	int p_hour =re_pf_current_time/(256*256);
 	      	int p_minute = (re_pf_current_time - p_hour*(256*256))/256;
 	      	int p_second = (re_pf_current_time - p_hour*(256*256) - p_minute*256);
       	String mix_pf_current_time = String.format("%02d",p_hour)+":"+String.format("%02d",p_minute)+":"+String.format("%02d", p_second);
-        ParamMap.put("pf_current_time", mix_wave_current_time);
-          
+        ParamMap.put("pf_current_time", mix_pf_current_time);
+
         if (ParamMap == null)
         {
             ParamMap = new HashMap<String, Object>();
@@ -1307,10 +1307,10 @@ public class StateServiceImple  implements StateService{
             ParamMap.put("work_status_time",0);
             ParamMap.put("work_data_collection_interval",0);
         }
-        
+
         return ParamMap;
     }
-    
+
     //getParamNameById
     public List<String> getParamNameById(String regulatorId)
     {
@@ -1320,7 +1320,7 @@ public class StateServiceImple  implements StateService{
         List<String> ParamNameList = stateMapper.getParamNameListByfactoryId(factoryId, protocol_version);
         return ParamNameList;
     }
-    
+
     public boolean deleteParamAttrById(String regulatorId)
     {
         /*
@@ -1336,11 +1336,11 @@ public class StateServiceImple  implements StateService{
         stateMapper.deleteParamAttrById(regulatorId);
         return true;
     }
-  
+
     public void setDealAlarmById(String userId) {
         stateMapper.setDealAlarmById(userId);
     }
-    
+
     public Map<String, Object> queryWavePwd(Map<String, Object> paramMap)
     {
         String userId = (String)paramMap.get("userId");
@@ -1357,7 +1357,7 @@ public class StateServiceImple  implements StateService{
             }
         return rstMap;
     }
-    
+
     public List<Map<String, Object>> getParamInfoListByfactoryId(String factoryId,int protocal)
     {
         return stateMapper.getParamInfoListByfactoryId(factoryId, protocal);
