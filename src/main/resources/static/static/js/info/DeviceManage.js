@@ -7,17 +7,17 @@ function initRegulatorTable() {
 		"sAjaxSource" : "info/queryDeviceList", 
 		"bLengthChange":false,//取消显示每页条数
 		// 服务器回调函数 
-		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
+		"fnServerData": function retrieveData(sSource, aoData, fnCallback)
 		{
-			aoData.push({ "name": "QueryType", "value": $("#cronID").val()}); 
-			aoData.push({ "name": "QueryType1", "value": $("#cronFactory1").val()}); 
+			aoData.push({ "name": "QueryType", "value": $("#cronID").val()});
+			aoData.push({ "name": "QueryType1", "value": $("#cronFactory1").val()});
 			$.ajax({
 				type: "POST",
 				url: sSource,
 				contentType: "application/json; charset=utf-8",
 			    data: JSON.stringify(aoData),
-				success: function(data) 
-				{	
+				success: function(data)
+				{
 					if(data.status == "success")
 					{
 						fnCallback(data.infoData);
@@ -32,42 +32,42 @@ function initRegulatorTable() {
 			});
 		},
 		// 列属性
-		"columns" : [	 {	
+		"columns" : [	 {
 			 "title" : "所属厂家",  
 			 "defaultContent" : "", 
 			 "data" :"factoryName",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "所属线路",  
 			 "defaultContent" : "", 
 			 "data" :"lineName",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "安装序号",  
 			 "defaultContent" : "", 
 			 "data" :"indexno",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "装置标识",  
 			 "defaultContent" : "", 
 			 "data" :"name",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }  
-		,	 {	
+		 }
+		,	 {
 			 "title" : "杆塔名称",  
 			 "defaultContent" : "", 
 			 "data" :"towerName",
 			 "width": "10%",
 			 "class" : "text-center",    
-		 } 	
-		,	 {	
+		 }
+		,	 {
 			 "title" : "相别",  
 			 "defaultContent" : "", 
 			 "data" :"ied_phase",
@@ -89,8 +89,8 @@ function initRegulatorTable() {
 					}
 		            return content;
 		      }    
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "协议类型",  
 			 "defaultContent" : "", 
 			 "data" :"protocol_version",
@@ -103,8 +103,8 @@ function initRegulatorTable() {
 		            }
 		            return content;
 		      }   
-		 }   		 
-		,{	
+		 }
+		,{
 			 "title" : "操作",  
 			 "defaultContent" : "", 
 			 "data" :null,
@@ -139,27 +139,27 @@ function moreInfo(recordId){
                var usersData = data.usersData;
                console.log(usersData)
 			   $("#BigWaveRange_m").attr("disabled", true);
-			   $("#BigWaveRange_m").val(usersData.BigWaveRange);	
+			   $("#BigWaveRange_m").val(usersData.maxCoefficient);
 			   $("#SmallWaveRange_m").attr("disabled", true);
-			   $("#SmallWaveRange_m").val(usersData.SmallWaveRange);	
+			   $("#SmallWaveRange_m").val(usersData.minCoefficient);
 			   $("#zero_drift_comps_small_m").attr("disabled", true);
-			   $("#zero_drift_comps_small_m").val(usersData.zero_drift_comps_small);	
+			   $("#zero_drift_comps_small_m").val(usersData.zero_drift_comps_small);
 			   $("#FrequencyFactor_m").attr("disabled", true);
-			   $("#FrequencyFactor_m").val(usersData.FrequencyFactor);	
+			   $("#FrequencyFactor_m").val(usersData.PowerFrequencyCoefficient);
 			   $("#freSampleTime_m").attr("disabled", true);
 			   $("#freSampleTime_m").val(usersData.freSampleTime);
 			   $("#freSampleFre_m").attr("disabled", true);
-			   $("#freSampleFre_m").val(usersData.freSampleFre);	
+			   $("#freSampleFre_m").val(usersData.freSampleFre);
 			   $("#waveSampleTime_m").attr("disabled", true);
-			   $("#waveSampleTime_m").val(usersData.waveSampleTime);	
+			   $("#waveSampleTime_m").val(usersData.waveSampleTime);
 			   $("#waveSampleFre_m").attr("disabled", true);
-			   $("#waveSampleFre_m").val(usersData.waveSampleFre);	
+			   $("#waveSampleFre_m").val(usersData.waveSampleFre);
 			   $("#fpgaRatio_m").attr("disabled", true);
-			   $("#fpgaRatio_m").val(usersData.fpgaRatio);	
+			   $("#fpgaRatio_m").val(usersData.fpgaRatio);
 			   $("#device_time_m").attr("disabled", true);
-			   $("#device_time_m").val(usersData.device_time);	
+			   $("#device_time_m").val(usersData.device_time);
 			   $("#antenna_sta_m").attr("disabled", true);
-			   //$("#antenna_sta_m").val(usersData.antenna_sta);	
+			   //$("#antenna_sta_m").val(usersData.antenna_sta);
 			   if (1==usersData.antenna_sta)
 			   {
 				   $("#antenna_sta_m").val("OK");
@@ -189,17 +189,17 @@ function moreInfo(recordId){
 			   else
 			   {
 				   $("#gps_valid_m").val("未收到对时报文");
-			   }			   
+			   }
 			   $("#last_sync_time_m").attr("disabled", true);
-			   $("#last_sync_time_m").val(usersData.last_sync_time);	
+			   $("#last_sync_time_m").val(usersData.last_sync_time);
 			   $("#work_voltage_m").attr("disabled", true);
-			   $("#work_voltage_m").val(usersData.work_voltage);	
+			   $("#work_voltage_m").val(usersData.work_voltage);
 			   $("#work_temperature_m").attr("disabled", true);
-			   $("#work_temperature_m").val(usersData.work_temperature);	
+			   $("#work_temperature_m").val(usersData.work_temperature);
 			   $("#pf_current_valid_m").attr("disabled", true);
-			   $("#pf_current_valid_m").val(usersData.pf_current_valid);	
+			   $("#pf_current_valid_m").val(usersData.pf_current_valid);
 			   $("#battery_status_m").attr("disabled", true);
-			   //$("#battery_status_m").val(usersData.battery_status);	
+			   //$("#battery_status_m").val(usersData.battery_status);
 			   if (1==usersData.battery_status)
 			   {
 				   $("#battery_status_m").val("电池供电");
@@ -213,40 +213,40 @@ function moreInfo(recordId){
 				   $("#battery_status_m").val("感应电源供电");
 			   }
 			   $("#battery_vol_m").attr("disabled", true);
-			   $("#battery_vol_m").val(usersData.battery_vol);	
+			   $("#battery_vol_m").val(usersData.battery_vol);
 			   $("#battery_current_m").attr("disabled", true);
-			   $("#battery_current_m").val(usersData.battery_current);	
+			   $("#battery_current_m").val(usersData.battery_current);
 			   $("#battery_temperature_m").attr("disabled", true);
-			   $("#battery_temperature_m").val(usersData.battery_temperature);	
+			   $("#battery_temperature_m").val(usersData.battery_temperature);
 			   $("#battery_soc_m").attr("disabled", true);
-			   $("#battery_soc_m").val(usersData.battery_soc);	
+			   $("#battery_soc_m").val(usersData.battery_soc);
 			   $("#battery_bj_m").attr("disabled", true);
-			   $("#battery_bj_m").val(usersData.battery_bj);	
+			   $("#battery_bj_m").val(usersData.battery_bj);
 			   $("#ad_ctflyback_v_m").attr("disabled", true);
-			   $("#ad_ctflyback_v_m").val(usersData.ad_ctflyback_v);	
+			   $("#ad_ctflyback_v_m").val(usersData.ad_ctflyback_v);
 			   $("#ad_dcdcbus_v_m").attr("disabled", true);
-			   $("#ad_dcdcbus_v_m").val(usersData.ad_dcdcbus_v);	
+			   $("#ad_dcdcbus_v_m").val(usersData.ad_dcdcbus_v);
 			   $("#AD_BAT1_V_m").attr("disabled", true);
-			   $("#AD_BAT1_V_m").val(usersData.AD_BAT1_V);	
+			   $("#AD_BAT1_V_m").val(usersData.AD_BAT1_V);
 			   $("#AD_BAT1_I_m").attr("disabled", true);
-			   $("#AD_BAT1_I_m").val(usersData.AD_BAT1_I);	
+			   $("#AD_BAT1_I_m").val(usersData.AD_BAT1_I);
 			   $("#AD_BAT2_V_m").attr("disabled", true);
-			   $("#AD_BAT2_V_m").val(usersData.AD_BAT2_V);	
+			   $("#AD_BAT2_V_m").val(usersData.AD_BAT2_V);
 			   $("#AD_BAT2_I_m").attr("disabled", true);
-			   $("#AD_BAT2_I_m").val(usersData.AD_BAT2_I);	
+			   $("#AD_BAT2_I_m").val(usersData.AD_BAT2_I);
 			   $("#AD_USB_V_m").attr("disabled", true);
-			   $("#AD_USB_V_m").val(usersData.AD_USB_V);					   
+			   $("#AD_USB_V_m").val(usersData.AD_USB_V);
                $('#MoreInfoModal').modal('show');
                stopPageLoading()
 		   } else {
 			   stopPageLoading()
 			   showSuccessOrErrorModal("获取更多装置信息失败","error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("获取更多装置信息请求出错了","error"); 
+		   showSuccessOrErrorModal("获取更多装置信息请求出错了","error");
 		}
 	});
 }
@@ -282,7 +282,7 @@ function showEditModal(recordId){
 				       ops2[i].selected = true;
 				       break;
 				    }
-				} 
+				}
 				var s = document.getElementById("cronLine");
 				var ops = s.options;
 				for(var i=0;i<ops.length; i++){
@@ -292,7 +292,7 @@ function showEditModal(recordId){
 				       ops[i].selected = true;
 				       break;
 				    }
-				} 
+				}
 				initTower();
 				var s1 = document.getElementById("cronTower");
 				var ops1 = s1.options;
@@ -313,7 +313,7 @@ function showEditModal(recordId){
 				       ops3[i].selected = true;
 				       break;
 				    }
-				} 
+				}
 				var s4 = document.getElementById("cronPhase");
 				var ops4 = s4.options;
 				for(var i=0;i<ops4.length; i++){
@@ -323,19 +323,19 @@ function showEditModal(recordId){
 				       ops4[i].selected = true;
 				       break;
 				    }
-				} 				
+				}
                $("#InstallIndex_m").val(usersData.indexno);
-			   $("#phase_m").val(usersData.ied_phase);	
+			   $("#phase_m").val(usersData.ied_phase);
                $("#IedType_m").val(usersData.ied_type);
-			   $("#version_m").val(usersData.version);	
+			   $("#version_m").val(usersData.version);
                $("#ManuDate_m").val(usersData.manu_date);
-			   $("#InstallTime_m").val(usersData.install_time);	
+			   $("#InstallTime_m").val(usersData.install_time);
                $("#longitude_m").val(usersData.longitude);
-			   $("#latitude_m").val(usersData.latitude);		
+			   $("#latitude_m").val(usersData.latitude);
                $("#altitude_m").val(usersData.altitude);
-			   //$("#FrequencyFactor_m").val(usersData.PowerFrequencyCoefficient);	
+			   //$("#FrequencyFactor_m").val(usersData.PowerFrequencyCoefficient);
                //$("#BigWaveRange_m").val(usersData.maxCoefficient);
-			   //$("#SmallWaveRange_m").val(usersData.minCoefficient);	
+			   //$("#SmallWaveRange_m").val(usersData.minCoefficient);
 			   //$("#zero_drift_comps_small_m").val(usersData.zero_drift_comps_small);
                $('#deviceModal_add').modal('show');
                stopPageLoading()
@@ -343,17 +343,17 @@ function showEditModal(recordId){
 			   stopPageLoading()
 			   showSuccessOrErrorModal("获取装置信息失败","error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 }
 
 function queryLog() {//条件查询同步日志
-	regulatorTable.ajax.reload();  
+	regulatorTable.ajax.reload();
 }
 
 //新增监管单位按钮
@@ -382,13 +382,13 @@ function initParent(){
 				}
 		        $("#cronID").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询线路列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询线路列表请求出错了","error");
 		}
-	});	
+	});
 }
 
 function initParent1(){
@@ -408,13 +408,13 @@ function initParent1(){
 				}
 		        $("#cronLine").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询线路列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询线路列表请求出错了","error");
 		}
-	});	
+	});
 }
 
 $("select#cronLine").change(function(){
@@ -445,13 +445,13 @@ function initTower(){
 				}
 		        $("#cronTower").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询线路上的杆塔列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询线路上的杆塔列表请求出错了","error");
 		}
-	});	
+	});
 }
 
 function initFactory(){
@@ -470,13 +470,13 @@ function initFactory(){
 				}
 		        $("#cronFactory").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询厂家列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询厂家列表请求出错了","error");
 		}
-	});	
+	});
 }
 
 function initFactory1(){
@@ -496,13 +496,13 @@ function initFactory1(){
 				}
 		        $("#cronFactory1").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询厂家列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询厂家列表请求出错了","error");
 		}
-	});	
+	});
 }
 
 //删除用户
@@ -516,19 +516,19 @@ function deleteSchoolUser(userId){
 			success:function(data) {
 				data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 			    if(data.status=="success") {
-			        showSuccessOrErrorModal(data.msg,"success"); 
+			        showSuccessOrErrorModal(data.msg,"success");
 			        regulatorTable.draw(); //刷新表格
 			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
+			        showSuccessOrErrorModal(data.msg,"error");
+			    }
 			},
 			error:function(e) {
 				console.error(e)
-			    showSuccessOrErrorModal("请求出错了2","error"); 
+			    showSuccessOrErrorModal("请求出错了2","error");
 			}
 		});
 	});
-	
+
 }
 
 function exportDevice()
@@ -550,19 +550,19 @@ function exportDevice()
 		success:function(data) {
 			data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 		    if(data.status=="success") {
-		    	//showSuccessOrErrorModal(data.msg,"success"); 
+		    	//showSuccessOrErrorModal(data.msg,"success");
 				//var urlName = "http://"+serverip+":8080/faultdetect-01/state/downloadLogById?file_name="+FileName+"&pathname="+PathName;
 				var urlName = "http://localhost:8082/sys/export";
 				console.log(urlName)
 				window.open(urlName);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求导出设备信息出错了","error"); 
+		    showSuccessOrErrorModal("请求导出设备信息出错了","error");
 		}
-	});	
+	});
 }
 
 function sync()
@@ -575,19 +575,19 @@ function sync()
 		success:function(data) {
 			data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 		    if(data.status=="success") {
-		    	showSuccessOrErrorModal(data.msg,"success"); 
+		    	showSuccessOrErrorModal(data.msg,"success");
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求出错了","error"); 
+		    showSuccessOrErrorModal("请求出错了","error");
 		}
-	});		
+	});
 }
 
 function showTime(){
-	var newDateObj = new Date(); 
+	var newDateObj = new Date();
 	var year = newDateObj.getFullYear();
 	var month = newDateObj.getMonth()+1;
 	if(month==13)
@@ -603,12 +603,12 @@ function showTime(){
 	var showTime = year+"/"+month+"/"+day+" "+arr[week]+" "+hour+((minute<10)?":0":":")
 	               +minute+((second<10)?":0":":")+second+((hour>12)?" 下午":" 上午");
 	showTime = '<font color=red size=4>'+showTime+'</font>';
-	
+
 	var data = {"userId":userId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	}
-	
+
 	$.ajax({
 		url:"info/queryMarqueeInfo",
 		type:"post",
@@ -632,13 +632,13 @@ function showTime(){
 	            var str=/*showTime + */showDevice;
 	            $("#marqueeTitle").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    //showSuccessOrErrorModal("滚动栏请求出错了","error"); 
+		    //showSuccessOrErrorModal("滚动栏请求出错了","error");
 		}
-	});		
+	});
 }
 
 $(document).ready(function(){
@@ -675,15 +675,15 @@ $(document).ready(function(){
 			dataType:"json",
 			success:function(data) {
 			    if(data.status=="success") {
-			    	showSuccessOrErrorModal(data.msg,"success"); 
+			    	showSuccessOrErrorModal(data.msg,"success");
 			    	regulatorTable.draw();
 			    	$("#deviceModal_add").modal("hide");
 			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
+			        showSuccessOrErrorModal(data.msg,"error");
+			    }
 			},
 			error:function(e) {
-			    showSuccessOrErrorModal("请求出错了3","error"); 
+			    showSuccessOrErrorModal("请求出错了3","error");
 			}
 		});
 	}, {
@@ -705,52 +705,52 @@ $(document).ready(function(){
 			return true;
 		}
 	});
-	
+
 	$("#InstallIndex_m").on('change blur',function(e){
 				var self = this;
 				if(isNaN(self.value)||(self.value.indexOf('.')!=-1)||(parseInt(self.value)<=0))
 	            {
-					     $(self).testRemind("此处应填写正整数!"); 
+					     $(self).testRemind("此处应填写正整数!");
 		 		         $(self).focus();
 				}
 	});
-	
+
 /* 	$("#FrequencyFactor_m").on('change blur',function(e){
 				var self = this;
 				if(isNaN(self.value)||(parseFloat(self.value)<=0))
 	            {
-					     $(self).testRemind("此处应填写非负数!"); 
+					     $(self).testRemind("此处应填写非负数!");
 		 		         $(self).focus();
 				}
 	});
-	
+
 	$("#BigWaveRange_m").on('change blur',function(e){
 				var self = this;
 				if(isNaN(self.value)||(parseFloat(self.value)<=0))
 	            {
-					     $(self).testRemind("此处应填写非负数!"); 
+					     $(self).testRemind("此处应填写非负数!");
 		 		         $(self).focus();
 				}
 	});
-	
+
 	$("#SmallWaveRange_m").on('change blur',function(e){
 				var self = this;
 				if(isNaN(self.value)||(parseFloat(self.value)<=0))
 	            {
-					     $(self).testRemind("此处应填写非负数!"); 
+					     $(self).testRemind("此处应填写非负数!");
 		 		         $(self).focus();
 				}
 	});
-	
+
 	$("#zero_drift_comps_small_m").on('change blur',function(e){
 				var self = this;
 				if(isNaN(self.value)||(parseFloat(self.value)<=0))
 	            {
-					     $(self).testRemind("此处应填写非负数!"); 
+					     $(self).testRemind("此处应填写非负数!");
 		 		         $(self).focus();
 				}
 	}); */
-	
+
 	$("#editWavePwd").html5Validate(function() {
 		var password_old = $("#password_wave").val();
 		var password_new = $("#password_wave_new").val();
@@ -790,7 +790,7 @@ $(document).ready(function(){
 			return true;
 		}
 	});
-	
+
 });
 
 

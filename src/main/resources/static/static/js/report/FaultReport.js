@@ -8,7 +8,7 @@ function whichRadioValueChecked(selector){
     var rtn = "";
     selector.each(function(){
     	if($(this).prop("checked")){
-			
+
     		rtn = $(this).attr("value");
             return rtn;
     	}
@@ -17,7 +17,7 @@ function whichRadioValueChecked(selector){
 }
 
 //selector = $('input[type="radio"]');
-var selectValue; 
+var selectValue;
 
 function initTimeSelect(){
     $("#StartTime").datetimepicker({
@@ -43,23 +43,23 @@ function initRegulatorTable() {
 		"sAjaxSource" : "fault/queryFaultList", 
 		"bLengthChange":false,//取消显示每页条数
 		// 服务器回调函数 
-		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
+		"fnServerData": function retrieveData(sSource, aoData, fnCallback)
 		{
-			aoData.push({ "name": "Regulator",    "value": $("#cronRegulator").val()}); 
-			aoData.push({ "name": "VoltageLevel", "value": $("#cronVoltageLevel").val()}); 
-			aoData.push({ "name": "line",    "value": $("#cronLine").val()}); 
-			aoData.push({ "name": "Kind",    "value": $("#cronKind").val()}); 
-			aoData.push({ "name": "StartTime", "value": $("#StartTime").val()}); 
+			aoData.push({ "name": "Regulator",    "value": $("#cronRegulator").val()});
+			aoData.push({ "name": "VoltageLevel", "value": $("#cronVoltageLevel").val()});
+			aoData.push({ "name": "line",    "value": $("#cronLine").val()});
+			aoData.push({ "name": "Kind",    "value": $("#cronKind").val()});
+			aoData.push({ "name": "StartTime", "value": $("#StartTime").val()});
 			aoData.push({ "name": "EndTime", "value": $("#EndTime").val()});
-			aoData.push({ "name": "deal",    "value": $("#cronDeal").val()}); 
+			aoData.push({ "name": "deal",    "value": $("#cronDeal").val()});
 			aoData.push({ "name": "userID",  "value": userId});
 			$.ajax({
 				type: "POST",
 				url: sSource,
 				contentType: "application/json; charset=utf-8",
 			    data: JSON.stringify(aoData),
-				success: function(data) 
-				{	
+				success: function(data)
+				{
 					if(data.status == "success")
 					{
 						fnCallback(data.infoData);
@@ -74,35 +74,35 @@ function initRegulatorTable() {
 			});
 		},
 		// 列属性
-		"columns" : [	 {	
+		"columns" : [	 {
 			 "title" : "故障编号",  
 			 "defaultContent" : "", 
 			 "data" :"fault_num",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }    
-		,	 {	
+		 }
+		,	 {
 			 "title" : "所属线路",  
 			 "defaultContent" : "", 
 			 "data" :"lineName",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "故障时间",  
 			 "defaultContent" : "", 
 			 "data" :"occurr_time",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }  
-		,	 {	
+		 }
+		,	 {
 			 "title" : "持续时间（S）",  
 			 "defaultContent" : "", 
 			 "data" :"duration",
 			 "width": "10%",
 			 "class" : "text-center",    
-		 } 	
-		,	 {	
+		 }
+		,	 {
 			 "title" : "相别",  
 			 "defaultContent" : "", 
 			 "data" :"phase",
@@ -128,13 +128,16 @@ function initRegulatorTable() {
 					else if(data == 6){
 						content = "AC";
 					}
+                    else if(data == 7){
+                        content = "ABC";
+                    }
 					else{
 						content = "异常";
 					}
 		            return content;
 		      }  
-		 }  
-		,	 {	
+		 }
+		,	 {
 			 "title" : "是否雷击",  
 			 "defaultContent" : "", 
 			 "data" :"isLightning",
@@ -150,8 +153,8 @@ function initRegulatorTable() {
 					}
 		            return content;
 		      }   
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "雷击性质",  
 			 "defaultContent" : "", 
 			 "data" :"lightning_strike",
@@ -173,22 +176,22 @@ function initRegulatorTable() {
 					}
 		            return content;
 		      }     
-		 } 	
-/* 		,	 {	
+		 }
+/* 		,	 {
 			 "title" : "是否跳闸",  
 			 "defaultContent" : "", 
 			 "data" :"isTrip",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }  */ 
-		,	 {	
+		 }  */
+		,	 {
 			 "title" : "故障描述",  
 			 "defaultContent" : "", 
 			 "data" :"desc",
 			 "width": "10%",
 			 "class" : "text-center",    
-		 } 	
-		,	 {	
+		 }
+		,	 {
 			 "title" : "是否处理",  
 			 "defaultContent" : "", 
 			 "data" :"isRead",
@@ -207,8 +210,8 @@ function initRegulatorTable() {
 					}
 		            return content;
 		      } 
-		 } 		 
-		,{	
+		 }
+		,{
 			 "title" : "操作",  
 			 "defaultContent" : "", 
 			 "data" :null,
@@ -240,18 +243,18 @@ function deal(recordId){
 		success:function(data) {
 		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 		   if(data.status=="success") {
-			   showSuccessOrErrorModal(data.msg,"success"); 
+			   showSuccessOrErrorModal(data.msg,"success");
 			   regulatorTable11.draw();
                stopPageLoading()
 		   } else {
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 }
@@ -276,19 +279,19 @@ function showEditModal1(recordId){
                $("#recordId").val(recordId);
 			   $("#left_tower_m").val(usersData.leftTowerName);
 			   $("#left_distance_m").val(usersData.left_distance);
-               $("#right_tower_m").val(usersData.rightTowerName);	
-               $("#right_distance_m").val(usersData.right_distance);				   
+               $("#right_tower_m").val(usersData.rightTowerName);
+               $("#right_distance_m").val(usersData.right_distance);
                $('#regulatorModal_add').modal('show');
                stopPageLoading()
 		   } else {
 			   stopPageLoading()
 			   showSuccessOrErrorModal("获取故障信息失败","error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 }
@@ -411,19 +414,19 @@ function showEditModal(recordId){
 			} else {
 				showSuccessOrErrorModal(data.msg, "error");
 			}
-			
+
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求出错了12","error"); 
+		    showSuccessOrErrorModal("请求出错了12","error");
 		}
 		});
 }
 
 function queryLog() {//条件查询同步日志
 	selector = $('input[type="radio"]');
-    //selectValue = whichRadioValueChecked(selector); 
+    //selectValue = whichRadioValueChecked(selector);
 	//alert(selectValue)
-	regulatorTable11.ajax.reload();  
+	regulatorTable11.ajax.reload();
 }
 
 function initParent(){
@@ -451,13 +454,13 @@ function initParent(){
 				}
 		        $("#cronLine").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求出错了12121","error"); 
+		    showSuccessOrErrorModal("请求出错了12121","error");
 		}
-	});	
+	});
 }
 
 function initFactory(){
@@ -477,13 +480,13 @@ function initFactory(){
 				}
 		        $("#cronFactory").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询厂家列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询厂家列表请求出错了","error");
 		}
-	});	
+	});
 }
 
 function initRegulator(){
@@ -504,18 +507,18 @@ function initRegulator(){
 				}
 		        $("#cronRegulator").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询监管单位列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询监管单位列表请求出错了","error");
 		}
-	});	
+	});
 }
 
 /* function test(){
-	selectValue = whichRadioValueChecked(selector); 
-	regulatorTable11.ajax.reload();  
+	selectValue = whichRadioValueChecked(selector);
+	regulatorTable11.ajax.reload();
 }
 
 function initTimer(){
@@ -523,7 +526,7 @@ function initTimer(){
 } */
 
 function showTime(){
-	var newDateObj = new Date(); 
+	var newDateObj = new Date();
 	var year = newDateObj.getFullYear();
 	var month = newDateObj.getMonth()+1;
 	if(month==13)
@@ -539,12 +542,12 @@ function showTime(){
 	var showTime = year+"/"+month+"/"+day+" "+arr[week]+" "+hour+((minute<10)?":0":":")
 	               +minute+((second<10)?":0":":")+second+((hour>12)?" 下午":" 上午");
 	showTime = '<font color=red size=4>'+showTime+'</font>';
-	
+
 	var data = {"userId":userId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	}
-	
+
 	$.ajax({
 		url:"info/queryMarqueeInfo",
 		type:"post",
@@ -568,13 +571,13 @@ function showTime(){
 	            var str=/*showTime + */showDevice;
 	            $("#marqueeTitle").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    //showSuccessOrErrorModal("滚动栏请求出错了","error"); 
+		    //showSuccessOrErrorModal("滚动栏请求出错了","error");
 		}
-	});		
+	});
 }
 
 
@@ -607,7 +610,7 @@ $("select#cronRegulator").change(function(){
 			    else
 				{
 					str+='<option value="">---所有线路---</option>';
-		            for (var int = 0; int < regulatorList.length; int++) 
+		            for (var int = 0; int < regulatorList.length; int++)
 					{
 					     str+= '<option value="'+regulatorList[int].id+'">'+regulatorList[int].name+'</option>';
 				    }
@@ -615,11 +618,11 @@ $("select#cronRegulator").change(function(){
 
 		        $("#cronLine").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求出错了12121","error"); 
+		    showSuccessOrErrorModal("请求出错了12121","error");
 		}
 	});
 });
@@ -650,18 +653,18 @@ $("select#cronVoltageLevel").change(function(){
 			    else
 				{
 					str+='<option value="">---所有线路---</option>';
-		            for (var int = 0; int < regulatorList.length; int++) 
+		            for (var int = 0; int < regulatorList.length; int++)
 					{
 					     str+= '<option value="'+regulatorList[int].id+'">'+regulatorList[int].name+'</option>';
 				    }
 				}
 		        $("#cronLine").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求出错了12121","error"); 
+		    showSuccessOrErrorModal("请求出错了12121","error");
 		}
 	});
 });
@@ -696,15 +699,15 @@ $(document).ready(function(){
 			dataType:"json",
 			success:function(data) {
 			    if(data.status=="success") {
-			    	showSuccessOrErrorModal(data.msg,"success"); 
+			    	showSuccessOrErrorModal(data.msg,"success");
 			    	regulatorTable11.draw();
 			    	$("#regulatorModal_add").modal("hide");
 			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
+			        showSuccessOrErrorModal(data.msg,"error");
+			    }
 			},
 			error:function(e) {
-			    showSuccessOrErrorModal("请求出错了3","error"); 
+			    showSuccessOrErrorModal("请求出错了3","error");
 			}
 		});
 	});

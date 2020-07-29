@@ -4,7 +4,7 @@ var userId = 0;
 var regulatorList = {};
 
 function queryLog() {//条件查询同步日志
-	regulatorTable.ajax.reload();  
+	regulatorTable.ajax.reload();
 }
 
 function initRegulatorTable() {
@@ -17,7 +17,7 @@ function initRegulatorTable() {
 		"scrollCollapse":true,
 		"pageLength" : 50,
 		// 服务器回调函数 
-		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
+		"fnServerData": function retrieveData(sSource, aoData, fnCallback)
 		{
 			aoData.push({ "name": "userID",  "value": userId});
 			$.ajax({
@@ -25,8 +25,8 @@ function initRegulatorTable() {
 				url: sSource,
 				contentType: "application/json; charset=utf-8",
 			    data: JSON.stringify(aoData),
-				success: function(data) 
-				{	
+				success: function(data)
+				{
 					if(data.status == "success")
 					{
 						fnCallback(data.infoData);
@@ -41,21 +41,21 @@ function initRegulatorTable() {
 			});
 		},
 		// 列属性
-		"columns" : [	 {	
+		"columns" : [	 {
 			 "title" : "线路名称",  
 			 "defaultContent" : "", 
 			 "data" :"LineName",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "线路长度",  
 			 "defaultContent" : "", 
 			 "data" :"LineLength",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }     				 
-		,{	
+		 }
+		,{
 			 "title" : "操作",  
 			 "defaultContent" : "", 
 			 "data" :null,
@@ -95,17 +95,17 @@ function initParent(){
 				}
 		        $("#cronLine").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求出错了12121","error"); 
+		    showSuccessOrErrorModal("请求出错了12121","error");
 		}
-	});	
+	});
 }
 
 function showTime(){
-	var newDateObj = new Date(); 
+	var newDateObj = new Date();
 	var year = newDateObj.getFullYear();
 	var month = newDateObj.getMonth()+1;
 	if(month==13)
@@ -121,12 +121,12 @@ function showTime(){
 	var showTime = year+"/"+month+"/"+day+" "+arr[week]+" "+hour+((minute<10)?":0":":")
 	               +minute+((second<10)?":0":":")+second+((hour>12)?" 下午":" 上午");
 	showTime = '<font color=red size=4>'+showTime+'</font>';
-	
+
 	var data = {"userId":userId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	}
-	
+
 	$.ajax({
 		url:"info/queryMarqueeInfo",
 		type:"post",
@@ -150,13 +150,13 @@ function showTime(){
 	            var str=/*showTime + */showDevice ;
 	            $("#marqueeTitle").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    //showSuccessOrErrorModal("滚动栏请求出错了","error"); 
+		    //showSuccessOrErrorModal("滚动栏请求出错了","error");
 		}
-	});		
+	});
 }
 
 $(document).ready(function(){
@@ -194,11 +194,11 @@ function initDeviceList()
 		    if(data.status=="success") {
 		        regulatorList = data.dataList;
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询GIS页面设备列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询GIS页面设备列表请求出错了","error");
 		}
 	});
 }
@@ -222,11 +222,11 @@ function editJob(id)
 		        regulatorList = data.dataList;
 		        if (null==regulatorList)
 	        	{
-	        	   showSuccessOrErrorModal("请补齐该线路上所有杆塔的经纬度！","warning");	
+	        	   showSuccessOrErrorModal("请补齐该线路上所有杆塔的经纬度！","warning");
 	        	}
 				console.log(regulatorList)
 				for (var int = 0; int < regulatorList.length; int++) {
-					
+
 					if (regulatorList[int].endflag=="true")
 					{
 						var point1 = new BMap.Point(regulatorList[int].longitude, regulatorList[int].latitude);
@@ -238,7 +238,12 @@ function editJob(id)
 					   {
 		                   var point1 = new BMap.Point(regulatorList[int].longitude, regulatorList[int].latitude);
 		                   var point2 = new BMap.Point(regulatorList[int+1].longitude, regulatorList[int+1].latitude);
-                           addMarkerWithFault(point1,point2, regulatorList[int].name, regulatorList[int].FaultDesc, regulatorList[int].LeftDistance, regulatorList[int].RightDistance);
+                           addMarkerWithFault(point1,point2
+						                     , regulatorList[int].name, regulatorList[int].FaultDesc
+											 , regulatorList[int].LeftDistance, regulatorList[int].RightDistance
+											 , regulatorList[int].occurr_time, regulatorList[int].RightTowerName
+											 , regulatorList[int].LeftStationName, regulatorList[int].left_station_distance
+											 , regulatorList[int].RightStationName, regulatorList[int].right_station_distance);
 					    }
 					    else
 					    {
@@ -263,14 +268,14 @@ function editJob(id)
 	                 }
 	            }
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询GIS页面杆塔列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询GIS页面杆塔列表请求出错了","error");
 		}
 	});
-} 
+}
 
 function addEndMaker(point1,towername){
 		var myIcon = new BMap.Icon("images/电线杆(6).png", new BMap.Size(32,32));
@@ -284,22 +289,26 @@ function addEndMaker(point1,towername){
 }
 
 //标注函数
-function addMarkerWithFault(point1, point2,towername, name, left_distance, right_distance) {
+function addMarkerWithFault(point1, point2,towername, name, left_distance, right_distance, occurr_time, RightTowerName
+                            , LeftStationName, left_station_distance, RightStationName, right_station_distance) {
 	    var myIcon = new BMap.Icon("images/电线杆(6).png", new BMap.Size(32,32));
         var leftMarker = new BMap.Marker(point1,{icon:myIcon});
 		var rightMarker = new BMap.Marker(point2,{icon:myIcon});
         map.addOverlay(leftMarker);
-        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"red", strokeWeight:2, strokeOpacity:0.5}); 
+        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"red", strokeWeight:2, strokeOpacity:0.5});
         map.addOverlay(polyline);   //地图上渲染
-        var messageinfo = "故障描述：" + name+"\n";
-	        messageinfo += "左杆塔坐标：" + point1.lng + ",   " + point1.lat+"\n";
-            messageinfo += "右杆塔坐标：" + point2.lng + ",   " + point2.lat+"\n";
-			messageinfo += "距左杆塔距离：" + left_distance+"  KM"+"\n";
-			messageinfo += "距右杆塔距离：" + right_distance+"  KM";
+        var messageinfo = "故障时间：" + occurr_time+"\n";
+            messageinfo += "故障描述：" + name+"\n";
+	        //messageinfo += "左杆塔坐标：" + point1.lng + ",   " + point1.lat+"\n";
+            //messageinfo += "右杆塔坐标：" + point2.lng + ",   " + point2.lat+"\n";
+			messageinfo += "距"+towername+"距离：" + left_distance+"  KM"+"\n";
+			messageinfo += "距"+RightTowerName+"距离：" + right_distance+"  KM"+"\n";
+			messageinfo += "距"+LeftStationName+"距离：" + left_station_distance+"  KM"+"\n";
+			messageinfo += "距"+RightStationName+"距离：" + right_station_distance+"  KM";
 		polyline.addEventListener("click", function () {
 			showSuccessOrErrorModal(messageinfo, "info");
         });
-		
+
 		var messageinfoOfTower = "杆塔名称：" + towername+"\n";
 	        messageinfoOfTower += "杆塔坐标：" + point1.lng + ",   " + point1.lat;
 		leftMarker.addEventListener("click", function () {
@@ -312,7 +321,7 @@ function addMarkerWithoutFault(point1, point2,towername) {
         var leftMarker = new BMap.Marker(point1,{icon:myIcon});
 		var rightMarker = new BMap.Marker(point2,{icon:myIcon});
         map.addOverlay(leftMarker);
-        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"black", strokeWeight:2, strokeOpacity:0.5}); 
+        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"black", strokeWeight:2, strokeOpacity:0.5});
         map.addOverlay(polyline);   //地图上渲染
 		var messageinfoOfTower = "杆塔名称：" + towername+"\n";
 	        messageinfoOfTower += "杆塔坐标：" + point1.lng + ",   " + point1.lat;
@@ -326,8 +335,8 @@ function hideJob(id)
  	var allOverlay = map.getOverlays();
     for (var i = 0; i < allOverlay.length; i++){
 			allOverlay[i].hide();
-    } 
-} 
+    }
+}
 
 function showAll()
 {
@@ -337,18 +346,18 @@ function showAll()
 			if (0==i)
 			{
 					var p = allOverlay[i].getPosition();       //获取marker的位置
-					map.panTo(p); 
+					map.panTo(p);
 			}
-    } 
-} 
+    }
+}
 
 function hideAll()
 {
  	var allOverlay = map.getOverlays();
     for (var i = 0; i < allOverlay.length; i++){
 			allOverlay[i].hide();
-    } 
-} 
+    }
+}
 
     //标注函数
     function addMarker(point, id, name) {
@@ -374,7 +383,7 @@ function hideAll()
 function queryMap(){
  //百度地图API功能
     map.centerAndZoom(new BMap.Point(110.08139, 37.477501), 13);	//初始化地图,设置中心点坐标和地图级别
-	
+
 	map.enableScrollWheelZoom(true);						//开启鼠标滚轮缩放
     map.addControl(new BMap.NavigationControl());			//缩放按钮
 

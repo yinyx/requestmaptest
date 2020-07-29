@@ -16,7 +16,7 @@ var sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
 var icons = new BMap.IconSequence(sy, '10', '30');
 
 function queryLog() {//条件查询同步日志
-	regulatorTable.ajax.reload();  
+	regulatorTable.ajax.reload();
 }
 
 function initTimeSelect(){
@@ -46,11 +46,11 @@ function initRegulatorTable() {
 		"scrollCollapse":true,
 		"pageLength" : 50,
 		// 服务器回调函数 
-		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
+		"fnServerData": function retrieveData(sSource, aoData, fnCallback)
 		{
-			aoData.push({ "name": "line",    "value": $("#cronLine").val()}); 
-			aoData.push({ "name": "deal",    "value": ""}); 
-			aoData.push({ "name": "StartTime", "value": $("#StartTime").val()}); 
+			aoData.push({ "name": "line",    "value": $("#cronLine").val()});
+			aoData.push({ "name": "deal",    "value": ""});
+			aoData.push({ "name": "StartTime", "value": $("#StartTime").val()});
 			aoData.push({ "name": "EndTime", "value": $("#EndTime").val()});
 			aoData.push({ "name": "userID",  "value": userId});
 			$.ajax({
@@ -58,8 +58,8 @@ function initRegulatorTable() {
 				url: sSource,
 				contentType: "application/json; charset=utf-8",
 			    data: JSON.stringify(aoData),
-				success: function(data) 
-				{	
+				success: function(data)
+				{
 					if(data.status == "success")
 					{
 						fnCallback(data.infoData);
@@ -74,28 +74,41 @@ function initRegulatorTable() {
 			});
 		},
 		// 列属性
-		"columns" : [	 {	
+		"columns" : [	 {
 			 "title" : "故障时间",  
 			 "defaultContent" : "", 
 			 "data" :"occurr_time",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "所属线路",  
 			 "defaultContent" : "", 
 			 "data" :"lineName",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }  
-		,	 {	
+		 }
+		,	 {
 			 "title" : "故障描述",  
 			 "defaultContent" : "", 
-			 "data" :"desc",
+			 "data" :"type",
 			 "width": "10%",
-			 "class" : "text-center"  
-		 }  	 
-		,{	
+			 "class" : "text-center",
+			 "render": function(data, type, row, meta) {
+		            var content ="数据异常";
+		            if(data == -1){
+		            	content = "判定失败";
+		            }
+					else if((data == 2)||(data == 3)){
+		            	content = "雷击";
+		            }
+					else if(data == 4){
+		            	content = "非雷击";
+		            }
+		            return content;
+		      }   
+		 }
+		,{
 			 "title" : "操作",  
 			 "defaultContent" : "", 
 			 "data" :null,
@@ -127,25 +140,25 @@ function initParent(){
 		success:function(data) {
 			data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 		    if(data.status=="success") {
-		    	var regulatorList = data.dataList;
+		    	var regulatorList1 = data.dataList;
 		    	var str = "";
 				str+='<option value="">---所有线路---</option>';
-		        for (var int = 0; int < regulatorList.length; int++) {
-					str+= '<option value="'+regulatorList[int].id+'">'+regulatorList[int].name+'</option>';
+		        for (var int = 0; int < regulatorList1.length; int++) {
+					str+= '<option value="'+regulatorList1[int].id+'">'+regulatorList1[int].name+'</option>';
 				}
 		        $("#cronLine").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求出错了12121","error"); 
+		    showSuccessOrErrorModal("请求出错了12121","error");
 		}
-	});	
+	});
 }
 
 function showTime(){
-	var newDateObj = new Date(); 
+	var newDateObj = new Date();
 	var year = newDateObj.getFullYear();
 	var month = newDateObj.getMonth()+1;
 	if(month==13)
@@ -161,12 +174,12 @@ function showTime(){
 	var showTime = year+"/"+month+"/"+day+" "+arr[week]+" "+hour+((minute<10)?":0":":")
 	               +minute+((second<10)?":0":":")+second+((hour>12)?" 下午":" 上午");
 	showTime = '<font color=red size=4>'+showTime+'</font>';
-	
+
 	var data = {"userId":userId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	}
-	
+
 	$.ajax({
 		url:"info/queryMarqueeInfo",
 		type:"post",
@@ -190,16 +203,16 @@ function showTime(){
 	            var str=/*showTime + */showDevice;
 	            $("#marqueeTitle").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    //showSuccessOrErrorModal("滚动栏请求出错了","error"); 
+		    //showSuccessOrErrorModal("滚动栏请求出错了","error");
 		}
-	});		
+	});
 }
 
-$(document).ready(function(){	
+$(document).ready(function(){
 			//判断是否登录
 	userMap = isLogined();
 	if(userMap){//成功登录
@@ -236,11 +249,11 @@ function initFaultList()
 		        regulatorList = data.dataList;
 				console.log(regulatorList)
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询GIS页面故障列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询GIS页面故障列表请求出错了","error");
 		}
 	});
 }
@@ -278,15 +291,16 @@ function editJob(id)
 		var rightMarker = new BMap.Marker(point2,{icon:myIcon});
         map.addOverlay(leftMarker);
 		map.addOverlay(rightMarker);
-        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5}); 
+        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});
         map.addOverlay(polyline);   //地图上渲染
 		//var PointList =	polyline.getPath();
 		//			console.log(PointList)
-        var messageinfo = "故障描述：" + regulatorList[int].desc+"\n";
-	        messageinfo += "左杆塔坐标：" + point1.lng + ",   " + point1.lat+"\n";
-            messageinfo += "右杆塔坐标：" + point2.lng + ",   " + point2.lat+"\n";
-			messageinfo += "距左杆塔距离：" + regulatorList[int].left_distance+"  KM"+"\n";
-			messageinfo += "距右杆塔距离：" + regulatorList[int].right_distance+"  KM";
+        var messageinfo = "故障时间：" + regulatorList[int].occurr_time+"\n";
+            messageinfo += "故障描述："+ regulatorList[int].LineName +"-"+ regulatorList[int].FaultDesc+"\n";
+            messageinfo += "距"+regulatorList[int].leftTowerName+"距离：" + regulatorList[int].left_distance+"  KM"+"\n";
+            messageinfo += "距"+regulatorList[int].rightTowerName+"距离：" + regulatorList[int].right_distance+"  KM"+"\n";
+            messageinfo += "距"+regulatorList[int].LeftStationName+"距离：" + regulatorList[int].left_station_distance+"  KM"+"\n";
+            messageinfo += "距"+regulatorList[int].RightStationName+"距离：" + regulatorList[int].right_station_distance+"  KM";
 		polyline.addEventListener("click", function () {
 			showSuccessOrErrorModal(messageinfo, "info");
         });
@@ -298,7 +312,7 @@ function editJob(id)
 		return;
 		}
 	}
-} 
+}
 
 function hideJob(id)
 {
@@ -314,7 +328,7 @@ function hideJob(id)
 		var point1 = new BMap.Point(regulatorList[int].leftLongitude, regulatorList[int].leftLatitude);
 		var point2 = new BMap.Point(regulatorList[int].rightLongitude, regulatorList[int].rightLatitude);
 		//addMarker(point1,point2, regulatorList[int].desc);
-        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"yellow", strokeWeight:2, strokeOpacity:0.5}); 
+        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"yellow", strokeWeight:2, strokeOpacity:0.5});
         map.addOverlay(polyline);   //地图上渲染
         var messageinfo = "故障描述：" + regulatorList[int].desc+"\n";
 	        messageinfo += "左杆塔坐标：" + point1.lng + ",   " + point1.lat+"\n";
@@ -327,12 +341,12 @@ function hideJob(id)
 		}
 	}
 	*/
-	
-	
+
+
 /* 	var leftLongitude;
 	var leftLatitude;
 	var rightLongitude;
-	var rightLatitude;	
+	var rightLatitude;
 	for (var int = 0; int < regulatorList.length; int++) {
 		if (id == regulatorList[int].id)
 		{
@@ -354,7 +368,7 @@ function hideJob(id)
 		PointList =	Polyline1.getPath();
 		console.log(PointList)
     }  */
-} 
+}
 
 function showAll()
 {
@@ -362,21 +376,21 @@ function showAll()
 		var point1 = new BMap.Point(regulatorList[int].leftLongitude, regulatorList[int].leftLatitude);
 		var point2 = new BMap.Point(regulatorList[int].rightLongitude, regulatorList[int].rightLatitude);
         addMarker(point1,point2, regulatorList[int].desc, regulatorList[int].left_distance, regulatorList[int].right_distance);
-		
+
 		if(0==int)
 		{
 			map.panTo(point1);
 		}
 	}
-} 
+}
 
 function hideAll()
 {
  	var allOverlay = map.getOverlays();
     for (var i = 0; i < allOverlay.length; i++){
 			allOverlay[i].hide();
-    } 
-} 
+    }
+}
 
     //标注函数
     function addMarker(point1, point2, name, left_distance, right_distance) {
@@ -385,13 +399,14 @@ function hideAll()
 		var rightMarker = new BMap.Marker(point2,{icon:myIcon});
         map.addOverlay(leftMarker);
 		map.addOverlay(rightMarker);
-        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"red", strokeWeight:2, strokeOpacity:0.5}); 
+        var polyline = new BMap.Polyline([point1,point2], {strokeColor:"red", strokeWeight:2, strokeOpacity:0.5});
         map.addOverlay(polyline);   //地图上渲染
-        var messageinfo = "故障描述：" + name+"\n";
-	        messageinfo += "左杆塔坐标：" + point1.lng + ",   " + point1.lat+"\n";
-            messageinfo += "右杆塔坐标：" + point2.lng + ",   " + point2.lat+"\n";
-			messageinfo += "距左杆塔距离：" + left_distance+"  KM"+"\n";
-			messageinfo += "距右杆塔距离：" + right_distance+"  KM";
+        var messageinfo = "故障时间：" + regulatorList[int].occurr_time+"\n";
+		    messageinfo += "故障描述："+ regulatorList[int].LineName +"-"+ regulatorList[int].FaultDesc+"\n";
+            messageinfo += "距"+regulatorList[int].leftTowerName+"距离：" + regulatorList[int].left_distance+"  KM"+"\n";
+            messageinfo += "距"+regulatorList[int].rightTowerName+"距离：" + regulatorList[int].right_distance+"  KM"+"\n";
+            messageinfo += "距"+regulatorList[int].LeftStationName+"距离：" + regulatorList[int].left_station_distance+"  KM"+"\n";
+            messageinfo += "距"+regulatorList[int].RightStationName+"距离：" + regulatorList[int].right_station_distance+"  KM";
 		polyline.addEventListener("click", function () {
 			showSuccessOrErrorModal(messageinfo, "info");
         });
@@ -401,8 +416,8 @@ function hideAll()
 function queryMap(){
  //百度地图API功能
     map.centerAndZoom(new BMap.Point(109.436848,37.527379), 10);	//初始化地图,设置中心点坐标和地图级别
-	
+
 	map.enableScrollWheelZoom(true);						//开启鼠标滚轮缩放
     map.addControl(new BMap.NavigationControl());			//缩放按钮
-    showAll();
+    //showAll();
 }
