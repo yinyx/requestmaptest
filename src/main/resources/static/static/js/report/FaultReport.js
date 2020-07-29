@@ -74,14 +74,7 @@ function initRegulatorTable() {
 			});
 		},
 		// 列属性
-		"columns" : [	 {
-			 "title" : "故障编号",  
-			 "defaultContent" : "", 
-			 "data" :"fault_num",
-			 "width": "10%",
-			 "class" : "text-center"  
-		 }
-		,	 {
+		"columns" : [{
 			 "title" : "所属线路",  
 			 "defaultContent" : "", 
 			 "data" :"lineName",
@@ -94,13 +87,6 @@ function initRegulatorTable() {
 			 "data" :"occurr_time",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }
-		,	 {
-			 "title" : "持续时间（S）",  
-			 "defaultContent" : "", 
-			 "data" :"duration",
-			 "width": "10%",
-			 "class" : "text-center",    
 		 }
 		,	 {
 			 "title" : "相别",  
@@ -144,38 +130,18 @@ function initRegulatorTable() {
 			 "width": "10%",
 			 "class" : "text-center",  
 			 "render": function(data, type, row, meta) {
-		            var content ="";
-		            if(data == 0){
-		            	content = "非雷击";
-		            }
-					else{
-						content = "雷击";
-					}
-		            return content;
+                 var content ="数据异常";
+                 if(data == -1){
+                     content = "判定失败";
+                 }
+                 else if((data == 2)||(data == 3)){
+                     content = "雷击";
+                 }
+                 else if(data == 4){
+                     content = "非雷击";
+                 }
+                 return content;
 		      }   
-		 }
-		,	 {
-			 "title" : "雷击性质",  
-			 "defaultContent" : "", 
-			 "data" :"lightning_strike",
-			 "width": "10%",
-			 "class" : "text-center", 
-			 "render": function(data, type, row, meta) {
-		            var content ="";
-		            if(data == 0){
-		            	content = "非雷击";
-		            }
-					else if(data == 1){
-						content = "直击";
-					}
-					else if(data == 2){
-						content = "绕击";
-					}
-					else if(data == 3){
-						content = "反击";
-					}
-		            return content;
-		      }     
 		 }
 /* 		,	 {
 			 "title" : "是否跳闸",  
@@ -184,13 +150,6 @@ function initRegulatorTable() {
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }  */
-		,	 {
-			 "title" : "故障描述",  
-			 "defaultContent" : "", 
-			 "data" :"desc",
-			 "width": "10%",
-			 "class" : "text-center",    
-		 }
 		,	 {
 			 "title" : "是否处理",  
 			 "defaultContent" : "", 
@@ -281,6 +240,10 @@ function showEditModal1(recordId){
 			   $("#left_distance_m").val(usersData.left_distance);
                $("#right_tower_m").val(usersData.rightTowerName);
                $("#right_distance_m").val(usersData.right_distance);
+			   $("#left_station_m").val(usersData.leftStationName);
+			   $("#left_station_distance_m").val(usersData.left_station_distance);
+               $("#right_station_m").val(usersData.rightStationName);
+               $("#right_station_distance_m").val(usersData.right_station_distance);
                $('#regulatorModal_add').modal('show');
                stopPageLoading()
 		   } else {

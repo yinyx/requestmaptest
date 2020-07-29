@@ -49,37 +49,38 @@ public class SysController {
     // 注入用户Service
     @Resource
     private UserService userService;
-    
+
     @Resource
     private InfoService infoService;
-    
+
     @ApiOperation("同步线路，杆塔信息")
     @RequestMapping(value="/syncProcess",method=RequestMethod.POST)
-    public String  syncProcess(){ 
+    public String  syncProcess(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         try {
             //String cmd = "F:\\fr\\pubSub\\pubSub.exe";
-            
+
             String cmd = TestProperties.getProperties_1("path.properties","syncpath");
             System.out.println(cmd);
             final Process p = Runtime.getRuntime().exec(cmd);
 
            // final Process p = Runtime.getRuntime().exec("fg3pf batch C:/tomcat/webapps/FaceGen/img/batch.csv f");
-           
+
             try{
                 BufferedInputStream br = new BufferedInputStream(p.getInputStream());
                 BufferedOutputStream br1 = new BufferedOutputStream(p.getOutputStream());
                 int ch;
                 StringBuffer text = new StringBuffer("获得的信息是: \n");
- 
+
                 while ((ch = br.read()) != -1) {
                     text.append((char) ch);
                 }
                 int   retval   =   p.waitFor();
- 
+
                 System.out.println(text+br1.toString());
                 System.out.println(retval);
-                if (1 == retval)
+                String  ret= br1.toString();
+                if (ret.contains("kill"))
                 {
                     resultMap.put("status", "success");
                     resultMap.put("msg", "同步数据成功!");
@@ -89,13 +90,13 @@ public class SysController {
                     resultMap.put("status", "error");
                     resultMap.put("msg", "同步数据失败!");
                 }
-           
+
             } catch (IOException e) {
                 e.printStackTrace();
             } finally{
                 System.out.print(p.exitValue());
-            }            
-               
+            }
+
         } catch (Exception e) {
             resultMap.put("status", "error");
             resultMap.put("msg", "同步数据失败!");
@@ -104,31 +105,31 @@ public class SysController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("同步终端信息")
     @RequestMapping(value="/syncDeviceProcess",method=RequestMethod.POST)
-    public String  syncDeviceProcess(){ 
+    public String  syncDeviceProcess(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         try {
             //String cmd = "F:\\fr\\pubSub\\pubSub.exe";
-            
+
             String cmd = TestProperties.getProperties_1("path.properties","jobpath");
             System.out.println(cmd);
             final Process p = Runtime.getRuntime().exec(cmd);
 
            // final Process p = Runtime.getRuntime().exec("fg3pf batch C:/tomcat/webapps/FaceGen/img/batch.csv f");
-           
+
             try{
                 BufferedInputStream br = new BufferedInputStream(p.getInputStream());
                 BufferedOutputStream br1 = new BufferedOutputStream(p.getOutputStream());
                 int ch;
                 StringBuffer text = new StringBuffer("获得的信息是: \n");
- 
+
                 while ((ch = br.read()) != -1) {
                     text.append((char) ch);
                 }
                 int   retval   =   p.waitFor();
- 
+
                 System.out.println(text+br1.toString());
                 System.out.println(retval);
                 if (1 == retval)
@@ -141,13 +142,13 @@ public class SysController {
                     resultMap.put("status", "error");
                     resultMap.put("msg", "同步异构数据失败!");
                 }
-           
+
             } catch (IOException e) {
                 e.printStackTrace();
             } finally{
                 System.out.print(p.exitValue());
-            }            
-               
+            }
+
         } catch (Exception e) {
             resultMap.put("status", "error");
             resultMap.put("msg", "同步数据失败!");
@@ -156,16 +157,16 @@ public class SysController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
- 
+
     @ApiOperation("同步终端信息1，暂时未用")
     @RequestMapping(value="/syncDeviceProcess1",method=RequestMethod.POST)
-    public String  syncDeviceProcess1(){ 
+    public String  syncDeviceProcess1(){
         System.out.println("job run successfully!1");
         Map<String, Object> resultMap=new HashMap<String,Object>();
         System.out.println("job run successfully!2");
         try {
             //String cmd = "F:\\fr\\pubSub\\pubSub.exe";
-            
+
             String jobPath = TestProperties.getProperties_1("path.properties","jobpath");
             System.out.println("job run successfully!3");
             try {
@@ -189,8 +190,8 @@ public class SysController {
                 }
             } catch (KettleException e) {
                 e.printStackTrace();
-            }         
-               
+            }
+
         } catch (Exception e) {
             resultMap.put("status", "error");
             resultMap.put("msg", "同步数据失败!");
@@ -199,13 +200,13 @@ public class SysController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("获取线路列表信息")
     @RequestMapping(value="/queryLine",method=RequestMethod.POST)
-    public String  queryLine(){ 
+    public String  queryLine(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         try {
-            List<Line> LineList= this.userService.queryLine();  
+            List<Line> LineList= this.userService.queryLine();
             resultMap.put("status", "success");
             resultMap.put("dataList",LineList);
         } catch (Exception e) {
@@ -238,13 +239,13 @@ public class SysController {
         return enResult;
     }
 
-    
+
     @ApiOperation("获取用户列表信息")
     @RequestMapping(value="/UserList",method=RequestMethod.POST)
-    public String  queryUsers(){ 
+    public String  queryUsers(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         try {
-            List<Map<String, Object>> UserList= this.userService.queryUserList();  
+            List<Map<String, Object>> UserList= this.userService.queryUserList();
             System.out.println("UserList");
             System.out.println(UserList);
             resultMap.put("status", "success");
@@ -256,11 +257,11 @@ public class SysController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    }    
-    
+    }
+
     @ApiOperation("获取用户信息")
     @RequestMapping(value="/queryUsersList",method=RequestMethod.POST)
-    public Object  queryUsersList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryUsersList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -282,7 +283,7 @@ public class SysController {
     @ApiOperation("获取日志列表信息")
     @RequestMapping(value="/queryLogDList",method=RequestMethod.POST)
     public Object  queryLogDList(/*HttpServletRequest request,HttpServletResponse response,*/
-            @RequestBody DataTableParam[] dataTableParams){ 
+            @RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -299,8 +300,8 @@ public class SysController {
                 System.out.println("resultMap");
         System.out.println(resultMap);
         return resultMap;
-    }    
-   
+    }
+
 
     @ApiOperation("获取波形文件信息")
     @RequestMapping(value="/queryWaveData",method=RequestMethod.POST)
@@ -310,13 +311,13 @@ public class SysController {
         Map<String, Object> resultMap=new HashMap<String,Object>();
         String recordId = (String) paramObj.get("recordId");
         Map<String, Object> usersData = new HashMap<String, Object>();
-       
+
         usersData = userService.getWaveById(recordId);
         String fileName = (String) usersData.get("path");
         String deviceId = (String) usersData.get("device");
         int si =  (int) paramObj.get("si");
         int ei =  (int) paramObj.get("ei");
-           
+
         String cfgDoublePath = "";
         String datDoublePath = "";
         String cfgPath = TestProperties.getProperties_1("path.properties","cfgpath");
@@ -335,18 +336,18 @@ public class SysController {
         try {
          // 获取cfg content params
            // Date date0=new Date();
-            //System.out.println("现在的时间是0："+date0.toString()); 
+            //System.out.println("现在的时间是0："+date0.toString());
             Map<String, String> mapNr = NrUtil.getInstace().ReadCFGAndGetParams(cfgDoublePath);
             // 获取Shex content
-            
+
             //Date date00=new Date();
-            //System.out.println("现在的时间是00："+date00.toString()); 
-            
+            //System.out.println("现在的时间是00："+date00.toString());
+
             String hexContent = NrUtil.getInstace().readDatFile(datDoublePath);
-            
+
             //Date date01=new Date();
-            //System.out.println("现在的时间是01："+date01.toString()); 
-            
+            //System.out.println("现在的时间是01："+date01.toString());
+
             if(hexContent==null){
                 resultMap.put("status", "error");
                 resultMap.put("msg", datDoublePath+"\n该录波文件不存在");
@@ -354,10 +355,10 @@ public class SysController {
             }else{
                 //List<Object> list = NrUtil.getInstace().datH2D(Integer.parseInt(mapNr.get("TT_channelNum")), hexContent,  Float.parseFloat(mapNr.get("a1")), Float.parseFloat(mapNr.get("b1")));
                 //Date date=new Date(); //这个地方需要导包，如上说是：①
-                //System.out.println("现在的时间是："+date.toString()); 
+                //System.out.println("现在的时间是："+date.toString());
                 List<Object> list = NrUtil.getInstace().getDatByI(Integer.parseInt(mapNr.get("TT_channelNum")), hexContent,  Float.parseFloat(mapNr.get("a1")), Float.parseFloat(mapNr.get("b1")),si,ei);
                 //Date date1=new Date(); //这个地方需要导包，如上说是：①
-                //System.out.println("现在的时间是："+date1.toString()); 
+                //System.out.println("现在的时间是："+date1.toString());
                 if(list==null){
                     resultMap.put("status", "error");
                     resultMap.put("msg",datDoublePath+"\n读取录波文件失败\n录播文件为单通道");
@@ -378,9 +379,9 @@ public class SysController {
                   //  }
 
                 }
-                
+
             }
-            
+
         } catch (Exception e) {
             resultMap.put("status", "error");
             resultMap.put("msg", "查看录波文件失败");
@@ -389,7 +390,7 @@ public class SysController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("获取故障信息")
     @RequestMapping(value="/queryFaultData",method=RequestMethod.POST)
     @ResponseBody
@@ -398,12 +399,12 @@ public class SysController {
         Map<String, Object> resultMap=new HashMap<String,Object>();
         String recordId = (String) paramObj.get("recordId");
         Map<String, Object> usersData = new HashMap<String, Object>();
-       
+
         usersData = userService.getFaultById(recordId);
         String fileName = (String) usersData.get("path");
         int si =  (int) paramObj.get("si");
         int ei =  (int) paramObj.get("ei");
-           
+
         String cfgDoublePath = "";
         String datDoublePath = "";
         String cfgPath = TestProperties.getProperties_1("path.properties","cfgpath");
@@ -436,9 +437,9 @@ public class SysController {
                     resultMap.put("data",mapNr);
                     resultMap.put("dataList",list);
                 }
-                
+
             }
-            
+
         } catch (Exception e) {
             resultMap.put("status", "error");
             resultMap.put("msg", "查看录波文件失败");
@@ -447,10 +448,10 @@ public class SysController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("查询用户名称是否重复")
     @RequestMapping(value="/queryUserNameIsRepeat",method=RequestMethod.POST)
-    public Object  queryUserNameIsRepeat(HttpServletRequest request,HttpServletResponse response){ 
+    public Object  queryUserNameIsRepeat(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         String userName = request.getParameter("userName");
         boolean flag = false;
@@ -464,7 +465,7 @@ public class SysController {
         }
         return resultMap;
     }
-    
+
     @ApiOperation("保存用户信息")
     @RequestMapping(value="/saveSchoolUser",method=RequestMethod.POST)
     @ResponseBody
@@ -477,10 +478,10 @@ public class SysController {
         //平台类型
         paramMap.put("userId", request.getParameter("userId"));
         paramMap.put("userName", request.getParameter("realName"));
-        paramMap.put("phone", request.getParameter("userName"));     
-        paramMap.put("role", request.getParameter("role"));   
-        paramMap.put("status", request.getParameter("states")); 
-        paramMap.put("authority", request.getParameter("authority")); 
+        paramMap.put("phone", request.getParameter("userName"));
+        paramMap.put("role", request.getParameter("role"));
+        paramMap.put("status", request.getParameter("states"));
+        paramMap.put("authority", request.getParameter("authority"));
         paramMap.put("lineslist",lineslist);
         paramMap.put("loginUser",request.getParameter("loginUser"));
         try {
@@ -493,7 +494,7 @@ public class SysController {
         }
         return resultMap;
     }
-    
+
     @ApiOperation("在服务器上生成DEVICE信息的Excel文件")
     @RequestMapping(value="/createDeviceExcel",method=RequestMethod.POST)
     @ResponseBody
@@ -510,24 +511,24 @@ public class SysController {
             {
                 Map<String, Object> devMap = resList.get(i);
                 Device dev=new Device();
-                //dev.setState1("11111"); 
+                //dev.setState1("11111");
                 //dev.setCname("12344");
-                Integer comm_state = (Integer)devMap.get("comm_state"); 
+                Integer comm_state = (Integer)devMap.get("comm_state");
                 if(comm_state == 0){
-                  dev.setCname("在线"); 
-                  } 
-                else if(comm_state == 1){ 
-                    dev.setCname("离线"); 
+                  dev.setCname("在线");
+                  }
+                else if(comm_state == 1){
+                    dev.setCname("离线");
                     }
-                  else{ 
+                  else{
                       dev.setCname("未知");
-                 } 
+                 }
                 String lineNameString = (String)devMap.get("lineName");
                 dev.setLine(lineNameString);
                 String factoryNameString = (String)devMap.get("factoryName");
                 dev.setFactory(factoryNameString);
                 Integer indexnoInteger = (Integer)devMap.get("indexno");
-                dev.setIndexno(indexnoInteger); 
+                dev.setIndexno(indexnoInteger);
                 String deviceNameString = (String)devMap.get("name");
                 dev.setDeviceName(deviceNameString);
                 String towerNameString = (String)devMap.get("towerName");
@@ -547,10 +548,10 @@ public class SysController {
                 }
                 Integer protocol_version = (Integer)devMap.get("protocol_version");
                 if(protocol_version == 0){
-                    dev.setProtocolType("2018版"); 
+                    dev.setProtocolType("2018版");
                 }
                 else if(protocol_version == 1){
-                    dev.setProtocolType("2019版"); 
+                    dev.setProtocolType("2019版");
                 }
                 else{
                     dev.setProtocolType("未知");
@@ -572,8 +573,8 @@ public class SysController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @ApiOperation("根据ID获取某条用户信息")
     @RequestMapping(value="/getUserById",method=RequestMethod.POST)
     @ResponseBody
@@ -597,8 +598,8 @@ public class SysController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    }    
-    
+    }
+
     @ApiOperation("删除用户")
     @RequestMapping(value="/deleteSchoolUser",method=RequestMethod.POST)
     @ResponseBody
@@ -606,7 +607,7 @@ public class SysController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         String userId = request.getParameter("userId");
-        
+
         try {
             boolean flag = userService.deleteSchoolUser(userId);
             if(flag){
@@ -624,7 +625,7 @@ public class SysController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("删除监管单位")
     @RequestMapping(value="/deleteRegulator",method=RequestMethod.POST)
     @ResponseBody
@@ -632,7 +633,7 @@ public class SysController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         String userId = request.getParameter("userId");
-        
+
         try {
             boolean flag = userService.deleteRegulator(userId);
             if(flag){
@@ -649,17 +650,17 @@ public class SysController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    }    
-    
+    }
+
     @ApiOperation("保存波形访问密码")
     @RequestMapping(value="/saveWaveWord",method=RequestMethod.POST)
     @ResponseBody
     public String saveWaveWord(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
-        
+
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("id", paramObj.get("id"));              
+        paramMap.put("id", paramObj.get("id"));
         paramMap.put("password", paramObj.get("password"));
         System.out.println(paramMap);
         try {
@@ -670,23 +671,23 @@ public class SysController {
             resultMap.put("status", "error");
             resultMap.put("msg", "密码保存失败!");
         }
-        
+
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("保存装置访问密码")
     @RequestMapping(value="/saveDevicePassword",method=RequestMethod.POST)
     @ResponseBody
     public String saveDevicePassword(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
-        
+
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        
+
         String id = (String) paramObj.get("id");
-        String password_old = (String) paramObj.get("password_old");      
+        String password_old = (String) paramObj.get("password_old");
         String password_old_db = userService.getPassByDevId(id);
         if (!password_old.equals(password_old_db))
         {
@@ -696,7 +697,7 @@ public class SysController {
             String enResult = AesUtil.enCodeByKey(jsonObject.toString());
             return enResult;
         }
-        
+
         paramMap.put("password", paramObj.get("password"));
         System.out.println(paramMap);
         try {
@@ -707,12 +708,12 @@ public class SysController {
             resultMap.put("status", "error");
             resultMap.put("msg", "密码保存失败!");
         }
-        
+
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("重置密码")
     @RequestMapping(value="/resetPassword",method=RequestMethod.POST)
     @ResponseBody
@@ -720,7 +721,7 @@ public class SysController {
         JSONObject paramObj=AesUtil.GetParam(map);
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("id", paramObj.get("id"));              
+        paramMap.put("id", paramObj.get("id"));
         try {
             userService.resetPassword(paramMap);
             resultMap.put("status", "success");
@@ -729,12 +730,12 @@ public class SysController {
             resultMap.put("status", "error");
             resultMap.put("msg", "重置密码失败!");
         }
-        
+
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("根据ID获取某条监管单位信息")
     @RequestMapping(value="/getRegulatorById",method=RequestMethod.POST)
     @ResponseBody
@@ -756,8 +757,8 @@ public class SysController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @ApiOperation("导出Excel")
     @RequestMapping(value="/export",method=RequestMethod.GET)
     public void exportStu(HttpServletResponse response){
