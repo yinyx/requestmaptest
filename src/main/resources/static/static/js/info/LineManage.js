@@ -281,7 +281,7 @@ function sync()
 		    if(data.status=="success") {
 		    	showSuccessOrErrorModal(data.msg,"success");
 		    } else {
-		        showSuccessOrErrorModal("同步线路数据成功","success");
+		        showSuccessOrErrorModal(data.msg,"success");
 		    }
 		},
 		error:function(e) {
