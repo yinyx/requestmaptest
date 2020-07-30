@@ -106,16 +106,33 @@ public class FaultServiceImple implements FaultService{
         //String sample_rate = faultMapper.getFactorySRById(factoryID);
         String lineName = faultMapper.getLineById(lineID);
 
+        int protocalType = (int)deviceMap.get("protocol_version");
+
+
         String wave_type = (String)resList.get(i).get("wave_type");
         int sample_rate = 0;
         if (1 == faultMapper.queryParameterCount(device1))
         {
             if(wave_type.equals("0")){
-                sample_rate = faultMapper.queryWaveFreqByDev(device1);
+                if (0==protocalType)
+                {
+                    sample_rate = 10000000;
+                }
+                else
+                {
+                    sample_rate = faultMapper.queryWaveFreqByDev(device1);
+                }
             }
             else
             {
-                sample_rate = faultMapper.queryPfFreqByDev(device1);
+                if (0==protocalType)
+                {
+                    sample_rate = 2000;
+                }
+                else
+                {
+                    sample_rate = faultMapper.queryPfFreqByDev(device1);
+                }
             }
         }
 

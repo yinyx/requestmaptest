@@ -273,7 +273,7 @@ public class GisServiceImple implements GisService{
             String leftTowerName = (String)leftTowerMap.get("name");
             String rightLatitude = (String)rightTowerMap.get("latitude");
             String rightLongitude = (String)rightTowerMap.get("longitude");
-            String rightTowerName = (String)leftTowerMap.get("name");
+            String rightTowerName = (String)rightTowerMap.get("name");
             resList.get(i).put("leftLongitude",leftLongitude);
             resList.get(i).put("leftLatitude",leftLatitude);
             resList.get(i).put("rightLongitude",rightLongitude);
