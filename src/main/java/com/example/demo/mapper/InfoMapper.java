@@ -153,7 +153,7 @@ public interface InfoMapper {
     @Select("SELECT t1.*,GROUP_CONCAT(t2.`name`) AS \"lineName\" FROM info_tower t1,info_line t2 WHERE t1.line = t2.id GROUP BY t1.id limit #{start},#{length}")
     List<Map<String, Object>> queryTowerList(@Param("start") Integer start, @Param("length") Integer length);
 
-    @Select("SELECT t1.*,GROUP_CONCAT(t2.`name`) AS \"lineName\" FROM info_tower t1,info_line t2 WHERE t1.line = t2.id and t1.line = #{QueryType} GROUP BY t1.id limit #{start},#{length}")
+    @Select("SELECT t1.*,GROUP_CONCAT(t2.`name`) AS \"lineName\" FROM info_tower t1,info_line t2 WHERE t1.line = t2.id and t1.line = #{QueryType} GROUP BY t1.indexno limit #{start},#{length}")
     List<Map<String, Object>> queryTowerListByCondition(@Param("start") Integer start, @Param("length") Integer length, @Param("QueryType") String QueryType);
 
     @Select("SELECT COUNT(1) FROM info_tower")
