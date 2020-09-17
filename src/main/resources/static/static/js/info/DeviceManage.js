@@ -366,10 +366,14 @@ function addRegulator(){
 }
 
 function initParent(){
+    var data = {"userId":userId};
+    var dataObj = {
+        "paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
+    }
 	$.ajax({
-		url:"info/queryLine",
+		url:"info/queryLineByUser",
 		type:"post",
-		data:{},
+		data:dataObj,
 		dataType:"text",
 		success:function(data) {
 			data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
@@ -392,10 +396,14 @@ function initParent(){
 }
 
 function initParent1(){
+    var data = {"userId":userId};
+    var dataObj = {
+        "paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
+    }
 	$.ajax({
-		url:"info/queryLine",
+		url:"info/queryLineByUser",
 		type:"post",
-		data:{},
+		data:dataObj,
 		dataType:"text",
 		async:false,
 		success:function(data) {
