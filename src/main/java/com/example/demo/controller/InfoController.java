@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,19 +23,18 @@ import com.example.demo.service.InfoService;
 
 import io.swagger.annotations.ApiOperation;
 import util.aes.DatatableUtil;
-import net.sf.json.JSONObject;
 import util.aes.AesUtil;
 
 @RestController
 @RequestMapping(value = "/info")
 public class InfoController {
-    
+
     // 注入用户Service
     @Resource
     private InfoService infoService;
-    
+
     @RequestMapping(value="/queryRegulatorList",method=RequestMethod.POST)
-    public Object  queryRegulatorList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryRegulatorList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -49,10 +49,10 @@ public class InfoController {
             resultMap.put("msg", "查询监管单位列表信息异常!");
         }
         return resultMap;
-    }  
-    
+    }
+
     @RequestMapping(value="/queryFactoryList",method=RequestMethod.POST)
-    public Object  queryFactoryList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryFactoryList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -67,10 +67,10 @@ public class InfoController {
             resultMap.put("msg", "查询终端厂家列表信息异常!");
         }
         return resultMap;
-    }  
-    
+    }
+
     @RequestMapping(value="/queryStationList",method=RequestMethod.POST)
-    public Object  queryStationList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryStationList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -85,10 +85,10 @@ public class InfoController {
             resultMap.put("msg", "查询变电站列表信息异常!");
         }
         return resultMap;
-    }  
-    
+    }
+
     @RequestMapping(value="/queryTowerList",method=RequestMethod.POST)
-    public Object  queryTowerList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryTowerList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -103,10 +103,10 @@ public class InfoController {
             resultMap.put("msg", "查询杆塔列表信息异常!");
         }
         return resultMap;
-    }  
-    
+    }
+
     @RequestMapping(value="/queryRegulator",method=RequestMethod.POST)
-    public Object  queryRegulator(){ 
+    public Object  queryRegulator(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         //Map<String, Object> paramMap = new HashMap<String, Object>();
         try {
@@ -120,12 +120,12 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
-    
+    }
+
+
     @RequestMapping(value="/queryMarqueeInfo",method=RequestMethod.POST)
     @ResponseBody
-    public Object  queryMarqueeInfo(@RequestParam Map<String, Object> map){ 
+    public Object  queryMarqueeInfo(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
         String userId = (String) paramObj.get("userId");
         Map<String, Object> resultMap=new HashMap<String,Object>();
@@ -135,14 +135,14 @@ public class InfoController {
             int onlineDeviceNum = infoService.queryonlineDeviceNumByUser(userId);
             int offlineDeviceNum = allDeviceNum - onlineDeviceNum;
                     //infoService.queryofflineDeviceNum();
-            int noReadFaultNum = infoService.querynoReadFaultNumByUser(userId);
-            int noReadAlarmNum = infoService.querynoReadAlarmNumByUser(userId);
+            //int noReadFaultNum = infoService.querynoReadFaultNumByUser(userId);
+            //int noReadAlarmNum = infoService.querynoReadAlarmNumByUser(userId);
             resultMap.put("status", "success");
             resultMap.put("allDeviceNum",allDeviceNum);
             resultMap.put("onlineDeviceNum",onlineDeviceNum);
             resultMap.put("offlineDeviceNum",offlineDeviceNum);
-            resultMap.put("noReadAlarmNum",noReadAlarmNum);
-            resultMap.put("noReadFaultNum",noReadFaultNum);
+            //resultMap.put("noReadAlarmNum",noReadAlarmNum);
+            //resultMap.put("noReadFaultNum",noReadFaultNum);
         } catch (Exception e) {
             resultMap.put("status", "error");
             resultMap.put("msg", "获取监管单位信息异常!");
@@ -150,10 +150,10 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @RequestMapping(value="/queryFactory",method=RequestMethod.POST)
-    public Object  queryFactory(){ 
+    public Object  queryFactory(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         //Map<String, Object> paramMap = new HashMap<String, Object>();
         try {
@@ -167,11 +167,11 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    }   
-    
+    }
+
     //queryStation
     @RequestMapping(value="/queryStation",method=RequestMethod.POST)
-    public Object  queryStation(){ 
+    public Object  queryStation(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         //Map<String, Object> paramMap = new HashMap<String, Object>();
         try {
@@ -185,8 +185,8 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    }   
-    
+    }
+
     @RequestMapping(value="/saveRegulator",method=RequestMethod.POST)
     public Map<String, Object> saveSchoolUser(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -194,9 +194,9 @@ public class InfoController {
 
         paramMap.put("regulatorId", request.getParameter("regulatorId"));
         paramMap.put("num", request.getParameter("num"));
-        paramMap.put("name", request.getParameter("name"));     
-        paramMap.put("address", request.getParameter("address"));   
-        paramMap.put("parent", request.getParameter("parent")); 
+        paramMap.put("name", request.getParameter("name"));
+        paramMap.put("address", request.getParameter("address"));
+        paramMap.put("parent", request.getParameter("parent"));
 
         try {
             infoService.saveRegulator(paramMap);
@@ -208,7 +208,7 @@ public class InfoController {
         }
         return resultMap;
     }
-	
+
     @RequestMapping(value="/saveFactory",method=RequestMethod.POST)
     public Map<String, Object> saveFactory(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -216,13 +216,13 @@ public class InfoController {
 
         paramMap.put("regulatorId", request.getParameter("regulatorId"));
         paramMap.put("num", request.getParameter("num"));
-        paramMap.put("name", request.getParameter("name"));     
-        paramMap.put("contact", request.getParameter("contact"));   
+        paramMap.put("name", request.getParameter("name"));
+        paramMap.put("contact", request.getParameter("contact"));
         paramMap.put("call", request.getParameter("call"));
         paramMap.put("login_name", request.getParameter("login_name"));
         paramMap.put("login_password", request.getParameter("login_password"));
-        //paramMap.put("uuid", request.getParameter("uuid"));     
-        paramMap.put("sample_Rate", request.getParameter("sample_Rate"));   
+        //paramMap.put("uuid", request.getParameter("uuid"));
+        paramMap.put("sample_Rate", request.getParameter("sample_Rate"));
         paramMap.put("wave_length", request.getParameter("wave_length"));
 
         try {
@@ -235,7 +235,7 @@ public class InfoController {
         }
         return resultMap;
     }
-    
+
     @RequestMapping(value="/saveStation",method=RequestMethod.POST)
     public Map<String, Object> saveStation(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -243,8 +243,8 @@ public class InfoController {
 
         paramMap.put("regulatorId", request.getParameter("regulatorId"));
         paramMap.put("num", request.getParameter("num"));
-        paramMap.put("name", request.getParameter("name"));     
-        paramMap.put("address", request.getParameter("address"));   
+        paramMap.put("name", request.getParameter("name"));
+        paramMap.put("address", request.getParameter("address"));
         paramMap.put("remark", request.getParameter("remark"));
 
         try {
@@ -257,22 +257,22 @@ public class InfoController {
         }
         return resultMap;
     }
-    
+
     @RequestMapping(value="/saveTower",method=RequestMethod.POST)
     public Map<String, Object> saveTower(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Map<String, Object> paramMap = new HashMap<String, Object>();
 
         paramMap.put("recordId", request.getParameter("recordId"));
-        paramMap.put("name", request.getParameter("name"));     
-        paramMap.put("index", request.getParameter("index"));   
-        paramMap.put("distance", request.getParameter("distance")); 
-        paramMap.put("longitude", request.getParameter("longitude"));     
-        paramMap.put("latitude", request.getParameter("latitude"));   
-        paramMap.put("altitude", request.getParameter("altitude")); 
-        paramMap.put("tower_to_m", request.getParameter("tower_to_m"));   
-        paramMap.put("tower_to_n", request.getParameter("tower_to_n")); 
-        paramMap.put("line", request.getParameter("line")); 
+        paramMap.put("name", request.getParameter("name"));
+        paramMap.put("index", request.getParameter("index"));
+        paramMap.put("distance", request.getParameter("distance"));
+        paramMap.put("longitude", request.getParameter("longitude"));
+        paramMap.put("latitude", request.getParameter("latitude"));
+        paramMap.put("altitude", request.getParameter("altitude"));
+        paramMap.put("tower_to_m", request.getParameter("tower_to_m"));
+        paramMap.put("tower_to_n", request.getParameter("tower_to_n"));
+        paramMap.put("line", request.getParameter("line"));
 
         try {
             infoService.saveTower(paramMap);
@@ -284,7 +284,7 @@ public class InfoController {
         }
         return resultMap;
     }
-    
+
     @RequestMapping(value="/saveDevice",method=RequestMethod.POST)
     public Map<String, Object> saveDevice(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -293,24 +293,24 @@ public class InfoController {
         paramMap.put("recordId", request.getParameter("recordId"));
         paramMap.put("device", request.getParameter("device"));
         paramMap.put("IP", request.getParameter("IP"));
-        paramMap.put("name", request.getParameter("name"));     
-        paramMap.put("factory", request.getParameter("factory"));   
-        paramMap.put("line", request.getParameter("line")); 
-        paramMap.put("InstallIndex", request.getParameter("InstallIndex"));     
-        paramMap.put("tower", request.getParameter("tower"));  
+        paramMap.put("name", request.getParameter("name"));
+        paramMap.put("factory", request.getParameter("factory"));
+        paramMap.put("line", request.getParameter("line"));
+        paramMap.put("InstallIndex", request.getParameter("InstallIndex"));
+        paramMap.put("tower", request.getParameter("tower"));
         paramMap.put("ProtocalType", request.getParameter("ProtocalType"));
-        paramMap.put("phase", request.getParameter("phase")); 
-        paramMap.put("IedType", request.getParameter("IedType")); 
+        paramMap.put("phase", request.getParameter("phase"));
+        paramMap.put("IedType", request.getParameter("IedType"));
         paramMap.put("version", request.getParameter("version"));
-        paramMap.put("ManuDate", request.getParameter("ManuDate"));     
-        paramMap.put("InstallTime", request.getParameter("InstallTime"));   
-        paramMap.put("longitude", request.getParameter("longitude")); 
-        paramMap.put("latitude", request.getParameter("latitude"));     
-        paramMap.put("altitude", request.getParameter("altitude"));   
-        paramMap.put("FrequencyFactor", request.getParameter("FrequencyFactor")); 
-        paramMap.put("BigWaveRange", request.getParameter("BigWaveRange")); 
-        paramMap.put("SmallWaveRange", request.getParameter("SmallWaveRange")); 
-        paramMap.put("zero_drift_comps_small", request.getParameter("zero_drift_comps_small")); 
+        paramMap.put("ManuDate", request.getParameter("ManuDate"));
+        paramMap.put("InstallTime", request.getParameter("InstallTime"));
+        paramMap.put("longitude", request.getParameter("longitude"));
+        paramMap.put("latitude", request.getParameter("latitude"));
+        paramMap.put("altitude", request.getParameter("altitude"));
+        paramMap.put("FrequencyFactor", request.getParameter("FrequencyFactor"));
+        paramMap.put("BigWaveRange", request.getParameter("BigWaveRange"));
+        paramMap.put("SmallWaveRange", request.getParameter("SmallWaveRange"));
+        paramMap.put("zero_drift_comps_small", request.getParameter("zero_drift_comps_small"));
 
         try {
             infoService.saveDevice(paramMap);
@@ -322,9 +322,9 @@ public class InfoController {
         }
         return resultMap;
     }
-    
+
 	@RequestMapping(value="/queryLineList",method=RequestMethod.POST)
-    public Object  queryLineList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryLineList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -339,10 +339,10 @@ public class InfoController {
             resultMap.put("msg", "查询线路列表信息异常!");
         }
         return resultMap;
-    } 
-	
+    }
+
 	   @RequestMapping(value="/queryDeviceList",method=RequestMethod.POST)
-	    public Object  queryDeviceList(@RequestBody DataTableParam[] dataTableParams){ 
+	    public Object  queryDeviceList(@RequestBody DataTableParam[] dataTableParams){
 	        DataTableModel dataTableModel = new DataTableModel();
 	        Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
 	        Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -357,13 +357,13 @@ public class InfoController {
 	            resultMap.put("msg", "查询装置列表信息异常!");
 	        }
 	        return resultMap;
-	    } 
-	
+	    }
+
 	@RequestMapping(value="/saveLine",method=RequestMethod.POST)
     public Map<String, Object> saveLine(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        
+
         //类型检查
         String LineLength = (String)request.getParameter("length");
         try {
@@ -375,13 +375,13 @@ public class InfoController {
         }
 
         paramMap.put("recordId", request.getParameter("recordId"));
-        paramMap.put("name", request.getParameter("name"));     
-        paramMap.put("regulator", request.getParameter("regulator"));   
-        paramMap.put("length", request.getParameter("length")); 
-		paramMap.put("voltage_level", request.getParameter("voltage_level"));   
-        paramMap.put("ac_dc", request.getParameter("ac_dc")); 
-        paramMap.put("LeftStation", request.getParameter("LeftStation"));   
-        paramMap.put("RightStation", request.getParameter("RightStation")); 
+        paramMap.put("name", request.getParameter("name"));
+        paramMap.put("regulator", request.getParameter("regulator"));
+        paramMap.put("length", request.getParameter("length"));
+		paramMap.put("voltage_level", request.getParameter("voltage_level"));
+        paramMap.put("ac_dc", request.getParameter("ac_dc"));
+        paramMap.put("LeftStation", request.getParameter("LeftStation"));
+        paramMap.put("RightStation", request.getParameter("RightStation"));
 
         try {
             infoService.saveLine(paramMap);
@@ -393,7 +393,7 @@ public class InfoController {
         }
         return resultMap;
     }
-	
+
     @RequestMapping(value="/getLineById",method=RequestMethod.POST)
     @ResponseBody
     public Object getLineById(@RequestParam Map<String, Object> map){
@@ -414,8 +414,8 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @RequestMapping(value="/getTowerById",method=RequestMethod.POST)
     @ResponseBody
     public Object getTowerById(@RequestParam Map<String, Object> map){
@@ -436,8 +436,8 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     //getStationById
     @RequestMapping(value="/getStationById",method=RequestMethod.POST)
     @ResponseBody
@@ -459,8 +459,8 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @RequestMapping(value="/getDeviceById",method=RequestMethod.POST)
     @ResponseBody
     public Object getDeviceById(@RequestParam Map<String, Object> map){
@@ -481,8 +481,8 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @RequestMapping(value="/getMoreDeviceById",method=RequestMethod.POST)
     @ResponseBody
     public Object getMoreDeviceById(@RequestParam Map<String, Object> map){
@@ -503,8 +503,8 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     /**
      * 根据deviceId获取他的全部消息
      * @param deviceId
@@ -530,14 +530,14 @@ public class InfoController {
         String enResult = AesUtil.enCodeByKey(obj.toString());
         return enResult;
     }
-    
+
     @RequestMapping(value="/deleteLine",method=RequestMethod.POST)
     @ResponseBody
     public Object deleteLine(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         String userId = request.getParameter("userId");
-        
+
         try {
             boolean flag = infoService.deleteLine(userId);
             if(flag){
@@ -555,14 +555,14 @@ public class InfoController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @RequestMapping(value="/deleteDevice",method=RequestMethod.POST)
     @ResponseBody
     public Object deleteDevice(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         String userId = request.getParameter("userId");
-        
+
         try {
             boolean flag = infoService.deleteDevice(userId);
             if(flag){
@@ -580,14 +580,14 @@ public class InfoController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @RequestMapping(value="/deleteTower",method=RequestMethod.POST)
     @ResponseBody
     public Object deleteTower(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         String userId = request.getParameter("userId");
-        
+
         try {
             boolean flag = infoService.deleteTower(userId);
             if(flag){
@@ -605,14 +605,14 @@ public class InfoController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @RequestMapping(value="/deleteFactory",method=RequestMethod.POST)
     @ResponseBody
     public Object deleteFactory(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         String userId = request.getParameter("userId");
-        
+
         try {
             boolean flag = infoService.deleteFactory(userId);
             if(flag){
@@ -630,14 +630,14 @@ public class InfoController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @RequestMapping(value="/deleteStation",method=RequestMethod.POST)
     @ResponseBody
     public Object deleteStation(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         String userId = request.getParameter("userId");
-        
+
         try {
             boolean flag = infoService.deleteStation(userId);
             if(flag){
@@ -655,10 +655,10 @@ public class InfoController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @RequestMapping(value="/queryLineByUser",method=RequestMethod.POST)
     @ResponseBody
-    public Object  queryLineByUser(@RequestParam Map<String, Object> map){ 
+    public Object  queryLineByUser(@RequestParam Map<String, Object> map){
 
         JSONObject paramObj=AesUtil.GetParam(map);
         String userId = (String) paramObj.get("userId");
@@ -676,11 +676,11 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @RequestMapping(value="/queryLineByMultiCondition",method=RequestMethod.POST)
     @ResponseBody
-    public Object  queryLineByMultiCondition(@RequestParam Map<String, Object> map){ 
+    public Object  queryLineByMultiCondition(@RequestParam Map<String, Object> map){
 
         JSONObject paramObj=AesUtil.GetParam(map);
         String userId = (String) paramObj.get("userId");
@@ -700,10 +700,10 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @RequestMapping(value="/queryLine",method=RequestMethod.POST)
-    public Object  queryLine(HttpServletRequest request,HttpServletResponse response){ 
+    public Object  queryLine(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         try {
             List<Map<String,Object>> dataList = infoService.queryLine();
@@ -716,10 +716,10 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @RequestMapping(value="/queryTower",method=RequestMethod.POST)
-    public Object  queryTower(){ 
+    public Object  queryTower(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         try {
             List<Map<String,Object>> dataList = infoService.queryTower();
@@ -733,10 +733,10 @@ public class InfoController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @RequestMapping(value="/queryTowerByLine",method=RequestMethod.POST)
     @ResponseBody
-    public Object  queryTowerByLine(@RequestParam Map<String, Object> map){ 
+    public Object  queryTowerByLine(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
         String lineId = (String) paramObj.get("lineId");
         Map<String, Object> resultMap=new HashMap<String,Object>();
@@ -752,7 +752,7 @@ public class InfoController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @RequestMapping(value="/getFactoryById",method=RequestMethod.POST)
     @ResponseBody
     public Object getFactoryById(@RequestParam Map<String, Object> map){
@@ -773,8 +773,8 @@ public class InfoController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     /**
      * 获取指定用户负责的所有线路信息
      * @param userId
@@ -800,7 +800,7 @@ public class InfoController {
         String enResult = AesUtil.enCodeByKey(obj.toString());
         return enResult;
     }
-    
+
     /**
      * 通过线路id获取杆塔经纬度、终端id和name和经纬度
      * @param acLineId
