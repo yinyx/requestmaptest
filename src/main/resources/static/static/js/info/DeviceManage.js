@@ -583,9 +583,9 @@ function sync()
 		success:function(data) {
 			data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 		    if(data.status=="success") {
-		    	showSuccessOrErrorModal(data.msg,"success");
+		    	//showSuccessOrErrorModal(data.msg,"success");
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");
+		        //showSuccessOrErrorModal(data.msg,"error");
 		    }
 		},
 		error:function(e) {
