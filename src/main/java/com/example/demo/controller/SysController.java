@@ -1,16 +1,10 @@
 package com.example.demo.controller;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 //import java.util.Date;
 
 import javax.annotation.Resource;
@@ -57,49 +51,73 @@ public class SysController {
     @RequestMapping(value="/syncProcess",method=RequestMethod.POST)
     public String  syncProcess(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
+        boolean callFlag = false;
         try {
-            //String cmd = "F:\\fr\\pubSub\\pubSub.exe";
-
             String cmd = TestProperties.getProperties_1("path.properties","syncpath");
             System.out.println(cmd);
             final Process p = Runtime.getRuntime().exec(cmd);
-
-           // final Process p = Runtime.getRuntime().exec("fg3pf batch C:/tomcat/webapps/FaceGen/img/batch.csv f");
-
             try{
-                BufferedInputStream br = new BufferedInputStream(p.getInputStream());
-                BufferedOutputStream br1 = new BufferedOutputStream(p.getOutputStream());
-                int ch;
-                StringBuffer text = new StringBuffer("获得的信息是: \n");
+                String oldProcess ="";
+                String newProcess="";
+                Scanner in;
+                List<String> processList = new ArrayList<>();
+                try {
 
-                while ((ch = br.read()) != -1) {
-                    text.append((char) ch);
+                    if(TestProperties.isOSLinux()){
+                        in = new Scanner(new File("ConfigSyncRet.txt"), "utf-8");
+                    }else{
+                        in = new Scanner(new File("ConfigSyncRet.txt"), "gbk");
+                    }
+
+                    while (in.hasNextLine()) {
+                        String proceeContnt = in.nextLine();
+                        processList.add(proceeContnt);
+                    }
+
+                    if (processList.size()==2)
+                    {
+                        System.out.println("process right");
+                        oldProcess = processList.get(0);
+                        newProcess = processList.get(1);
+                        System.out.println(processList);
+                        System.out.println("processList");
+                        System.out.println(oldProcess);
+                        System.out.println(newProcess);
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-                int   retval   =   p.waitFor();
-
-                System.out.println(text+br1.toString());
-                System.out.println(retval);
-                String  ret= br1.toString();
-                if (ret.contains("kill"))
+                if ((!newProcess.equals(oldProcess))&&(!newProcess.equals("")))
                 {
-                    resultMap.put("status", "success");
-                    resultMap.put("msg", "同步数据成功!");
+                    callFlag =true;
                 }
-                else
-                {
-                    resultMap.put("status", "error");
-                    resultMap.put("msg", "同步数据失败!");
-                }
-
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally{
                 System.out.print(p.exitValue());
             }
 
         } catch (Exception e) {
-            resultMap.put("status", "error");
-            resultMap.put("msg", "同步数据失败!");
+            System.out.println(e.getMessage());
+            String err = e.getMessage();
+            if (err.equals("process hasn't exited"))
+            {
+                if (callFlag)
+                {
+                    resultMap.put("status", "success");
+                    resultMap.put("msg", "同步配置进程调用成功!");
+                }
+                else
+                {
+                    resultMap.put("status", "error");
+                    resultMap.put("msg", "同步配置进程调用失败!");
+                }
+            }
+            else
+            {
+                resultMap.put("status", "error");
+                resultMap.put("msg", "同步数据失败!");
+            }
         }
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
@@ -112,6 +130,12 @@ public class SysController {
         Map<String, Object> resultMap=new HashMap<String,Object>();
         try {
             //String cmd = "F:\\fr\\pubSub\\pubSub.exe";
+            //清除上一次的结果文件
+           //File oldRetFile = new File("result.txt");
+            //if (oldRetFile.exists())
+            //{
+           //     oldRetFile.delete();
+           // }
 
             String cmd = TestProperties.getProperties_1("path.properties","jobpath");
             System.out.println(cmd);
@@ -130,17 +154,38 @@ public class SysController {
                 }
                 int   retval   =   p.waitFor();
 
-                System.out.println(text+br1.toString());
-                System.out.println(retval);
-                if (1 == retval)
+                //System.out.println(text+br1.toString());
+                //System.out.println(retval);
+                String str ="";
+                Scanner in;
+                try {
+                    //Scanner in = new Scanner(new File("result.txt"), "gbk");
+                    if(TestProperties.isOSLinux()){
+                         in = new Scanner(new File("result.txt"), "utf-8");
+                    }else{
+                         in = new Scanner(new File("result.txt"), "gbk");
+                    }
+                    while (in.hasNextLine()) {
+                        str = in.nextLine();
+                    }
+                    System.out.println(str);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (str.equals("job run successfully!"))
                 {
                     resultMap.put("status", "success");
                     resultMap.put("msg", "同步异构数据成功!");
                 }
-                else
+                else if (str.equals("job run Failure!"))
                 {
                     resultMap.put("status", "error");
                     resultMap.put("msg", "同步异构数据失败!");
+                }
+                else
+                {
+                    resultMap.put("status", "error");
+                    resultMap.put("msg", "调用同步进程失败!");
                 }
 
             } catch (IOException e) {
