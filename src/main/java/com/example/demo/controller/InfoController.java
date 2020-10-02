@@ -299,6 +299,7 @@ public class InfoController {
         paramMap.put("InstallIndex", request.getParameter("InstallIndex"));
         paramMap.put("tower", request.getParameter("tower"));
         paramMap.put("ProtocalType", request.getParameter("ProtocalType"));
+        paramMap.put("system_version", request.getParameter("system_version"));
         paramMap.put("phase", request.getParameter("phase"));
         paramMap.put("IedType", request.getParameter("IedType"));
         paramMap.put("version", request.getParameter("version"));

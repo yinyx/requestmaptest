@@ -29,19 +29,19 @@ public class InfoServiceImple implements InfoService{
 
     @Autowired
     private InfoMapper infoMapper;
-    
+
     @Autowired
     private StateMapper stateMapper;
-    
+
     public DataTableModel queryRegulatorInfoList(Map<String, String> dataTableMap)
     {
         DataTableModel dataTableModel = new DataTableModel();
         Map<String,Object> paramMap = new HashMap<String,Object>();
         List<Map<String, Object>> resList;
-        Integer count;        
+        Integer count;
         String sEcho = dataTableMap.get("sEcho");
         String QueryType = dataTableMap.get("QueryType");
-        
+
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
 
@@ -59,23 +59,23 @@ public class InfoServiceImple implements InfoService{
             resList = infoMapper.queryRegulatorListByCondition(start,length,QueryType);
             count = infoMapper.queryRegulatorListCountByCondition(QueryType)-1;
         }
-        
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(resList);
         return dataTableModel;
     }
-    
+
     public DataTableModel queryFactoryInfoList(Map<String, String> dataTableMap)
     {
         DataTableModel dataTableModel = new DataTableModel();
         Map<String,Object> paramMap = new HashMap<String,Object>();
         List<Map<String, Object>> resList;
-        Integer count;        
+        Integer count;
         String sEcho = dataTableMap.get("sEcho");
         String QueryType = dataTableMap.get("QueryType");
-        
+
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
 
@@ -85,24 +85,24 @@ public class InfoServiceImple implements InfoService{
 
         resList = infoMapper.queryFactoryList(start,length,QueryType);
         count = infoMapper.queryFactoryListCount(QueryType);
-        
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(resList);
         return dataTableModel;
     }
-    
+
     //queryStationList
     public DataTableModel queryStationList(Map<String, String> dataTableMap)
     {
         DataTableModel dataTableModel = new DataTableModel();
         Map<String,Object> paramMap = new HashMap<String,Object>();
         List<Map<String, Object>> resList;
-        Integer count;        
+        Integer count;
         String sEcho = dataTableMap.get("sEcho");
         String QueryType = dataTableMap.get("QueryType");
-        
+
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
 
@@ -112,21 +112,21 @@ public class InfoServiceImple implements InfoService{
 
         resList = infoMapper.queryStationList(start,length,QueryType);
         count = infoMapper.queryStationListCount(QueryType);
-       
-        
+
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(resList);
         return dataTableModel;
     }
-    
+
     public DataTableModel queryTowerInfoList(Map<String, String> dataTableMap)
     {
         DataTableModel dataTableModel = new DataTableModel();
         Map<String,Object> paramMap = new HashMap<String,Object>();
         List<Map<String, Object>> resList;
-        Integer count;        
+        Integer count;
         String sEcho = dataTableMap.get("sEcho");
         String QueryType = dataTableMap.get("QueryType");
 
@@ -147,24 +147,24 @@ public class InfoServiceImple implements InfoService{
             resList = infoMapper.queryTowerListByCondition(start,length,QueryType);
             count = infoMapper.queryTowerListCountByCondition(QueryType);
         }
-        
+
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(resList);
         return dataTableModel;
     }
-    
+
     public List<Map<String,Object>> queryRegulator()
     {
         List<Map<String, Object>> allCollege = infoMapper.queryRegulator();
         return allCollege;
     }
-   
+
     public List<Map<String,Object>> queryLineByUser(String userId)
     {
         List<Map<String, Object>> resList = new ArrayList<>();
-        
+
         List<String> allCollege = infoMapper.queryLineListByUser(userId);
         String lineId = "";
         String lineName = "";
@@ -179,11 +179,11 @@ public class InfoServiceImple implements InfoService{
         }
         return resList;
     }
-    
+
     public List<Map<String,String>> queryLineByUserForApp(String userId)
     {
         List<Map<String, String>> resList = new ArrayList<>();
-        
+
         List<String> allCollege = infoMapper.queryLineListByUser(userId);
         String lineId = "";
         String lineName = "";
@@ -199,11 +199,11 @@ public class InfoServiceImple implements InfoService{
         }
         return resList;
     }
-    
+
     public List<Map<String,Object>> queryLineByMultiCondition(String userId, String regulatorId, String voltageId)
     {
         List<Map<String, Object>> resList = new ArrayList<>();
-        
+
         List<String> allCollege = infoMapper.queryLineByMultiCondition(userId, regulatorId, voltageId);
         String lineId = "";
         String lineName = "";
@@ -218,37 +218,37 @@ public class InfoServiceImple implements InfoService{
         }
         return resList;
     }
-    
+
     public List<Map<String,Object>> queryLine()
     {
         List<Map<String, Object>> allCollege = infoMapper.queryLine();
         return allCollege;
     }
-    
+
     public List<Map<String,Object>> queryTower()
     {
         List<Map<String, Object>> allCollege = infoMapper.queryTower();
         return allCollege;
     }
-    
+
     public List<Map<String,Object>> queryTowerByLineId(String lineId)
     {
         List<Map<String, Object>> allCollege = infoMapper.queryTowerByLineId(lineId);
         return allCollege;
     }
-    
+
     public List<Map<String,Object>> queryFactory()
     {
         List<Map<String, Object>> allCollege = infoMapper.queryFactory();
         return allCollege;
     }
-    
+
     public List<Map<String,Object>> queryStation()
     {
         List<Map<String, Object>> allCollege = infoMapper.queryStation();
         return allCollege;
     }
-    
+
     public List<Map<String,Object>> queryDeviceFaultDetails(String deviceId)
     {
 
@@ -268,7 +268,7 @@ public class InfoServiceImple implements InfoService{
         }
         return deviceFaultMapList;
     }
-    
+
     public void saveRegulator(Map<String, Object> paramMap) {
         String userId = (String) paramMap.get("regulatorId");
         if (StringUtils.isEmpty(userId)) {
@@ -278,7 +278,7 @@ public class InfoServiceImple implements InfoService{
             infoMapper.updateRegulator(paramMap);
         }
     }
-    
+
     public void saveFactory(Map<String, Object> paramMap) {
         String regulatorId = (String) paramMap.get("regulatorId");
         String num = (String) paramMap.get("num");
@@ -300,7 +300,7 @@ public class InfoServiceImple implements InfoService{
                     login_password, /*uuid,*/ sample_Rate);
         }
     }
-    
+
     public void saveStation(Map<String, Object> paramMap) {
         String towerId = (String) paramMap.get("regulatorId");
         if (StringUtils.isEmpty(towerId)) {
@@ -310,7 +310,7 @@ public class InfoServiceImple implements InfoService{
             infoMapper.updateStation(paramMap);
         }
     }
-    
+
     public void saveTower(Map<String, Object> paramMap) {
         String towerId = (String) paramMap.get("recordId");
         if (StringUtils.isEmpty(towerId)) {
@@ -320,7 +320,7 @@ public class InfoServiceImple implements InfoService{
             infoMapper.updateTower(paramMap);
         }
     }
-    
+
     public void saveDevice(Map<String, Object> paramMap) {
         String towerId = (String) paramMap.get("recordId");
         String deviceId = (String) paramMap.get("device");
@@ -330,6 +330,7 @@ public class InfoServiceImple implements InfoService{
         int InstallIndex = Integer.parseInt((String) paramMap.get("InstallIndex"));
         int phase = Integer.parseInt((String) paramMap.get("phase"));
         int ProtocalType = Integer.parseInt((String) paramMap.get("ProtocalType"));
+        int system_version = Integer.parseInt((String) paramMap.get("system_version"));
         String IedType = (String) paramMap.get("IedType");
         String version = (String) paramMap.get("version");
         String ManuDate = (String) paramMap.get("ManuDate");
@@ -352,23 +353,23 @@ public class InfoServiceImple implements InfoService{
             towerId = (String) paramMap.get("recordId");
             infoMapper.addDevice(deviceId, deviceIP,InstallIndex, name, line, factory, ManuDate,
                     IedType, version, tower, InstallTime, phase, longitude, latitude,
-                    altitude,ProtocalType);
+                    altitude,ProtocalType,system_version);
         } else {
             infoMapper.updateDevice(towerId,deviceIP,InstallIndex, name, line, factory, ManuDate,
                     IedType, version, tower, InstallTime, phase, longitude, latitude,
-                    altitude,ProtocalType);
+                    altitude,ProtocalType,system_version);
         }
     }
-    
+
     public DataTableModel queryLineInfoList(Map<String, String> dataTableMap)
-    {       
+    {
         DataTableModel dataTableModel = new DataTableModel();
         Map<String,Object> paramMap = new HashMap<String,Object>();
         List<Map<String, Object>> resList;
         Integer count;
         String sEcho = dataTableMap.get("sEcho");
         String QueryType = dataTableMap.get("QueryType");
-        
+
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
 
@@ -386,7 +387,7 @@ public class InfoServiceImple implements InfoService{
             resList = infoMapper.queryLineListByCondition(start,length,QueryType);
             count = infoMapper.queryLineListCountByCondition(QueryType);
         }
-        
+
         System.out.println(resList);
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
@@ -395,24 +396,24 @@ public class InfoServiceImple implements InfoService{
 
         return dataTableModel;
     }
-    
+
     public DataTableModel queryDeviceInfoList(Map<String, String> dataTableMap)
-    {       
+    {
         DataTableModel dataTableModel = new DataTableModel();
         Map<String,Object> paramMap = new HashMap<String,Object>();
         List<Map<String, Object>> resList;
         Integer count;
         String sEcho = dataTableMap.get("sEcho");
         String QueryType = dataTableMap.get("QueryType");
-        String QueryType1 = dataTableMap.get("QueryType1");       
-        
+        String QueryType1 = dataTableMap.get("QueryType1");
+
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
 
         paramMap.put("stuCode_s", dataTableMap.get("stuCode_s"));
         paramMap.put("stuName_s", dataTableMap.get("stuName_s"));
         paramMap.put("stuStates_s", dataTableMap.get("stuStates_s"));
-    
+
         if (StringUtils.isEmpty(QueryType))
         {
             QueryType = "";
@@ -431,7 +432,7 @@ public class InfoServiceImple implements InfoService{
 
         return dataTableModel;
     }
-    
+
     public void saveLine(Map<String, Object> paramMap) {
         String lineId = (String) paramMap.get("recordId");
         if (StringUtils.isEmpty(lineId)) {
@@ -443,19 +444,19 @@ public class InfoServiceImple implements InfoService{
             System.out.println("----------update");
         }
     }
-    
+
     public Map<String, Object> getLineById(String userId) {
         return infoMapper.getLineById(userId);
     }
-    
+
     public Map<String, Object> getTowerById(String userId) {
         return infoMapper.getTowerById(userId);
     }
-    
+
     public Map<String, Object> getDeviceById(String userId) {
         return infoMapper.getDeviceById(userId);
-    }    
-    
+    }
+
     public Map<String, String> getDeviceInfoById(String deviceId){
         //此处需要合并装置基本信息，工况信息，参数信息
         Map<String, String> allDeviceInfoMap = new HashMap<String, String>();
@@ -483,13 +484,13 @@ public class InfoServiceImple implements InfoService{
         allDeviceInfoMap.put("version",(String)basicMap.get("version"));
         allDeviceInfoMap.put("manufacture",(String)basicMap.get("manufacture"));
         allDeviceInfoMap.put("manu_no",(String)basicMap.get("manu_no"));
-        
+
         allDeviceInfoMap.put("work_upload_time",(String)WorkConditionMap.get("workcondition_time"));
         allDeviceInfoMap.put("device_temp",(String)WorkConditionMap.get("device_tempature"));
         allDeviceInfoMap.put("current_valid_value",(String)WorkConditionMap.get("current_valid_value"));
         allDeviceInfoMap.put("battery_status",(String)WorkConditionMap.get("battery_status"));
         allDeviceInfoMap.put("battery_vol",(String)WorkConditionMap.get("battery_vol"));
-        
+
         allDeviceInfoMap.put("tw_current_time_collection",(String)paramMap.get("wave_current_time"));
         allDeviceInfoMap.put("tw_current_freq_collection",(String)paramMap.get("wave_current_freq_collection"));
         allDeviceInfoMap.put("tw_current_threshold",(String)paramMap.get("wave_current_threshold"));
@@ -502,50 +503,50 @@ public class InfoServiceImple implements InfoService{
         allDeviceInfoMap.put("work_status_time",(String)paramMap.get("work_status_time"));
         return allDeviceInfoMap;
     }
-    
+
     public Map<String, Object> getStationById(String userId) {
         return infoMapper.getStationById(userId);
-    }  
-    
+    }
+
     public boolean deleteLine(String userId) {
         infoMapper.deleteLine(userId);
         infoMapper.deleteUser_LineByLine(userId);
         return true;
     }
-    
+
     public boolean deleteTower(String userId) {
         infoMapper.deleteTower(userId);
         return true;
     }
-    
+
     public boolean deleteDevice(String userId) {
         infoMapper.deleteDevice(userId);
         return true;
     }
-    
+
     public boolean deleteFactory(String userId) {
         infoMapper.deleteFactory(userId);
         return true;
     }
-    
+
     //deleteStation
     public boolean deleteStation(String userId) {
         infoMapper.deleteStation(userId);
         return true;
     }
-    
+
     public String getDeviceNameById(String deviceId) {
         return infoMapper.getDeviceNameById(deviceId);
     }
-    
+
     public Map<String, Object> getFactoryById(String regulatorId) {
         return infoMapper.getFactoryById(regulatorId);
     }
-    
+
     public int queryallDeviceNum() {
         return infoMapper.queryallDeviceNum();
     }
-    
+
     public int queryonlineDeviceNum() {
         return infoMapper.queryonlineDeviceNum();
     }
@@ -557,52 +558,52 @@ public class InfoServiceImple implements InfoService{
     public int queryonlineDeviceNumByUser(String userId) {
         return infoMapper.queryonlineDeviceNumByUser(userId);
     }
-    
+
     public int queryofflineDeviceNum() {
         return infoMapper.queryofflineDeviceNum();
     }
-    
+
     public int querynoReadAlarmNumByUser(String userId) {
         return infoMapper.querynoReadAlarmNumByUser(userId);
     }
-    
+
     public int querynoReadFaultNumByUser(String userId) {
         return infoMapper.querynoReadFaultNumByUser(userId);
     }
-    
+
     public Map<String, Object> getTowerAndDeviceInfoByAclineId(String acLineId) {
         // 获取杆塔的经纬度
         List<Map<String, String>> towerList = infoMapper.getTowerLonLat(acLineId);
         // 获取终端信息
         List<Map<String, String>> deviceList = infoMapper.getDeviceIdNameLonLat(acLineId);
-        
-        
+
+
         Map<String, Object> map = new HashMap<>();
         map.put("towerList", towerList);
         map.put("deviceList", deviceList);
         return map;
     }
-    
+
     public void exportStu(List<Device> clsList)
     {
         System.out.print(clsList);
         try(OutputStream out=new FileOutputStream("D://装置详细信息.xlsx")) {
             ExcelWriter writer=new ExcelWriter(out,ExcelTypeEnum.XLSX);
-            
+
             if(!clsList.isEmpty()) {
 
                 Sheet sheet=new Sheet(1,0,clsList.get(0).getClass());
-                
+
                 sheet.setSheetName("装置详细信息");
                 writer.write(clsList, sheet);
             }
             writer.finish();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public void export1(List<Device> clsList) {
         try{
             String fileName = "D://装置详细信息.xlsx";
@@ -611,12 +612,12 @@ public class InfoServiceImple implements InfoService{
                 .head(head()).sheet("装置详细信息")
                 // 当然这里数据也可以用 List<List<String>> 去传入
                 .doWrite(clsList);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-   
+
    private List<List<String>> head() {
        List<List<String>> list = new ArrayList<List<String>>();
        int allDeviceNum = queryallDeviceNum();
@@ -624,7 +625,7 @@ public class InfoServiceImple implements InfoService{
        int offlineDeviceNum = allDeviceNum - onlineDeviceNum;
        String showDevice ="系统接入设备："+allDeviceNum+"台  系统正常设备："
                +onlineDeviceNum+"台  系统异常设备："+offlineDeviceNum+"台 ";
-       
+
        List<String> head0 = new ArrayList<String>();
        head0.add(showDevice);
        head0.add("通信状态");
@@ -649,7 +650,7 @@ public class InfoServiceImple implements InfoService{
        List<String> head7 = new ArrayList<String>();
        head7.add(showDevice);
        head7.add("协议类型");
-       
+
        List<String> head8 = new ArrayList<String>();
        head8.add(showDevice);
        head8.add("最近工频波形时间");
@@ -659,7 +660,7 @@ public class InfoServiceImple implements InfoService{
        List<String> head10 = new ArrayList<String>();
        head10.add(showDevice);
        head10.add("最近工况报文时间");
-       
+
        list.add(head0);
        list.add(head1);
        list.add(head2);

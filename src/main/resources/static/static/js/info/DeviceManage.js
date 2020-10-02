@@ -324,6 +324,16 @@ function showEditModal(recordId){
 				       break;
 				    }
 				}
+               var s5 = document.getElementById("SystemVersion_m");
+               var ops5 = s5.options;
+               for(var i=0;i<ops5.length; i++){
+                   var tempValue5 = ops5[i].value;
+                   if(tempValue5 == usersData.system_version) //这里是你要选的值
+                   {
+                       ops5[i].selected = true;
+                       break;
+                   }
+               }
                $("#InstallIndex_m").val(usersData.indexno);
 			   $("#phase_m").val(usersData.ied_phase);
                $("#IedType_m").val(usersData.ied_type);
@@ -674,6 +684,7 @@ $(document).ready(function(){
 	   data+="&tower="+$("#cronTower").val();
 	   data+="&factory="+$("#cronFactory").val();
 	   data+="&ProtocalType="+$("#cronProtocalType").val();
+	   data+="&system_version="+$("#SystemVersion_m").val();
 	   data+="&phase="+$("#cronPhase").val();
 	   console.log(data);
 	   		$.ajax({

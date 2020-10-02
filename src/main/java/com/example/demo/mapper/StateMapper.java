@@ -313,6 +313,9 @@ public interface StateMapper {
     @Select("Select protocol_version from info_device where id =#{id}")
     int getProtocolVerByDeviceId(String id);
 
+    @Select("Select system_version from info_device where id =#{id}")
+    int getSysVerById(String id);
+
     @Select("Select manufacture from info_device where id =#{id}")
     String getFactoryByDevice(String id);
 

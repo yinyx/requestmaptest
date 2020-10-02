@@ -80,20 +80,20 @@ public interface InfoMapper {
     @Update("UPDATE info_station SET num=#{num},name=#{name},address=#{address},remark=#{remark} WHERE id = #{regulatorId}")
     void updateStation(Map<String, Object> paramMap);
 
-    @Insert("INSERT info_device (id,device,indexno,name,line_name,manufacture,manu_date,ied_type,version,tower_id,install_time,ied_phase,longitude,latitude,altitude,remark,protocol_version,config_time) VALUES (#{recordId},#{recordId},#{InstallIndex},#{name},#{line},#{factory},#{ManuDate},#{IedType},#{version},#{tower},#{InstallTime},#{phase},#{longitude},#{latitude},#{altitude},#{deviceIp},#{ProtocalType},NOW())")
+    @Insert("INSERT info_device (id,device,indexno,name,line_name,manufacture,manu_date,ied_type,version,tower_id,install_time,ied_phase,longitude,latitude,altitude,remark,protocol_version,config_time,system_version) VALUES (#{recordId},#{recordId},#{InstallIndex},#{name},#{line},#{factory},#{ManuDate},#{IedType},#{version},#{tower},#{InstallTime},#{phase},#{longitude},#{latitude},#{altitude},#{deviceIp},#{ProtocalType},NOW(),#{system_version})")
     //@Insert("INSERT info_device (id,indexno,name,line_name,manufacture,manu_date,ied_type,version,tower_id,install_time,ied_phase,longitude,latitude,altitude,maxCoefficient,minCoefficient,PowerFrequencyCoefficient,remark) VALUES (#{recordId}, '1', 'a', '2d1cdb9c8b6740bdb8f42dec19ef1e81', '厂商1', 'a', 'b', 'c', '503b0d8e967e45e584d7bdc233dca56c', 'd', '1', 'e', 'f', 'g', 'h', 'i', 'j', 'k')")
     void addDevice(@Param("recordId") String recordId, @Param("deviceIp") String deviceIp, @Param("InstallIndex") int InstallIndex,@Param("name") String name,
             @Param("line") String line,@Param("factory") String factory,@Param("ManuDate") String ManuDate,
             @Param("IedType") String IedType,@Param("version") String version,@Param("tower") String tower,
             @Param("InstallTime") String InstallTime,@Param("phase") int phase,@Param("longitude") String longitude,
-            @Param("latitude") String latitude,@Param("altitude") String altitude,@Param("ProtocalType") int ProtocalType);
+            @Param("latitude") String latitude,@Param("altitude") String altitude,@Param("ProtocalType") int ProtocalType,@Param("system_version") int system_version);
 
-    @Update("UPDATE info_device SET name=#{name},indexno=#{InstallIndex},line_name=#{line},manufacture=#{factory},manu_date=#{ManuDate},ied_type=#{IedType},version=#{version},tower_id=#{tower},install_time=#{InstallTime},ied_phase=#{phase},longitude=#{longitude},latitude=#{latitude},altitude=#{altitude},remark=#{deviceIp},protocol_version=#{ProtocalType},config_time=NOW() WHERE id = #{recordId}")
+    @Update("UPDATE info_device SET name=#{name},indexno=#{InstallIndex},line_name=#{line},manufacture=#{factory},manu_date=#{ManuDate},ied_type=#{IedType},version=#{version},tower_id=#{tower},install_time=#{InstallTime},ied_phase=#{phase},longitude=#{longitude},latitude=#{latitude},altitude=#{altitude},remark=#{deviceIp},protocol_version=#{ProtocalType},config_time=NOW(),system_version=#{system_version} WHERE id = #{recordId}")
     void updateDevice(@Param("recordId") String recordId,@Param("deviceIp") String deviceIp,@Param("InstallIndex") int InstallIndex,@Param("name") String name,
             @Param("line") String line,@Param("factory") String factory,@Param("ManuDate") String ManuDate,
             @Param("IedType") String IedType,@Param("version") String version,@Param("tower") String tower,
             @Param("InstallTime") String InstallTime,@Param("phase") int phase,@Param("longitude") String longitude,
-            @Param("latitude") String latitude,@Param("altitude") String altitude,@Param("ProtocalType") int ProtocalType);
+            @Param("latitude") String latitude,@Param("altitude") String altitude,@Param("ProtocalType") int ProtocalType,@Param("system_version") int system_version);
 
     //@Select("SELECT t1.*,GROUP_CONCAT(t2.`name`) AS \"regulatorName\",GROUP_CONCAT(t3.`name`) AS \"leftStationName\",GROUP_CONCAT(t4.`name`) AS \"rightStationName\"   FROM info_line t1,info_regulator t2,info_station t3,info_station t4 WHERE t1.regulator = t2.id and t1.left_station =t3.id and t1.right_station=t4.id GROUP BY t1.id limit #{start},#{length}")
     @Select("SELECT t1.*,GROUP_CONCAT(t2.`name`) AS \"regulatorName\" FROM info_line t1,info_regulator t2 WHERE t1.regulator = t2.id GROUP BY t1.id limit #{start},#{length}")

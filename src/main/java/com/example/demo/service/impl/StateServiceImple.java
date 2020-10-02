@@ -1155,6 +1155,10 @@ public class StateServiceImple  implements StateService{
         return stateMapper.getProtocolVerByDeviceId(DeviceId);
     }
 
+    public int getSysVerById(String devId){
+        return stateMapper.getSysVerById(devId);
+    }
+
     //addSetOrderByDeviceIdanduserId
     public int addSetOrderByDeviceIdanduserId(String recordId, String userId, String content,int []IndexLst,int []TypeLst,String[]ValueLst)
     {

@@ -40,10 +40,10 @@ public class StateController {
     // 注入用户Service
     @Resource
     private StateService stateService;
-   
+
     @ApiOperation("查询心跳列表信息")
     @RequestMapping(value="/queryHeartBeatList",method=RequestMethod.POST)
-    public Object  queryHeartBeatList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryHeartBeatList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -58,11 +58,11 @@ public class StateController {
             resultMap.put("msg", "查询心跳列表信息异常!");
         }
         return resultMap;
-    }  
-   
+    }
+
     @ApiOperation("查询工况列表信息")
     @RequestMapping(value="/queryWorkConditionList",method=RequestMethod.POST)
-    public Object  queryWorkConditionList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryWorkConditionList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -77,11 +77,11 @@ public class StateController {
             resultMap.put("msg", "查询工况列表信息异常!");
         }
         return resultMap;
-    } 
-    
+    }
+
 //    @ApiOperation("查询工况列表信息显示装置最新工况")
 //    @RequestMapping(value="/queryWorkConditionListOrder",method=RequestMethod.POST)
-//    public Object  queryWorkConditionListOrder(@RequestBody DataTableParam[] dataTableParams){ 
+//    public Object  queryWorkConditionListOrder(@RequestBody DataTableParam[] dataTableParams){
 //        DataTableModel dataTableModel = new DataTableModel();
 //        Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
 //        Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -96,11 +96,11 @@ public class StateController {
 //            resultMap.put("msg", "查询工况列表信息异常!");
 //        }
 //        return resultMap;
-//    } 
-//    
+//    }
+//
     @ApiOperation("查询命令状态列表信息")
     @RequestMapping(value="/queryOrderStatusList",method=RequestMethod.POST)
-    public Object  queryOrderStatusList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryOrderStatusList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -115,11 +115,11 @@ public class StateController {
             resultMap.put("msg", "查询命令列表信息异常!");
         }
         return resultMap;
-    }  
-    
+    }
+
     @ApiOperation("查询设备告警列表信息")
     @RequestMapping(value="/queryAlarmList",method=RequestMethod.POST)
-    public Object  queryAlarmList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryAlarmList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -134,11 +134,11 @@ public class StateController {
             resultMap.put("msg", "查询告警列表信息异常!");
         }
         return resultMap;
-    }  
-    
+    }
+
     @ApiOperation("查询参数属性列表信息")
     @RequestMapping(value="/queryParameterAttrList",method=RequestMethod.POST)
-    public Object  queryParameterAttrList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryParameterAttrList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -153,11 +153,11 @@ public class StateController {
             resultMap.put("msg", "查询参数属性列表信息异常!");
         }
         return resultMap;
-    }  
-    
+    }
+
     @ApiOperation("查询参数列表信息")
     @RequestMapping(value="/queryParameterList",method=RequestMethod.POST)
-    public Object  queryParameterList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryParameterList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -172,11 +172,11 @@ public class StateController {
             resultMap.put("msg", "查询参数列表信息异常!");
         }
         return resultMap;
-    }  
-    
+    }
+
     @ApiOperation("查询设备自检列表信息")
     @RequestMapping(value="/querySelfCheckList",method=RequestMethod.POST)
-    public Object  querySelfCheckList(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  querySelfCheckList(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -191,11 +191,11 @@ public class StateController {
             resultMap.put("msg", "查询自检列表信息异常!");
         }
         return resultMap;
-    } 
-    
+    }
+
     @ApiOperation("查询通信状态信息")
     @RequestMapping(value="/queryCommunicateState",method=RequestMethod.POST)
-    public Object  queryCommunicateState(@RequestBody DataTableParam[] dataTableParams){ 
+    public Object  queryCommunicateState(@RequestBody DataTableParam[] dataTableParams){
         DataTableModel dataTableModel = new DataTableModel();
         Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -211,11 +211,11 @@ public class StateController {
         }
         return resultMap;
     }
-    
+
 //    @ApiOperation("查询通信状态信息")
 //    @RequestMapping(value="/queryCommunicateStateNew",method=RequestMethod.POST)
-//    public Object  queryCommunicateStateNew(@RequestBody DataTableParam[] dataTableParams){ 
-//    
+//    public Object  queryCommunicateStateNew(@RequestBody DataTableParam[] dataTableParams){
+//
 //        DataTableModel dataTableModel = new DataTableModel();
 //        Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
 //        Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -232,7 +232,7 @@ public class StateController {
 //        }
 //        return resultMap;
 //    }
-    
+
     @ApiOperation("验证厂家登录，配置对应厂家的装置的私有参数属性")
     @RequestMapping(value="/checkFactoryLogin",method=RequestMethod.POST)
     public String checkFactoryLogin(@RequestParam Map<String, Object> map,HttpSession session) {
@@ -245,7 +245,7 @@ public class StateController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("增加参数属性")
     @RequestMapping(value="/addParamAttr",method=RequestMethod.POST)
     public String addParamAttr(@RequestParam Map<String, Object> map,HttpSession session) {
@@ -273,7 +273,7 @@ public class StateController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("根据ID查询某条参数属性")
     @RequestMapping(value="/getParamAttrById",method=RequestMethod.POST)
     @ResponseBody
@@ -295,8 +295,8 @@ public class StateController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     //getParamById
     @ApiOperation("根据ID获取某条参数")
     @RequestMapping(value="/getParamById",method=RequestMethod.POST)
@@ -327,8 +327,32 @@ public class StateController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
+    //getSysVerById
+    @ApiOperation("根据ID获取装置的系统版本")
+    @RequestMapping(value="/getSysVerById",method=RequestMethod.POST)
+    @ResponseBody
+    public Object getSysVerById(@RequestParam Map<String, Object> map){
+        JSONObject paramObj=AesUtil.GetParam(map);
+        String recordId = (String) paramObj.get("recordId");
+        Map<String, Object> usersData = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+        try {
+            int result = stateService.getSysVerById(recordId);
+            resultMap.put("status", "success");
+            resultMap.put("result", result);
+        }
+        catch(Exception e)
+        {
+            resultMap.put("status", "error");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
+    }
+
     //readParamById
     @ApiOperation("向某台装置发送读取参数的命令")
     @RequestMapping(value="/readParamById",method=RequestMethod.POST)
@@ -339,7 +363,7 @@ public class StateController {
         String userId = (String) paramObj.get("userId");
         Map<String, Object> resultMap = new HashMap<String, Object>();
         int authority = stateService.getAuhorityByUser(userId);
-     if (1 == authority) {   
+     if (1 == authority) {
          try {
          Thread.sleep(1000);
          resultMap.put("status", "error");
@@ -351,7 +375,7 @@ public class StateController {
              resultMap.put("msg", "增加复位装置记录异常!");
          }
      }
-     else 
+     else
      {
          //装置访问控制
          String device_access = (String) paramObj.get("devicePassword");
@@ -380,15 +404,15 @@ public class StateController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     //downloadLogById
     @ApiOperation("根据ID从网页下载某台装置的日志文件")
     @RequestMapping(value="/downloadLogById")
     @ResponseBody
     public Object downloadLogById(String file_name, String pathname
             ,HttpServletRequest request, HttpServletResponse response){
-        
+
         //String fileName = "aim_test.txt";// 设置文件名，根据业务需要替换成要下载的文件名
         String fileName = file_name;
         if (fileName != null) {
@@ -432,11 +456,11 @@ public class StateController {
             }
           }
         }
-        
+
         return null;
-    } 
-   
-    
+    }
+
+
     //sendDownloadLogById
     @ApiOperation("向某台装置发送上召日志的命令")
     @RequestMapping(value="/sendDownloadLogById",method=RequestMethod.POST)
@@ -447,7 +471,7 @@ public class StateController {
         String userId = (String) paramObj.get("userId");
         Map<String, Object> resultMap = new HashMap<String, Object>();
         int authority = stateService.getAuhorityByUser(userId);
-     if (1 == authority) {   
+     if (1 == authority) {
          try {
          Thread.sleep(3000);
          resultMap.put("status", "error");
@@ -459,7 +483,7 @@ public class StateController {
              resultMap.put("msg", "下载装置自检日志异常!");
          }
      }
-     else 
+     else
      {
          //装置访问控制
          String device_access = (String) paramObj.get("devicePassword");
@@ -497,12 +521,12 @@ public class StateController {
             resultMap.put("status", "error");
             resultMap.put("msg", "下载装置自检日志异常!");
         }
-     }  
+     }
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     //readSelfCheckById
     @ApiOperation("向某台装置发送读取自检信息的命令")
     @RequestMapping(value="/readSelfCheckById",method=RequestMethod.POST)
@@ -513,7 +537,7 @@ public class StateController {
         String userId = (String) paramObj.get("userId");
         Map<String, Object> resultMap = new HashMap<String, Object>();
         int authority = stateService.getAuhorityByUser(userId);
-     if (1 == authority) {   
+     if (1 == authority) {
          try {
          Thread.sleep(3000);
          resultMap.put("status", "error");
@@ -525,7 +549,7 @@ public class StateController {
              resultMap.put("msg", "增加复位装置记录异常!");
          }
      }
-     else 
+     else
      {
          //装置访问控制
          String device_access = (String) paramObj.get("devicePassword");
@@ -540,7 +564,7 @@ public class StateController {
              String enResult = AesUtil.enCodeByKey(jsonObject.toString());
              return enResult;
          }
-         
+
         try {
             int result = stateService.readSelfCheckById(recordId, userId);
             //System.out.println(result);
@@ -556,8 +580,8 @@ public class StateController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     //getAllParamById
     @ApiOperation("读取某台装置的所有参数")
     @RequestMapping(value="/getAllParamById",method=RequestMethod.POST)
@@ -571,7 +595,7 @@ public class StateController {
         Map<String, Object> privateData = new HashMap<String, Object>();
 
         int authority = stateService.getAuhorityByUser(userId);
-     if (1 == authority) {   
+     if (1 == authority) {
          try {
          Thread.sleep(1000);
          resultMap.put("status", "error");
@@ -583,9 +607,9 @@ public class StateController {
              resultMap.put("msg", "增加读取装置参数记录异常!");
          }
      }
-     else 
+     else
      {
-        
+
         try {
             commonData = stateService.getcommonParamById(recordId);
             privateData = stateService.getParamById(recordId);
@@ -600,12 +624,12 @@ public class StateController {
             resultMap.put("status", "error");
             resultMap.put("msg", "读取全部参数记录异常!");
         }
-     }   
+     }
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     //resetDeviceById
     @ApiOperation("向某台装置发送复位的命令")
     @RequestMapping(value="/resetDeviceById",method=RequestMethod.POST)
@@ -615,9 +639,9 @@ public class StateController {
         String recordId = (String) paramObj.get("recordId");
         String userId = (String) paramObj.get("userId");
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        
+
         int authority = stateService.getAuhorityByUser(userId);
-     if (1 == authority) {   
+     if (1 == authority) {
          try {
          Thread.sleep(1000);
          resultMap.put("status", "error");
@@ -629,7 +653,7 @@ public class StateController {
              resultMap.put("msg", "增加复位装置记录异常!");
          }
      }
-     else 
+     else
      {
          //装置访问控制
          String device_access = (String) paramObj.get("devicePassword");
@@ -658,8 +682,8 @@ public class StateController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
-    
+    }
+
     @ApiOperation("根据ID删除某条参数属性记录")
     @RequestMapping(value="/deleteParamAttrById",method=RequestMethod.POST)
     @ResponseBody
@@ -667,7 +691,7 @@ public class StateController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         String userId = request.getParameter("recordId");
-        
+
         try {
             boolean flag = stateService.deleteParamAttrById(userId);
             if(flag){
@@ -685,14 +709,14 @@ public class StateController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-    
+
     @ApiOperation("向某台装置发送设置参数的命令")
     @RequestMapping(value="/setParamById",method=RequestMethod.POST)
     public Map<String, Object> setParamById(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Map<String, Object> paramMap = new HashMap<String, Object>();
 
-        
+
         //装置访问控制
         String device_access = request.getParameter("device_access");
         String recordId = request.getParameter("recordId");
@@ -706,13 +730,13 @@ public class StateController {
             resultMap.put("result", result);
             return resultMap;
         }
-        
+
         String factoryString = stateService.getFactoryByDevice(recordId);
         int Protocal = stateService.getProtocalByDevice(recordId);
         List<Map<String, Object>> ParamMapList =stateService.getParamInfoListByfactoryId(factoryString,Protocal);
-        
+
         int privateLength = ParamMapList.size();
-        
+
         int nSize = 10+privateLength;
         String[] ValueLst = new String[nSize];
         int[] IndexLst = new int[nSize];
@@ -722,7 +746,7 @@ public class StateController {
             IndexLst[ii] = ii+1;
             TypeLst[ii] = 1;
         }
-        
+
         for (int k = 0; k<privateLength;k++)
         {
             Map<String, Object> defaultParamMap = ParamMapList.get(k);
@@ -742,14 +766,14 @@ public class StateController {
             {
                 paraVal = "";
             }
-            
+
             ValueLst[10+k] = paraVal;
             TypeLst[10+k] = paraType;
             IndexLst[10+k] = indexno;
-            
+
         }
-        
-        
+
+
         String userId = request.getParameter("userId");
         String wave_current_time = request.getParameter("wave_current_time");
         String wave_current_threshold = request.getParameter("wave_current_threshold");
@@ -761,7 +785,7 @@ public class StateController {
         String pf_current_freq_collection = request.getParameter("pf_current_freq_collection");
         String work_status_time = request.getParameter("work_status_time");
         String work_data_collection_interval = request.getParameter("work_data_collection_interval");
-        
+
         ValueLst[0] = wave_current_time;
         ValueLst[1] = wave_current_threshold;
         ValueLst[2] = wave_current_time_collection;
@@ -772,25 +796,25 @@ public class StateController {
         ValueLst[7] = pf_current_freq_collection;
         ValueLst[8] = work_status_time;
         ValueLst[9] = work_data_collection_interval;
-        
-        
+
+
         String content = "";
-        
+
         String[] wave_current_time_lst = wave_current_time.split(":",0);
-        int mix_wave_current_time = Integer.parseInt(wave_current_time_lst[0])*256*256 
+        int mix_wave_current_time = Integer.parseInt(wave_current_time_lst[0])*256*256
         		+Integer.parseInt(wave_current_time_lst[1])*256
-        		+Integer.parseInt(wave_current_time_lst[2]); 
-        
+        		+Integer.parseInt(wave_current_time_lst[2]);
+
         String[] work_status_time_lst = work_status_time.split(":",0);
-        int mix_work_status_time_lst = Integer.parseInt(work_status_time_lst[0])*256*256 
+        int mix_work_status_time_lst = Integer.parseInt(work_status_time_lst[0])*256*256
         		+Integer.parseInt(work_status_time_lst[1])*256
-        		+Integer.parseInt(work_status_time_lst[2]); 
-        
+        		+Integer.parseInt(work_status_time_lst[2]);
+
         String[] pf_current_time_lst = pf_current_time.split(":",0);
-        int mix_pf_current_time_lst = Integer.parseInt(pf_current_time_lst[0])*256*256 
+        int mix_pf_current_time_lst = Integer.parseInt(pf_current_time_lst[0])*256*256
         		+Integer.parseInt(pf_current_time_lst[1])*256
-        		+Integer.parseInt(pf_current_time_lst[2]); 
-        
+        		+Integer.parseInt(pf_current_time_lst[2]);
+
         content+="wave_current_time: ";
         content+=wave_current_time;
         content+=" wave_current_threshold: ";
@@ -811,9 +835,9 @@ public class StateController {
         content+=work_status_time;
         content+=" work_data_collection_interval: ";
         content+=work_data_collection_interval;
-        
-       
-        
+
+
+
         /*
         int Iwave_current_time =mix_wave_current_time;
         ValueLst[0] = Iwave_current_time;
@@ -836,7 +860,7 @@ public class StateController {
         int Iwork_data_collection_interval = Integer.valueOf(work_data_collection_interval).intValue();
         ValueLst[9] = Iwork_data_collection_interval;
         */
-        
+
         /*获取私有参数
         String paraName = "南瑞私有参数7";
         String userId = request.getParameter(paraName);
@@ -854,7 +878,7 @@ public class StateController {
         }
         return resultMap;
     }
-    
+
     //setDealAlarmById
     @ApiOperation("根据ID设置某条故障报警已处理")
     @RequestMapping(value="/setDealAlarmById",method=RequestMethod.POST)
@@ -876,5 +900,5 @@ public class StateController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
-    } 
+    }
 }
