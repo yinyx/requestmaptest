@@ -8,16 +8,16 @@ function initRegulatorTable() {
 		"sScrollY":"360px",
 		"bLengthChange":false,//取消显示每页条数
 		// 服务器回调函数 
-		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
+		"fnServerData": function retrieveData(sSource, aoData, fnCallback)
 		{
-			aoData.push({ "name": "QueryType", "value": $("#regulator_name").val()}); 
+			aoData.push({ "name": "QueryType", "value": $("#regulator_name").val()});
 			$.ajax({
 				type: "POST",
 				url: sSource,
 				contentType: "application/json; charset=utf-8",
 			    data: JSON.stringify(aoData),
-				success: function(data) 
-				{	
+				success: function(data)
+				{
 					if(data.status == "success")
 					{
 						fnCallback(data.infoData);
@@ -32,160 +32,43 @@ function initRegulatorTable() {
 			});
 		},
 		// 列属性
-		"columns" : [	 {	
+		"columns" : [	 {
 			 "title" : "编号",  
 			 "defaultContent" : "", 
 			 "data" :"num",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "名称",  
 			 "defaultContent" : "", 
 			 "data" :"name",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "上级监管单位",  
 			 "defaultContent" : "", 
 			 "data" :"parentName",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "地址",  
 			 "defaultContent" : "", 
 			 "data" :"address",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,{	
-			 "title" : "操作",  
-			 "defaultContent" : "", 
-			 "data" :null,
-			 "width": "10%",
-			 "class" : "text-center",
-			 "render": function(data, type, row, meta) {
-				 var content = "";
-				  content = '<button class="btn btn-xs blue" onclick="showUserEditModal(\''+row.id+'\') " data-toggle="modal" data-target="#"> 编辑 </button>' +
-                 '<button class="btn btn-xs red" onclick="deleteSchoolUser(\''+row.id+'\')"> 删除 </button>';
-		         return content;
-		      } 
 		 }]
 	});
 }
 
-//删除用户
-function deleteSchoolUser(userId){
-	showConfirmModal("是否确定删除！",function(){
-		$.ajax({
-			url:"sys/deleteRegulator",
-			type:"post",
-			data:{"userId":userId},
-			dataType:"text",
-			success:function(data) {
-				data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
-			    if(data.status=="success") {
-			        showSuccessOrErrorModal(data.msg,"success"); 
-			        regulatorTable.draw(); //刷新表格
-			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
-			},
-			error:function(e) {
-				console.error(e)
-			    showSuccessOrErrorModal("请求出错了2","error"); 
-			}
-		});
-	});
-	
-}
-
 function queryLog() {//条件查询同步日志
-	regulatorTable.ajax.reload();  
-}
-
-//新增监管单位按钮
-function addRegulator(){
-	$("#regulatorId").val("");
-	$("#regulatorForm")[0].reset();
-	initParent();
-}
-
-//点击编辑按钮
-function showUserEditModal(regulatorId){
-	startPageLoading();
-	var data = {"regulatorId":regulatorId};
-	var dataObj = {
-			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
-	}
-	$.ajax({
-		url:"sys/getRegulatorById",
-		type:"post",
-		data:dataObj,
-		dataType:"text",
-		success:function(data) {
-		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
-		   if(data.status=="success") {
-               var usersData = data.usersData;
-               console.log(usersData)
-               $("#regulatorId").val(regulatorId);
-			   $("#num_m").val(usersData.num);
-			   $("#name_m").val(usersData.name);
-			   $("#address_m").val(usersData.address);
-				var s = document.getElementById("cronID");
-				var ops = s.options;
-				for(var i=0;i<ops.length; i++){
-				var tempValue = ops[i].value;
-				if(tempValue == usersData.parent) //这里是你要选的值
-				{
-				ops[i].selected = true;
-				break;
-				}
-				} 
-               $('#regulatorModal_add').modal('show');
-               stopPageLoading()
-		   } else {
-			   stopPageLoading()
-			   showSuccessOrErrorModal("获取监管单位信息失败","error");
-		   }
-		   
-		},
-		error:function(e) {
-			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
-		}
-	});
-}
-
-function initParent(){
-		$.ajax({
-			url:"info/queryRegulator",
-			type:"post",
-			data:{},
-			dataType:"text",
-			success:function(data) {
-				data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
-			    if(data.status=="success") {
-			    	var regulatorList = data.dataList;
-			    	var str = "";
-			        for (var int = 0; int < regulatorList.length; int++) {
-						str+= '<option value="'+regulatorList[int].id+'">'+regulatorList[int].name+'</option>';
-					}
-			        $("#cronID").html(str);
-			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
-			},
-			error:function(e) {
-			    showSuccessOrErrorModal("查询监管单位列表请求出错了","error"); 
-			}
-		});	
+	regulatorTable.ajax.reload();
 }
 
 function showTime(){
-	var newDateObj = new Date(); 
+	var newDateObj = new Date();
 	var year = newDateObj.getFullYear();
 	var month = newDateObj.getMonth()+1;
 	if(month==13)
@@ -201,12 +84,12 @@ function showTime(){
 	var showTime = year+"/"+month+"/"+day+" "+arr[week]+" "+hour+((minute<10)?":0":":")
 	               +minute+((second<10)?":0":":")+second+((hour>12)?" 下午":" 上午");
 	showTime = '<font color=red size=4>'+showTime+'</font>';
-	
+
 	var data = {"userId":userId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	}
-	
+
 	$.ajax({
 		url:"info/queryMarqueeInfo",
 		type:"post",
@@ -230,16 +113,16 @@ function showTime(){
 	            var str=/*showTime + */showDevice ;
 	            $("#marqueeTitle").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    //showSuccessOrErrorModal("滚动栏请求出错了","error"); 
+		    //showSuccessOrErrorModal("滚动栏请求出错了","error");
 		}
-	});		
+	});
 }
 
-$(document).ready(function(){	
+$(document).ready(function(){
 	//判断是否登录
 	userMap = isLogined();
 	if(userMap){//成功登录
@@ -250,32 +133,7 @@ $(document).ready(function(){
 	clearInterval(timer);
 	showTime();
 	timer = setInterval("showTime()",10000);
-	initParent();
 	initRegulatorTable();
-	$("#regulatorForm").html5Validate(function() {
-	   var data = $("#regulatorForm").serialize();
-	   data+="&parent="+$("#cronID").val();
-	   console.log(data);
-	   		$.ajax({
-			url:"info/saveRegulator",
-			type:"post",
-			data:data,
-			dataType:"json",
-			success:function(data) {
-			    if(data.status=="success") {
-			    	showSuccessOrErrorModal(data.msg,"success"); 
-					initParent();
-			    	regulatorTable.draw();
-			    	$("#regulatorModal_add").modal("hide");
-			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
-			},
-			error:function(e) {
-			    showSuccessOrErrorModal("请求出错了3","error"); 
-			}
-		});
-	});
 });
 
 

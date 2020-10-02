@@ -42,11 +42,11 @@ function initRegulatorTable() {
 		"sAjaxSource" : "state/queryParameterList", 
 		"bLengthChange":false,//取消显示每页条数
 		// 服务器回调函数 
-		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
+		"fnServerData": function retrieveData(sSource, aoData, fnCallback)
 		{
-			aoData.push({ "name": "factory", "value": $("#cronFactory").val()}); 
+			aoData.push({ "name": "factory", "value": $("#cronFactory").val()});
 			aoData.push({ "name": "device_id", "value": $("#device_id").val()});
-			aoData.push({ "name": "CommState", "value": $("#cronCommState").val()}); 
+			aoData.push({ "name": "CommState", "value": $("#cronCommState").val()});
 			aoData.push({ "name": "CommLine", "value": $("#cronLine").val()});
 			aoData.push({ "name": "userID",  "value": userId});
 			$.ajax({
@@ -54,8 +54,8 @@ function initRegulatorTable() {
 				url: sSource,
 				contentType: "application/json; charset=utf-8",
 			    data: JSON.stringify(aoData),
-				success: function(data) 
-				{	
+				success: function(data)
+				{
 					if(data.status == "success")
 					{
 						fnCallback(data.infoData);
@@ -70,7 +70,7 @@ function initRegulatorTable() {
 			});
 		},
 		// 列属性
-		"columns" : [{	
+		"columns" : [{
 			 "title" : "通信状态",  
 			 "defaultContent" : "", 
 			 "data" :"comm_state",
@@ -89,43 +89,29 @@ function initRegulatorTable() {
 					}
 		            return content;
 		      }   
-		 } 
-		 ,	 {	
+		 }
+		 ,	 {
 			 "title" : "所属厂家",  
 			 "defaultContent" : "", 
 			 "data" :"factory",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		 ,	 {	
+		 }
+		 ,	 {
 			 "title" : "装置ID编号",  
 			 "defaultContent" : "", 
 			 "data" :"id",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "装置标识",  
 			 "defaultContent" : "", 
 			 "data" :"device",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,{	
-			 "title" : "操作",  
-			 "defaultContent" : "", 
-			 "data" :null,
-			 "width": "10%",
-			 "class" : "text-center",
-			 "render": function(data, type, row, meta) {
-				 var content = "";
-				  content = '<button class="btn btn-xs red" onclick="readParam(\''+row.id+'\')"> 读取参数 </button>'+
-                 '<button class="btn btn-xs green" onclick="setParam(\''+row.id+'\')"> 设置参数 </button>'+
-				 '<button class="btn btn-xs purple" onclick="resetDevice(\''+row.id+'\')"> 复位装置 </button>';
-		         return content;
-		      } 
-		 }	
-		,	 {	
+		 }
+		,	 {
 			 "title" : "工作状态上报时间",  
 			 "defaultContent" : "", 
 			 "data" :"work_status_time",
@@ -136,21 +122,21 @@ function initRegulatorTable() {
 		            var second = data%256;
 		            content = second+"秒";
 		            data = (data-second)/256;
-		            var hour = data%256; 
+		            var hour = data%256;
 		            content = hour+"分"+content;
 		            data = (data-hour)/256;
 		            content = data%256+"时"+content;
 		            return content;
 		      }   
-		 }  
-		,	 {	
+		 }
+		,	 {
 			 "title" : "工况数据采集间隔(min)",  
 			 "defaultContent" : "", 
 			 "data" :"work_data_collection_interval",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "行波电流召回时间",  
 			 "defaultContent" : "", 
 			 "data" :"wave_current_time",
@@ -161,35 +147,35 @@ function initRegulatorTable() {
 		            var second = data%256;
 		            content = second+"秒";
 		            data = (data-second)/256;
-		            var hour = data%256; 
+		            var hour = data%256;
 		            content = hour+"分"+content;
 		            data = (data-hour)/256;
 		            content = data%256+"时"+content;
 		            return content;
 		      }  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "行波电流阈值(A)",  
 			 "defaultContent" : "", 
 			 "data" :"wave_current_threshold",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "行波电流采集时长(us)",  
 			 "defaultContent" : "", 
 			 "data" :"wave_current_time_collection",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "行波电流采样频率(Hz)",  
 			 "defaultContent" : "", 
 			 "data" :"wave_current_freq_collection",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "工频电流召回时间",  
 			 "defaultContent" : "", 
 			 "data" :"pf_current_time",
@@ -200,35 +186,35 @@ function initRegulatorTable() {
 		            var second = data%256;
 		            content = second+"秒";
 		            data = (data-second)/256;
-		            var hour = data%256; 
+		            var hour = data%256;
 		            content = hour+"分"+content;
 		            data = (data-hour)/256;
 		            content = data%256+"时"+content;
 		            return content;
 		      }  
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "工频电流阈值(A)",  
 			 "defaultContent" : "", 
 			 "data" :"pf_current_threshold",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "工频电流采集时长(ms)",  
 			 "defaultContent" : "", 
 			 "data" :"pf_current_time_collection",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "工频电流采样频率(Hz)",  
 			 "defaultContent" : "", 
 			 "data" :"pf_current_freq_collection",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 	
-		 ,{	
+		 }
+		 ,{
 			 "title" : "更多",  
 			 "defaultContent" : "", 
 			 "data" :null,
@@ -263,9 +249,9 @@ function moreParam(recordId){
 			   var count = data.paracount;
 			   var paraname = data.paraNameList;
 			   var str = "";
-               for(var key in usersData){    
+               for(var key in usersData){
                  str+='<div class="col-sm-12"><div class="col-sm-4"style="text-align:right;"><label class="control-label" for="userName">'+key+'</label></div><div class="col-sm-8"><input type="text" id="userName_m" name="userName" class="form-control " value="'+usersData[key]+'" /></div></div>';
-               }  
+               }
 
                $("#current").html(str);
 			   $('#waveModal').modal('show');
@@ -274,18 +260,18 @@ function moreParam(recordId){
 			   stopPageLoading()
 			   showSuccessOrErrorModal("获取私有参数信息失败","error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 }
 
 /*
 function CheckRead(recordId){
-	alert(recordId);  
+	alert(recordId);
 }
 */
 function readParam(recordId){
@@ -346,11 +332,11 @@ function readParam(recordId){
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 	});
@@ -377,49 +363,49 @@ function setParam(recordId){
 			   var paracount = data.paracount;
                $("#recordId").val(recordId);
                $("#work_status_time_m").val(commonData.work_status_time);
-			   $("#work_data_collection_interval_m").val(commonData.work_data_collection_interval);	
+			   $("#work_data_collection_interval_m").val(commonData.work_data_collection_interval);
                $("#wave_current_time_m").val(commonData.wave_current_time);
-			   $("#wave_current_threshold_m").val(commonData.wave_current_threshold);	
+			   $("#wave_current_threshold_m").val(commonData.wave_current_threshold);
 			   $("#wave_current_time_collection_m").val(commonData.wave_current_time_collection);
-			   $("#wave_current_freq_collection_m").val(commonData.wave_current_freq_collection);	
+			   $("#wave_current_freq_collection_m").val(commonData.wave_current_freq_collection);
                $("#pf_current_time_m").val(commonData.pf_current_time);
-			   $("#pf_current_threshold_m").val(commonData.pf_current_threshold);	
+			   $("#pf_current_threshold_m").val(commonData.pf_current_threshold);
 			   $("#pf_current_time_collection_m").val(commonData.pf_current_time_collection);
-			   $("#pf_current_freq_collection_m").val(commonData.pf_current_freq_collection);	
-			   
+			   $("#pf_current_freq_collection_m").val(commonData.pf_current_freq_collection);
+
 			   var str = "";
 			   var kk = 0;
 			   if (paracount%2==0)
 			   {
-				 for(var key in privateData){  
+				 for(var key in privateData){
                   if(kk%2==0)
 				  {
 					  str+='<div class="col-sm-12"><div class="col-sm-3"style="text-align:right;"><label class="control-label" for="work_status_time_m">'+key+'</label></div><div class="col-sm-3"><input type="text" id="work_status_time_m" name="'+key+'" class="form-control " value="'+privateData[key]+'"></div>';
-				  }		
+				  }
                   else
                   {
 					  str+='<div class="col-sm-3"style="text-align:right;"><label class="control-label" for="work_data_collection_interval_m">'+key+'</label></div><div class="col-sm-3"><input type="text" id="work_data_collection_interval_m" name="'+key+'" class="form-control " value="'+privateData[key]+'"></div></div>';
-				  }	
-                  kk++;              
+				  }
+                  kk++;
 			     }
 			   }
 		       else
 		       {
-				 for(var key in privateData){  
+				 for(var key in privateData){
                   if(kk%2==0)
 				  {
 					  str+='<div class="col-sm-12"><div class="col-sm-3"style="text-align:right;"><label class="control-label" for="work_status_time_m">'+key+'</label></div><div class="col-sm-3"><input type="text" id="work_status_time_m" name="'+key+'" class="form-control " value="'+privateData[key]+'"></div>';
-				  }	
+				  }
                   else
 				  {
 	                  str+='<div class="col-sm-3"style="text-align:right;"><label class="control-label" for="work_data_collection_interval_m">'+key+'</label></div><div class="col-sm-3"><input type="text" id="work_data_collection_interval_m" name="'+key+'" class="form-control " value="'+privateData[key]+'"></div></div>';
-				  }					  
-                  kk++;              
+				  }
+                  kk++;
 			     }
 				 str+='</div>';
 			   }
 
-               $("#currentPrivatePara").html(str); 
+               $("#currentPrivatePara").html(str);
 			   $("#device_access_m").val("");
 			   $('#setParamModal').modal('show');
 			   stopPageLoading()
@@ -427,11 +413,11 @@ function setParam(recordId){
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		    showSuccessOrErrorModal("请求出错了1","error"); 
+		    showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 	});
@@ -478,11 +464,11 @@ function resetDevice(recordId){
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 	});
@@ -511,21 +497,21 @@ function initFactory(){
 				}
 		        $("#cronFactory").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询厂家列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询厂家列表请求出错了","error");
 		}
-	});	
+	});
 }
 
 function queryLog() {//条件查询同步日志
-	regulatorTable.ajax.reload();  
+	regulatorTable.ajax.reload();
 }
 
 function showTime(){
-	var newDateObj = new Date(); 
+	var newDateObj = new Date();
 	var year = newDateObj.getFullYear();
 	var month = newDateObj.getMonth()+1;
 	if(month==13)
@@ -541,12 +527,12 @@ function showTime(){
 	var showTime = year+"/"+month+"/"+day+" "+arr[week]+" "+hour+((minute<10)?":0":":")
 	               +minute+((second<10)?":0":":")+second+((hour>12)?" 下午":" 上午");
 	showTime = '<font color=red size=4>'+showTime+'</font>';
-	
+
 	var data = {"userId":userId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	}
-	
+
 	$.ajax({
 		url:"info/queryMarqueeInfo",
 		type:"post",
@@ -570,13 +556,13 @@ function showTime(){
 	            var str=/*showTime + */showDevice;
 	            $("#marqueeTitle").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    //showSuccessOrErrorModal("滚动栏请求出错了","error"); 
+		    //showSuccessOrErrorModal("滚动栏请求出错了","error");
 		}
-	});		
+	});
 }
 
 function closeModal(){
@@ -594,7 +580,7 @@ $(document).ready(function(){
 		userId = userMap.id;
 	}else{
 		//parent.location.href = jQuery.getBasePath() + "/login.html";
-	}	
+	}
 	clearInterval(timer);
 	showTime();
 	timer = setInterval("showTime()",10000);
@@ -617,7 +603,7 @@ $(document).ready(function(){
 			dataType:"json",
 			success:function(data) {
 			  if(data.status=="success") {
-			   stopPageLoading()	  
+			   stopPageLoading()
 			   if (data.result=="0")
 			   {
 				  showSuccessOrErrorModal("设置装置参数信息成功","success");
@@ -642,19 +628,19 @@ $(document).ready(function(){
 			   {
 				  showSuccessOrErrorModal("访问设备密码错误","error");
 			   }
-			    	
+
 			    } else {
 					stopPageLoading()
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
+			        showSuccessOrErrorModal(data.msg,"error");
+			    }
 			},
 			error:function(e) {
 				stopPageLoading()
-			    showSuccessOrErrorModal("请求出错了3","error"); 
+			    showSuccessOrErrorModal("请求出错了3","error");
 			}
 		});
 	});
-	
+
 	$("#accessDeviceModal").html5Validate(function() {
 	   $("#accessDeviceModal").modal("hide");
 	   startPageLoading();
@@ -702,15 +688,15 @@ $(document).ready(function(){
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 	});
-	
+
 	$("#accessDeviceForResetModal").html5Validate(function() {
 	   $("#accessDeviceForResetModal").modal("hide");
 	   startPageLoading();
@@ -758,11 +744,11 @@ $(document).ready(function(){
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 	});

@@ -103,20 +103,6 @@ function initRegulatorTable() {
 		            }
 		            return content;
 		      }   
-		 }
-		,{
-			 "title" : "操作",  
-			 "defaultContent" : "", 
-			 "data" :null,
-			 "width": "10%",
-			 "class" : "text-center",
-			 "render": function(data, type, row, meta) {
-				 var content = "";
-				  content = '<button class="btn btn-xs blue" onclick="showEditModal(\''+row.id+'\') " data-toggle="modal" data-target="#"> 编辑 </button>' +
-                 '<button class="btn btn-xs red" onclick="deleteSchoolUser(\''+row.id+'\')"> 删除 </button>'+
-				 '<button class="btn btn-xs green" onclick="moreInfo(\''+row.id+'\')"> 更多信息 </button>';
-		         return content;
-		      } 
 		 }]
 	});
 }

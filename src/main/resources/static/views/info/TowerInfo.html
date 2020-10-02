@@ -4,13 +4,12 @@
         </div>
         <div class="row">
            <div class="col-md-6">
-            <label class="control-label">&nbsp;线路名称：</label> 
+            <label class="control-label">&nbsp;线路名称：</label>
             <select id="cronID" class="form-control input-inline">
             </select>
             <button class='btn green' type="button" style='margin-right:15px;' onclick="queryLog()">查询</button>
            </div>
 		   <div style="float:right;margin-right:120px;">
-            <button class='btn green' data-toggle="modal" data-target="#regulatorModal_add" onclick="addRegulator()">新增</button>
 			<button class='btn green' onclick="sync()">同步</button>
            </div>
         </div>
@@ -38,81 +37,81 @@
                                 <input type="hidden" id="recordId" name="recordId"/>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4"style="text-align:right;">
-                                        <label class="control-label" for="name_m"><span class="required">*</span>名称：</label>    
+                                        <label class="control-label" for="name_m"><span class="required">*</span>名称：</label>
                                     </div>
-                                    <div class="col-sm-8">  
+                                    <div class="col-sm-8">
                                         <input type="text" id="name_m" name="name" class="form-control " placeholder="请输入杆塔名称" required/>
-                                    </div>          
+                                    </div>
                                 </div>
 								<div class="col-sm-12">
                                     <div class="col-sm-4"style="text-align:right;">
-                                        <label class="control-label" for="index_m"><span class="required">*</span>序号：</label>    
+                                        <label class="control-label" for="index_m"><span class="required">*</span>序号：</label>
                                     </div>
-                                    <div class="col-sm-8">  
+                                    <div class="col-sm-8">
                                         <input type="text" id="index_m" name="index" class="form-control " placeholder="请输入杆塔序号" required/>
-                                    </div>          
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4"style="text-align:right;">
-                                        <label class="control-label"><span class="required">*</span>所属线路：</label> 
+                                        <label class="control-label"><span class="required">*</span>所属线路：</label>
                                     </div>
-                                    <div class="col-sm-8">  
+                                    <div class="col-sm-8">
                                         <select id="cronID1" class="form-control input-inline">
                                         </select>
-                                    </div>          
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4"style="text-align:right;">
-                                        <label class="control-label" for="distance_m"><span class="required">*</span>挡距：</label> 
+                                        <label class="control-label" for="distance_m"><span class="required">*</span>挡距：</label>
                                     </div>
-                                    <div class="col-sm-8">  
+                                    <div class="col-sm-8">
                                         <input type="text" id="distance_m" name="distance" class="form-control " placeholder="请输入杆塔挡距" required/>
-                                    </div>          
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4"style="text-align:right;">
-                                        <label class="control-label"><span class="required">*</span>经度：</label>   
+                                        <label class="control-label"><span class="required">*</span>经度：</label>
                                     </div>
-                                    <div class="col-sm-8">  
+                                    <div class="col-sm-8">
                                         <input type="text" id="longitude_m" name="longitude" class="form-control " placeholder="请输入杆塔经度" required/>
-                                    </div>          
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4"style="text-align:right;">
-                                        <label class="control-label"><span class="required">*</span>纬度：</label>   
+                                        <label class="control-label"><span class="required">*</span>纬度：</label>
                                     </div>
-                                    <div class="col-sm-8">  
+                                    <div class="col-sm-8">
                                         <input type="text" id="latitude_m" name="latitude" class="form-control " placeholder="请输入杆塔纬度" required/>
-                                    </div>          
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4"style="text-align:right;">
-                                        <label class="control-label"><span class="required">*</span>海拔：</label>   
+                                        <label class="control-label"><span class="required">*</span>海拔：</label>
                                     </div>
-                                    <div class="col-sm-8">  
+                                    <div class="col-sm-8">
                                         <input type="text" id="altitude_m" name="altitude" class="form-control " placeholder="请输入杆塔海拔" required/>
-                                    </div>          
-                                </div>		
-                                <div class="col-sm-12">
-                                    <div class="col-sm-4"style="text-align:right;">
-                                        <label class="control-label"><span class="required">*</span>到左变电站距离：</label>   
                                     </div>
-                                    <div class="col-sm-8">  
-                                        <input type="text" id="tower_to_m_m" name="tower_to_m" class="form-control " placeholder="请输入到左变电站距离" required/>
-                                    </div>          
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4"style="text-align:right;">
-                                        <label class="control-label"><span class="required">*</span>到右变电站距离：</label>   
+                                        <label class="control-label"><span class="required">*</span>到左变电站距离：</label>
                                     </div>
-                                    <div class="col-sm-8">  
+                                    <div class="col-sm-8">
+                                        <input type="text" id="tower_to_m_m" name="tower_to_m" class="form-control " placeholder="请输入到左变电站距离" required/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4"style="text-align:right;">
+                                        <label class="control-label"><span class="required">*</span>到右变电站距离：</label>
+                                    </div>
+                                    <div class="col-sm-8">
                                         <input type="text" id="tower_to_n_m" name="tower_to_n" class="form-control " placeholder="请输入到右变电站距离" required/>
-                                    </div>          
-                                </div>									
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

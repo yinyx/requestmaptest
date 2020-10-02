@@ -4,14 +4,9 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-            <label class="control-label">&nbsp;名称：</label> 
+            <label class="control-label">&nbsp;名称：</label>
             <input type="text" id="regulator_name" class="form-control input-inline"  placeholder="" value=""/>
             <button class='btn green' type="button" style='margin-right:15px;' onclick="queryLog()">查询</button>
-            </div>
-            <div class="form-group">
-            <div style="float:right;margin-right:120px;">
-            <button class='btn green' data-toggle="modal" data-target="#regulatorModal_add" onclick="addRegulator()">新增</button>
-            </div>
             </div>
         </div>
         <div class="portlet light">
@@ -38,66 +33,66 @@
 								<input type="hidden" id="regulatorId" name="regulatorId"/>
                                 <div class="col-sm-12">
                                     <div class="col-sm-2"style="text-align:right;">
-                                        <label class="control-label" for="num_m"><span class="required">*</span>厂家编号:</label>    
+                                        <label class="control-label" for="num_m"><span class="required">*</span>厂家编号:</label>
                                     </div>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-4">
                                         <input type="text" id="num_m" name="num" class="form-control " placeholder="请输入厂家编号" required/>
-                                    </div> 
-                                    <div class="col-sm-2"style="text-align:right;">
-                                        <label class="control-label" for="name_m"><span class="required">*</span>厂家名称：</label>    
                                     </div>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-2"style="text-align:right;">
+                                        <label class="control-label" for="name_m"><span class="required">*</span>厂家名称：</label>
+                                    </div>
+                                    <div class="col-sm-4">
                                         <input type="text" id="name_m" name="name" class="form-control " placeholder="请输入所属厂家" required/>
-                                    </div>  									
+                                    </div>
                                 </div>
 								<div class="col-sm-12">
                                     <div class="col-sm-2"style="text-align:right;">
-                                        <label class="control-label" for="contact_m"><span class="required">*</span>联系人员：</label>    
+                                        <label class="control-label" for="contact_m"><span class="required">*</span>联系人员：</label>
                                     </div>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-4">
                                         <input type="text" id="contact_m" name="contact" class="form-control " placeholder="请输入联系人员" required/>
-                                    </div> 
-                                    <div class="col-sm-2"style="text-align:right;">
-                                        <label class="control-label" for="call_m"><span class="required">*</span>联系电话：</label>    
                                     </div>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-2"style="text-align:right;">
+                                        <label class="control-label" for="call_m"><span class="required">*</span>联系电话：</label>
+                                    </div>
+                                    <div class="col-sm-4">
                                         <input type="text" id="call_m" name="call" class="form-control " placeholder="请输入联系电话" required/>
-                                    </div>  									
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-2"style="text-align:right;">
-                                        <label class="control-label" for="login_name_m"><span class="required">*</span>登录名称：</label>    
+                                        <label class="control-label" for="login_name_m"><span class="required">*</span>登录名称：</label>
                                     </div>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-4">
                                         <input type="text" id="login_name_m" name="login_name" class="form-control " placeholder="请输入登录名称" required/>
-                                    </div> 
-                                    <div class="col-sm-2"style="text-align:right;">
-                                        <label class="control-label" for="login_password_m"><span class="required">*</span>登录密码：</label>    
                                     </div>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-2"style="text-align:right;">
+                                        <label class="control-label" for="login_password_m"><span class="required">*</span>登录密码：</label>
+                                    </div>
+                                    <div class="col-sm-4">
                                         <input type="text" id="login_password_m" name="login_password" class="form-control " placeholder="请输入登录密码" required/>
-                                    </div>  									
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <!--
                                     <div class="col-sm-2"style="text-align:right;">
-                                        <label class="control-label" for="uuid_m"><span class="required">*</span>微服务id：</label>    
+                                        <label class="control-label" for="uuid_m"><span class="required">*</span>微服务id：</label>
                                     </div>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-4">
                                         <input type="text" id="uuid_m" name="uuid" class="form-control " placeholder="请输入微服务id" required/>
                                     </div>
-                                    --> 
+                                    -->
                                     <div class="col-sm-2"style="text-align:right;">
-                                        <label class="control-label" for="sample_Rate_m"><span class="required">*</span>采样率：</label>    
+                                        <label class="control-label" for="sample_Rate_m"><span class="required">*</span>采样率：</label>
                                     </div>
-                                    <div class="col-sm-4">  
+                                    <div class="col-sm-4">
                                         <input type="text" id="sample_Rate_m" name="sample_Rate" class="form-control " placeholder="请输入采样率" required/>
-                                    </div>  									
-                                </div>							
+                                    </div>
+                                </div>
 							</div>
 						</div>
 					</div>
-				
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

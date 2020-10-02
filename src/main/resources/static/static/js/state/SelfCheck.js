@@ -7,11 +7,11 @@ function initRegulatorTable() {
 		"sAjaxSource" : "state/querySelfCheckList", 
 		"bLengthChange":false,//取消显示每页条数
 		// 服务器回调函数 
-		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
+		"fnServerData": function retrieveData(sSource, aoData, fnCallback)
 		{
-			aoData.push({ "name": "factory", "value": $("#cronFactory").val()}); 
+			aoData.push({ "name": "factory", "value": $("#cronFactory").val()});
 			aoData.push({ "name": "device_id", "value": $("#device_id").val()});
-			aoData.push({ "name": "CommState", "value": $("#cronCommState").val()}); 
+			aoData.push({ "name": "CommState", "value": $("#cronCommState").val()});
 			aoData.push({ "name": "CommLine", "value": $("#cronLine").val()});
 			aoData.push({ "name": "userID",  "value": userId});
 			$.ajax({
@@ -19,8 +19,8 @@ function initRegulatorTable() {
 				url: sSource,
 				contentType: "application/json; charset=utf-8",
 			    data: JSON.stringify(aoData),
-				success: function(data) 
-				{	
+				success: function(data)
+				{
 					if(data.status == "success")
 					{
 						fnCallback(data.infoData);
@@ -35,7 +35,7 @@ function initRegulatorTable() {
 			});
 		},
 		// 列属性
-		"columns" : [{	
+		"columns" : [{
 			 "title" : "通信状态",  
 			 "defaultContent" : "", 
 			 "data" :"comm_state",
@@ -54,49 +54,36 @@ function initRegulatorTable() {
 					}
 		            return content;
 		      }   
-		 } 
-		 ,	 {	
+		 }
+		 ,	 {
 			 "title" : "所属厂家",  
 			 "defaultContent" : "", 
 			 "data" :"factory",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		 ,	 {	
+		 }
+		 ,	 {
 			 "title" : "装置ID编号",  
 			 "defaultContent" : "", 
 			 "data" :"id",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "装置标识",  
 			 "defaultContent" : "", 
 			 "data" :"name",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,{	
-			 "title" : "操作",  
-			 "defaultContent" : "", 
-			 "data" :null,
-			 "width": "10%",
-			 "class" : "text-center",
-			 "render": function(data, type, row, meta) {
-				 var content = "";
-				  content = '<button class="btn btn-xs red" onclick="readSelfCheck(\''+row.id+'\')"> 读取自检 </button>'+
-                 '<button class="btn btn-xs green" onclick="downloadLog(\''+row.id+'\')"> 上召日志 </button>';
-		         return content;
-		      } 
-		 }	
-		,	 {	
+		 }
+		,	 {
 			 "title" : "装置时间",  
 			 "defaultContent" : "", 
 			 "data" :"device_time",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 
-		,	 {	
+		 }
+		,	 {
 			 "title" : "天线状态",  
 			 "defaultContent" : "", 
 			 "data" :"antenna_sta",
@@ -121,8 +108,8 @@ function initRegulatorTable() {
 					}
 		            return content;
 		      }  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "装置对时有效性",  
 			 "defaultContent" : "", 
 			 "data" :"gps_valid",
@@ -144,50 +131,50 @@ function initRegulatorTable() {
 					}
 		            return content;
 		      }   
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "上次对时时间",  
 			 "defaultContent" : "", 
 			 "data" :"last_sync_time",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "自检经度",  
 			 "defaultContent" : "", 
 			 "data" :"longitude",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "自检纬度",  
 			 "defaultContent" : "", 
 			 "data" :"latitude",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "工作电压",  
 			 "defaultContent" : "", 
 			 "data" :"work_voltage",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "工作温度",  
 			 "defaultContent" : "", 
 			 "data" :"work_temperature",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "工频电流有效值",  
 			 "defaultContent" : "", 
 			 "data" :"pf_current_valid",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "电池供电状态",  
 			 "defaultContent" : "", 
 			 "data" :"battery_status",
@@ -209,36 +196,36 @@ function initRegulatorTable() {
 					}
 		            return content;
 		      }     
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "电池包1电压",  
 			 "defaultContent" : "", 
 			 "data" :"battery_vol",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "电池包1电流",  
 			 "defaultContent" : "", 
 			 "data" :"battery_current",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "电池包1温度",  
 			 "defaultContent" : "", 
 			 "data" :"battery_temperature",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "电池包1容量(%)",  
 			 "defaultContent" : "", 
 			 "data" :"battery_soc",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }   
-		,	 {	
+		 }
+		,	 {
 			 "title" : "电池包1告警",  
 			 "defaultContent" : "", 
 			 "data" :"battery_bj",
@@ -288,13 +275,13 @@ function initRegulatorTable() {
                 "class" : "text-center"
             }
 		 /*
-		,	 {	
+		,	 {
 			 "title" : "取能线圈电压",  
 			 "defaultContent" : "", 
 			 "data" :"ad_ctflyback_v",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 		,	 {	
+		 } 		,	 {
 			 "title" : "板间直流输入电压",  
 			 "defaultContent" : "", 
 			 "data" :"ad_dcdcbus_v",
@@ -308,31 +295,31 @@ function initRegulatorTable() {
 			 "data" :"AD_BAT1_V",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 		,	 {	
+		 } 		,	 {
 			 "title" : "电池1电流",  
 			 "defaultContent" : "", 
 			 "data" :"AD_BAT1_I",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 		,	 {	
+		 } 		,	 {
 			 "title" : "电池2电压",  
 			 "defaultContent" : "", 
 			 "data" :"AD_BAT2_V",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 		,	 {	
+		 } 		,	 {
 			 "title" : "电池2电流",  
 			 "defaultContent" : "", 
 			 "data" :"AD_BAT2_I",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 		,	 {	
+		 } 		,	 {
 			 "title" : "USB电压",  
 			 "defaultContent" : "", 
 			 "data" :"AD_USB_V",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 } 		 
+		 }
 		 ]
 	});
 }
@@ -396,11 +383,11 @@ function readSelfCheck(recordId){
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求读取装置自检信息出错了","error"); 
+		   showSuccessOrErrorModal("请求读取装置自检信息出错了","error");
 		}
 	});
 	});
@@ -420,7 +407,7 @@ function downloadLog(recordId){
 		data:dataObj,
 		dataType:"text",
 		success:function(data) {
- 		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));   
+ 		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 		   if(data.status=="success") {
 			   stopPageLoading()
 			   if (data.result=="0")
@@ -459,12 +446,12 @@ function downloadLog(recordId){
 		   } else {
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
-		   } 
-		   
+		   }
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal(data.msg,"error"); 
+		   showSuccessOrErrorModal(data.msg,"error");
 		}
 	});
 	});
@@ -488,21 +475,21 @@ function initFactory(){
 				}
 		        $("#cronFactory").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("查询厂家列表请求出错了","error"); 
+		    showSuccessOrErrorModal("查询厂家列表请求出错了","error");
 		}
-	});	
+	});
 }
 
 function queryLog() {//条件查询同步日志
-	regulatorTable.ajax.reload();  
+	regulatorTable.ajax.reload();
 }
 
 function showTime(){
-	var newDateObj = new Date(); 
+	var newDateObj = new Date();
 	var year = newDateObj.getFullYear();
 	var month = newDateObj.getMonth()+1;
 	if(month==13)
@@ -518,12 +505,12 @@ function showTime(){
 	var showTime = year+"/"+month+"/"+day+" "+arr[week]+" "+hour+((minute<10)?":0":":")
 	               +minute+((second<10)?":0":":")+second+((hour>12)?" 下午":" 上午");
 	showTime = '<font color=red size=4>'+showTime+'</font>';
-	
+
 	var data = {"userId":userId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	}
-	
+
 	$.ajax({
 		url:"info/queryMarqueeInfo",
 		type:"post",
@@ -547,13 +534,13 @@ function showTime(){
 	            var str=/*showTime + */showDevice ;
 	            $("#marqueeTitle").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    //showSuccessOrErrorModal("滚动栏请求出错了","error"); 
+		    //showSuccessOrErrorModal("滚动栏请求出错了","error");
 		}
-	});		
+	});
 }
 
 function initParent(){
@@ -581,13 +568,13 @@ function initParent(){
 				}
 		        $("#cronLine").html(str);
 		    } else {
-		        showSuccessOrErrorModal(data.msg,"error");	
-		    }         
+		        showSuccessOrErrorModal(data.msg,"error");
+		    }
 		},
 		error:function(e) {
-		    showSuccessOrErrorModal("请求出错了12121","error"); 
+		    showSuccessOrErrorModal("请求出错了12121","error");
 		}
-	});	
+	});
 }
 
 $(document).ready(function(){
@@ -597,14 +584,14 @@ $(document).ready(function(){
 		userId = userMap.id;
 	}else{
 		//parent.location.href = jQuery.getBasePath() + "/login.html";
-	}	
+	}
 	clearInterval(timer);
 	showTime();
 	timer = setInterval("showTime()",10000);
 	initParent();
 	initFactory();
 	initRegulatorTable();
-	
+
 	$("#accessDeviceModal").html5Validate(function() {
 	   $("#accessDeviceModal").modal("hide");
 	   startPageLoading();
@@ -652,15 +639,15 @@ $(document).ready(function(){
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 	});
-	
+
 	$("#accessDeviceForResetModal").html5Validate(function() {
 	   $("#accessDeviceForResetModal").modal("hide");
 	   startPageLoading();
@@ -721,11 +708,11 @@ $(document).ready(function(){
 			   stopPageLoading()
 			   showSuccessOrErrorModal(data.msg,"error");
 		   }
-		   
+
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("请求出错了1","error"); 
+		   showSuccessOrErrorModal("请求出错了1","error");
 		}
 	});
 	});
