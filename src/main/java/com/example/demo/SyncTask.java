@@ -28,7 +28,7 @@ public class SyncTask {
     @Resource
     private LightService lightService;
 
-    @Scheduled(fixedRate=2000)
+    @Scheduled(fixedRate=5000)
     public void configureTasks() {
             CheckLine();
             CheckTower();
